@@ -13,16 +13,20 @@ export default Ember.Controller.extend({
       blocks.forEach( (block) => {
         const type = block.get('type');
         const orderNumber = block.get('orderNumber');
-        const helpText = block.get('helpText');
-        const title = block.get('title');
         let text = '';
         if (type === 'dropdown') {
-          const dropdowns = block.get('block.blockDropdowns');
-          dropdowns.forEach( (dropdown) => {
-            console.log('dropdown');
+          block.get('blockDropdowns').then(function(dropdowns) {
+            dropdowns.forEach( (dropdown) => {
+              const defaultTrue = dropdown.get('defaultTrue');
+              const dropdownText = dropdown.get('text');
+              if (defaultTrue) {
+                text = text.concat(dropdownText);
+
+              }
+            });
+            result.addObject({order: orderNumber, text: text});
           });
         }
-        result.addObject({order: orderNumber, type: type, helpText: helpText, title: title});
       });
     });
     return result;
@@ -33,7 +37,7 @@ export default Ember.Controller.extend({
     const sortedBlockArray = this.get('sortedBlockArray');
     let result = "";
     for (let object of sortedBlockArray) {
-      result = result.concat(object.type);
+      result = result.concat(object.text);
     }
     return result;
   }),

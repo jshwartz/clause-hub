@@ -9,4 +9,6 @@ export default DS.Model.extend({
   toggleMenuText: DS.attr('string'),
   toggleDefault: DS.attr('boolean'),
   helpText: DS.attr('string'),
+  blockDropdowns: DS.hasMany('block-dropdown'),
+
 });
