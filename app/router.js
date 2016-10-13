@@ -7,6 +7,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('library', function() {
+    this.route('clause', { path: '/clause/:clause_id' });
+  });
 });
 
 export default Router;

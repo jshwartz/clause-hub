@@ -1,0 +1,17 @@
+<h1>Clause Library</h1>
+<div class="ui cards">
+  {{#each model as |clause|}}
+    {{#link-to "library.clause" clause class="ui card"}}
+    <div class="ui card">
+      <div class="content">
+        <div class="header">{{clause.title}}</div>
+        <div class="description">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    {{/link-to}}
+  {{/each}}
+</div>
+
+{{outlet}}

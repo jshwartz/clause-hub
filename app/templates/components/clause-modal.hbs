@@ -1,0 +1,15 @@
+{{#ui-modal name="clause" class="clause" onApprove=(action 'approveModal') onHidden=(action 'onClose')}}
+  <i class="close icon"></i>
+  <div class="header">
+    {{model.clause.name}}
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img src="http://semantic-ui.com/images/avatar/large/chris.jpg">
+    </div>
+    <div class="description">
+      <div class="ui header">We've auto-chosen a profile image for you.</div>
+      <p>{{finalText}}</p>
+    </div>
+  </div>
+ {{/ui-modal}}
