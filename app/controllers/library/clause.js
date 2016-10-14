@@ -20,12 +20,15 @@ export default Ember.Controller.extend({
               const defaultTrue = dropdown.get('defaultTrue');
               const dropdownText = dropdown.get('text');
               if (defaultTrue) {
-                text = text.concat(dropdownText);
-
+                text = dropdownText;
               }
             });
             result.addObject({order: orderNumber, text: text});
           });
+        } else if (type === 'static') {
+          const staticText = block.get('staticText');
+          text = staticText;
+          result.addObject({order: orderNumber, text: text});
         }
       });
     });
