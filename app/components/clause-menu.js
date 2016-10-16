@@ -46,6 +46,11 @@ export default Ember.Component.extend({
           });
 
         }
+        if (type === "toggle") {
+          const selected = block.get('selected');
+          const blockID = block.get('id');
+          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, toggle: true, selected: selected, block: blockID});
+        }
       });
     });
     return result;
@@ -78,6 +83,15 @@ export default Ember.Component.extend({
             this.toggleProperty('rebuildText');
           });
         }
+      });
+    },
+    updateToggle: function(option) {
+      const blocks = this.get('model.blocks');
+      blocks.forEach( (block) => {
+        if (block.get('id') === option.block) {
+          block.toggleProperty('selected');
+        }
+        this.toggleProperty('rebuildText');
       });
     }
   }

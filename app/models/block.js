@@ -8,6 +8,7 @@ export default DS.Model.extend({
   staticText: DS.attr('string'),
   toggleMenuText: DS.attr('string'),
   toggleDefault: DS.attr('boolean'),
+  selected: DS.attr('boolean'),
   helpText: DS.attr('string'),
   blockDropdowns: DS.hasMany('block-dropdown'),
   blockCheckboxes: DS.hasMany('block-checkbox'),

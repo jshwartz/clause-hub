@@ -9,7 +9,12 @@
           {{clause-menu rebuildText=rebuildText model=clause}}
         </div>
         <div class="ten wide column">
-          <p class="flash-text"><b>{{clause.title}}</b>. {{clause-text model=clause rebuildText=rebuildText}}</p>
+          <div class="ui">
+            <div class="ui inverted dimmer">
+              <div class="ui loader"></div>
+            </div>
+            <p><b>{{clause.title}}</b>. {{clause-text model=clause rebuildText=rebuildText}}</p>
+          </div>
         </div>
       </div>
     </div>

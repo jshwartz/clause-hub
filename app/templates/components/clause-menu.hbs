@@ -2,8 +2,7 @@
   {{#each sortedMenuArray as |option|}}
     <div class="title">
       <i class="dropdown icon"></i>
-      {{option.title}}
-      {{ui-popup tagName="i" class="info icon" content=option.helpText}}
+      {{option.title}}    {{#if option.helpText}}{{ui-popup tagName="i" class="info icon" content=option.helpText}}{{/if}}
     </div>
     <div class="content">
       {{#if option.dropdown}}
@@ -24,6 +23,10 @@
         {{#each option.choices as |choice|}}
           <div {{action 'updateCheckbox' choice}}>{{ui-checkbox label=choice.menuText checked=choice.selected}}</div>
         {{/each}}
+      {{/if}}
+
+      {{#if option.toggle}}
+        <div {{action 'updateToggle' option}}>{{ui-checkbox class="slider" label="On / Off" checked=option.selected}}</div>
       {{/if}}
 
     </div>

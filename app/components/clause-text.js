@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  rebuildText: false,
   sortBy: ['order'],
 
 
@@ -31,6 +30,15 @@ export default Ember.Component.extend({
           text = staticText;
           result.addObject({order: orderNumber, text: text});
           //extract checkbox final text
+        } else if (type === 'toggle') {
+          const staticText = block.get('staticText');
+          const toggleSelected = block.get('selected');
+          text = staticText;
+          console.log(toggleSelected);
+
+          if (toggleSelected) {
+            result.addObject({order: orderNumber, text: text});
+          }
         } else if (type === 'checkbox') {
           let selected = null;
           block.get('blockCheckboxes').then(function(checkboxes) {
@@ -41,6 +49,9 @@ export default Ember.Component.extend({
               }
             });
             selected = parseInt(selectedArray.sort().join(""));
+            if (isNaN(selected)) {
+              selected = 0;
+            }
             block.get('blockCheckboxChoices').then(function(choices) {
               choices.forEach( (choice) => {
                 if (selected === choice.get('checkboxes')) {
