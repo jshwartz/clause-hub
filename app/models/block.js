@@ -10,5 +10,7 @@ export default DS.Model.extend({
   toggleDefault: DS.attr('boolean'),
   helpText: DS.attr('string'),
   blockDropdowns: DS.hasMany('block-dropdown'),
+  blockCheckboxes: DS.hasMany('block-checkbox'),
+  blockCheckboxChoices: DS.hasMany('block-checkbox-choice'),
 
 });

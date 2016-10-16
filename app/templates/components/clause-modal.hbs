@@ -3,13 +3,44 @@
   <div class="header">
     {{clause.name}}
   </div>
-  <div class="image content">
-    <div class="ui medium image">
-      <img src="http://semantic-ui.com/images/avatar/large/chris.jpg">
+    <div class="content">
+      <div class="ui grid">
+        <div class="six wide column">
+          {{#ui-accordion class=""}}
+            {{#each menuOptions as |option|}}
+              <div class="title">
+                <i class="dropdown icon"></i>
+                {{option.title}}
+                {{ui-popup tagName="i" class="info icon" content=option.helpText}}
+              </div>
+              <div class="content">
+                {{#if option.dropdown}}
+                  {{#ui-dropdown class="selection" selected=option.selectedOption}}
+                    <div class="default text">Choose Option</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {{#each option.choices as |choice|}}
+                      <div class="item" data-value=123 {{action 'updateDropdown' choice}}>
+                        {{choice.menuText}}
+                      </div>
+                    {{/each}}
+                    </div>
+                  {{/ui-dropdown}}
+                {{/if}}
+
+                {{#if option.checkbox}}
+                  {{#each option.choices as |choice|}}
+                    <div {{action 'updateCheckbox' choice}}>{{ui-checkbox label=choice.menuText checked=choice.selected}}</div>
+                  {{/each}}
+                {{/if}}
+
+              </div>
+            {{/each}}
+          {{/ui-accordion}}
+        </div>
+        <div class="ten wide column">
+          <p class="flash-text"><b>{{clause.title}}</b>. {{finalText}}</p>
+        </div>
+      </div>
     </div>
-    <div class="description">
-      <div class="ui header">We've auto-chosen a profile image for you.</div>
-      <p>{{finalText}}</p>
-    </div>
-  </div>
  {{/ui-modal}}

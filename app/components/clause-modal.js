@@ -17,6 +17,16 @@ export default Ember.Component.extend({
 
     onClose: function() {
       this.get('onClose')();
+    },
+
+    updateDropdown: function(choice) {
+      this.get('updateDropdown')(choice);
+    },
+
+    updateCheckbox: function(choice) {
+      this.get('updateCheckbox')(choice);
+      Ember.$('.flash-text').effect("highlight", {}, 3000);
+
     }
   }
 });
