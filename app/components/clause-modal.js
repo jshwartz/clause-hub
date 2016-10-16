@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+  rebuildText: false,
 
   didInsertElement() {
     this._super(...arguments);
@@ -25,7 +26,6 @@ export default Ember.Component.extend({
 
     updateCheckbox: function(choice) {
       this.get('updateCheckbox')(choice);
-      Ember.$('.flash-text').effect("highlight", {}, 3000);
 
     }
   }

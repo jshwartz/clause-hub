@@ -6,40 +6,10 @@
     <div class="content">
       <div class="ui grid">
         <div class="six wide column">
-          {{#ui-accordion class=""}}
-            {{#each menuOptions as |option|}}
-              <div class="title">
-                <i class="dropdown icon"></i>
-                {{option.title}}
-                {{ui-popup tagName="i" class="info icon" content=option.helpText}}
-              </div>
-              <div class="content">
-                {{#if option.dropdown}}
-                  {{#ui-dropdown class="selection" selected=option.selectedOption}}
-                    <div class="default text">Choose Option</div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                    {{#each option.choices as |choice|}}
-                      <div class="item" data-value=123 {{action 'updateDropdown' choice}}>
-                        {{choice.menuText}}
-                      </div>
-                    {{/each}}
-                    </div>
-                  {{/ui-dropdown}}
-                {{/if}}
-
-                {{#if option.checkbox}}
-                  {{#each option.choices as |choice|}}
-                    <div {{action 'updateCheckbox' choice}}>{{ui-checkbox label=choice.menuText checked=choice.selected}}</div>
-                  {{/each}}
-                {{/if}}
-
-              </div>
-            {{/each}}
-          {{/ui-accordion}}
+          {{clause-menu rebuildText=rebuildText model=clause}}
         </div>
         <div class="ten wide column">
-          <p class="flash-text"><b>{{clause.title}}</b>. {{finalText}}</p>
+          <p class="flash-text"><b>{{clause.title}}</b>. {{clause-text model=clause rebuildText=rebuildText}}</p>
         </div>
       </div>
     </div>
