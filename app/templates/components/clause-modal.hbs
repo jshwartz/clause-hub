@@ -2,6 +2,12 @@
   <i class="close icon"></i>
   <div class="header">
     {{clause.name}}
+      <p class="clause-info"><div class="ui horizontal mini list">
+        <div class="item ">Owner: Jacob Shwartz</div>
+        <div class="item ">Contributors: Maia Shwartz; Riley Nativ</div>
+        <div class="item ">Last Updated: July 21, 2016</div>
+      </div></p>
+    <p><a class="ui mini green label">OR Vetted</a><a class="ui mini green label">WA Vetted</a><a class="ui mini grey label">Risk Mangement</a></p>
   </div>
     <div class="content">
       <div class="ui grid">
@@ -16,6 +22,10 @@
             <p><b>{{clause.title}}</b>. {{clause-text model=clause rebuildText=rebuildText}}</p>
           </div>
         </div>
+        <div class="sixteen wide column">
+          {{#link-to "library.fullClause" clause}}Open Full{{/link-to}}
+        </div>
+
       </div>
     </div>
  {{/ui-modal}}

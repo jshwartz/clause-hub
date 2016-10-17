@@ -1,0 +1,25 @@
+{{#if isEditing}}
+  <div class="ui top attached header">
+    <h3>Block {{model.orderNumber}} Editing Mode
+    <button class="ui right floated mini green button" {{action 'saveBlock'}}>Save</button>
+    <button class="ui right floated mini button" {{action 'saveBlock'}}>Cancel</button></h3>
+  </div>
+  <div class="ui attached segment">
+    <div class="ui form">
+      <div class="field">
+        <label>Text</label>
+        {{textarea value=model.staticText}}
+      </div>
+    </div>
+  </div>
+{{else}}
+  <div class="ui top attached header">
+    <h3>Block {{model.orderNumber}}
+    <button class="ui right floated mini yellow button" {{action 'editBlock'}}>Edit</button></h3>
+  </div>
+  <div class="ui attached segment">
+    <p><b>Text</b></p><p> {{model.staticText}}</p>
+  </div>
+{{/if}}
+
+{{outlet}}

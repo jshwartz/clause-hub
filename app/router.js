@@ -8,7 +8,10 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('library', function() {
-    this.route('clause', { path: '/clause/:clause_id' });
+    this.route('clause', { path: '/cl/modal/:clause_id' });
+    this.route('fullClause', { path: '/cl/:clause_id' }, function() {
+      this.route('block', { path: '/bl/:block_id' });
+    });
   });
 });
 
