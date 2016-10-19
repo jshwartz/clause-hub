@@ -1,24 +1,29 @@
 <div class="ui divided grid">
   <div class="ten wide column">
-    <div class="ui four cards">
-      {{#each model.blocks as |block|}}
-        {{#link-to 'library.fullClause.block' block class="ui card"}}
-          <div class="content">
-            <div class="header">Block: {{block.orderNumber}}</div>
-            <div class="meta">
-              <span class="category">{{block.type}}</span>
-            </div>
-            <div class="description">
-              <p></p>
-            </div>
-          </div>
-        {{/link-to}}
-      {{/each}}
-    </div>
     {{outlet}}
   </div>
   <div class="six wide column">
     <h2>{{model.name}}</h2>
+    {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
+      {{#each model.blocks as |block|}}
+        {{#sortable-item tagName="div" model=block group=group handle=".handle"}}
+          <div class="ui teal fluid card">
+            <div class="content">
+              <div class="meta">Block {{block.orderNumber}} ({{block.type}}) <i class="resize vertical icon ui right floated handle"></i></div>
+              <div class="description">
+                {{#link-to 'library.fullClause.block' block tagName="div" class="block-link"}}
+                {{block.staticText}}
+                {{#each block.blockDropdowns as |dropdown|}}
+                  {{#if dropdown.defaultTrue}}{{dropdown.text}}{{/if}}
+                {{/each}}
+                {{/link-to}}
+              </div>
+            </div>
+          </div>
+        {{/sortable-item}}
+      {{/each}}
+    {{/sortable-group}}
+
     {{clause-text model=model rebuildText=rebuildText}}
     <div class="ui divider"></div>
     {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model}}
