@@ -1,0 +1,13 @@
+<div class="ui top attached header">
+  <h3>Block {{model.orderNumber}} Editing Mode
+  <button class="ui right floated mini green button" {{action 'saveBlock'}}>Save</button>
+  <button class="ui right floated mini button" {{action 'cancelEditing'}}>Cancel</button></h3>
+</div>
+<div class="ui attached segment">
+  <div class="ui form">
+    <div class="field">
+      <label>Text</label>
+      {{one-way-textarea value=staticText update=(action (mut staticText))}}
+    </div>
+  </div>
+</div>

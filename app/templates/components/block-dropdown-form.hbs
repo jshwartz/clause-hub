@@ -1,0 +1,47 @@
+<div class="ui teal segment">
+  <h3 class="ui dividing header">
+    Block {{model.orderNumber}} Title and Help Text
+  </h3>
+
+{{#if isEditing}}
+  <div class={{if errorMessage "ui error form" "ui form"}}>
+    <div class="ui error message">
+      <p>{{errors.title}}</p>
+    </div>
+    <div class={{if errors.title "field error required" "field required"}}>
+      <label>Menu Title </label>
+      {{one-way-input class="active" value=title maxlength="42" update=(action (mut title))}}
+    </div>
+    <div class="field">
+      <label>Help hover text </label>
+      {{one-way-input value=helpText maxlength="140" update=(action (mut helpText))}}
+    </div>
+    <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+    <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
+  </div>
+{{else}}
+  <label class="mylabel">Menu Title </label>
+  <p>{{model.title}}</p>
+  <label class="mylabel">Help hover text</label>
+  <p>{{model.helpText}}</p>
+  <p class=""><a href='#' {{action 'editBlock'}}>Edit</a></p>
+{{/if}}
+
+  <h3 class="ui dividing header">Dropdowns</h3>
+
+    {{#each model.blockDropdowns as |dropdown|}}
+    <div class="ui fluid card">
+      <div class="ui top attached label">Dropdown #{{dropdown.orderNumber}} &nbsp;&nbsp; {{if dropdown.defaultTrue "(Default Option)"}} <i class="resize vertical icon ui right floated"></i></div>
+
+      <div class="content">
+        <div class="description">
+          <p><b>{{dropdown.menuText}}</b></p>
+          <p>{{dropdown.text}}</p>
+          <p class="ui right aligned">Default | Edit | Delete</p>
+        </div>
+      </div>
+    </div>
+
+    {{/each}}
+
+</div>
