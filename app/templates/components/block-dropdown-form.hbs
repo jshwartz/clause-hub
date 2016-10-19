@@ -29,19 +29,12 @@
 
   <h3 class="ui dividing header">Dropdowns</h3>
 
-    {{#each model.blockDropdowns as |dropdown|}}
-    <div class="ui fluid card">
-      <div class="ui top attached label">Dropdown #{{dropdown.orderNumber}} &nbsp;&nbsp; {{if dropdown.defaultTrue "(Default Option)"}} <i class="resize vertical icon ui right floated"></i></div>
-
-      <div class="content">
-        <div class="description">
-          <p><b>{{dropdown.menuText}}</b></p>
-          <p>{{dropdown.text}}</p>
-          <p class="ui right aligned">Default | Edit | Delete</p>
-        </div>
-      </div>
-    </div>
-
-    {{/each}}
+    {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
+      {{#each sortedDropdowns as |dropdown|}}
+        {{#sortable-item tagName="div" model=dropdown group=group handle=".handle"}}
+          {{dropdown-block-form model=dropdown modelText=dropdown.text rebuildText=(action 'rebuildText')}}
+        {{/sortable-item}}
+      {{/each}}
+    {{/sortable-group}}
 
 </div>

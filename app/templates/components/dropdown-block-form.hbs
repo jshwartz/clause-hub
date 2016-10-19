@@ -1,0 +1,28 @@
+<div class="ui fluid card">
+  <div class="ui top attached label handle">Dropdown #{{model.orderNumber}} &nbsp;&nbsp; {{if model.defaultTrue "(Default Option)"}} <i class="resize vertical icon ui right floated"></i></div>
+  <div class="content">
+    <div class="description">
+      {{#if isEditing}}
+        <div class={{if errorMessage "ui error form" "ui form"}}>
+          <div class="ui error message">
+            <p>{{errors.title}}</p>
+          </div>
+          <div class={{if errors.title "field error required" "field required"}}>
+            <label>Dropdown Title</label>
+            {{one-way-input class="active" value=menuText maxlength="42" update=(action (mut menuText))}}
+          </div>
+          <div class="field">
+            <label>Text</label>
+            {{one-way-textarea value=text update=(action (mut text))}}
+          </div>
+          <button class="ui mini green button" {{action 'saveDropdown'}}>Save</button>
+          <button class="ui mini button" {{action 'cancelDropdown'}}>Cancel</button>
+        </div>
+      {{else}}
+        <p><b>{{model.menuText}}</b></p>
+        <p>{{model.text}}</p>
+        <p class="ui right aligned">Default | <a href='#' {{action 'editDropdown'}}>Edit</a> | Delete</p>
+      {{/if}}
+    </div>
+  </div>
+</div>

@@ -22,8 +22,14 @@ export default Ember.Controller.extend({
         this.send('toggleRebuildText');
         this.set('isEditing', false);
       });
+    },
 
+    rebuildMenu() {
+      this.send('toggleRebuildText');
+    },
 
+    rebuildText() {
+      this.send('toggleRebuildText');
     }
   }
 });

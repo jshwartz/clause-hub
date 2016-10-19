@@ -24,3 +24,28 @@
 .go-right {
   text-align: right;
 }
+
+.handle {
+  cursor: move;
+}
+
+.sortable-item.is-dragging {
+  z-index: 999;
+  .label {
+    background-color: #b3b3b3;
+  }
+}
+
+.sortable-item.is-dropping {
+  .label {
+    background-color: #bababa;
+  }
+}
+
+.sortable-item{
+  z-index: 9;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  transition: all .125s;
+
+}

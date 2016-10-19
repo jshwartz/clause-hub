@@ -7,8 +7,9 @@ export default Ember.Component.extend({
   title: null,
   hasValidTitle: Ember.computed.notEmpty('title'),
   helpText: null,
-
+  sortBy: ['orderNumber'],
   hasErrors: Ember.computed.not('hasValidTitle'),
+  sortedDropdowns: Ember.computed.sort('model.blockDropdowns', 'sortBy'),
 
   setupErrors: Ember.on('init', function() {
     this.set('errors', Ember.Object.create());
@@ -44,10 +45,25 @@ export default Ember.Component.extend({
       this.set('errorMessage', false);
       this.set('isEditing', false);
     },
+    saveDropdown: function(properties) {
+      this.get('saveDropdown')(properties);
+    },
     cancelEditing() {
       this.resetBlockData();
       this.set('isEditing', false);
       this.set('errorMessage', false);
-    }
+    },
+    rebuildText() {
+      this.get('rebuildText')();
+    },
+    reorderItems(dropdownModels) {
+      dropdownModels.forEach((dropdown, index) => {
+        const newOrderNumber = index + 1;
+        dropdown.set('orderNumber', newOrderNumber);
+        dropdown.save();
+      });
+      this.get('rebuildMenu')();
+    },
+
   }
 });

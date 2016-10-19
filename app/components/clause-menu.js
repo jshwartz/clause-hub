@@ -28,7 +28,10 @@ export default Ember.Component.extend({
                 selectedOption = menuText;
               }
             });
-            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: choiceArray, selectedOption: selectedOption});
+            let sortedChoiceArray = choiceArray.sort(function(a, b) {
+              return a.dropOrderNumber-b.dropOrderNumber;
+            });
+            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption});
           });
         }
         if (type === "checkbox") {

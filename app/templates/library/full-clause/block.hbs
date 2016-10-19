@@ -2,7 +2,7 @@
   {{#if staticTrue}}
     {{block-static-form class="block-form" model=model saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
   {{else if dropdownTrue}}
-    {{block-dropdown-form model=model class="block-form" saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
+    {{block-dropdown-form model=model rebuildMenu=(action 'rebuildMenu') rebuildText=(action 'rebuildText') class="block-form" saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
   {{/if}}
 
 
