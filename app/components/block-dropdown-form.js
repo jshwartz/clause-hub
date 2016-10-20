@@ -19,9 +19,14 @@ export default Ember.Component.extend({
     this.set('errors.title', this.get('hasValidTitle') ? null : "Menu title is required.");
   },
 
-  resetOnInit: Ember.on('init', function() {
+  didUpdateAttrs() {
+    this._super(...arguments);
     this.resetBlockData();
-  }),
+  },
+  init() {
+    this._super(...arguments);
+    this.resetBlockData();
+  },
 
   resetBlockData() {
     ['title', 'helpText'].forEach((field) => {
@@ -47,6 +52,17 @@ export default Ember.Component.extend({
     },
     saveDropdown: function(properties) {
       this.get('saveDropdown')(properties);
+    },
+    setDefault: function(dropdownModel) {
+      let dropdowns = this.get('model.blockDropdowns');
+      dropdowns.forEach((dropdown) => {
+        dropdown.set('defaultTrue', false);
+        dropdown.set('selected', false);
+        dropdown.save();
+      });
+      dropdownModel.set('defaultTrue', true);
+      dropdownModel.set('selected', true);
+      dropdownModel.save();
     },
     cancelEditing() {
       this.resetBlockData();

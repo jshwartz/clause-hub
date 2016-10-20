@@ -16,9 +16,9 @@ export default Ember.Component.extend({
         if (type === 'dropdown') {
           block.get('blockDropdowns').then(function(dropdowns) {
             dropdowns.forEach( (dropdown) => {
-              const defaultTrue = dropdown.get('defaultTrue');
+              const dropdownSelected = dropdown.get('selected');
               const dropdownText = dropdown.get('text');
-              if (defaultTrue) {
+              if (dropdownSelected) {
                 text = dropdownText;
               }
             });

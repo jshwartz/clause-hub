@@ -25,8 +25,9 @@ export default Ember.Component.extend({
 
   resetBlockData() {
     ['text', 'menuText'].forEach((field) => {
-      const valueInBlock = this.get('model').get(field);
-      this.set(field, valueInBlock);
+      const model = this.get('model');
+      const valueInDropdown = model.get(field);
+      this.set(field, valueInDropdown);
     });
   },
 
@@ -56,6 +57,9 @@ export default Ember.Component.extend({
       this.set('isEditing', false);
       this.set('errorMessage', false);
     },
+    setDefault()  {
+      this.get('setDefault')(this.get('model'));
+    }
 
   }
 

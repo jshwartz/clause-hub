@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
     },
 
     rebuildMenu() {
-      this.send('toggleRebuildText');
+      this.send('toggleRebuildMenu');
     },
 
     rebuildText() {

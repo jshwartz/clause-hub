@@ -19,7 +19,7 @@ export default Ember.Component.extend({
           block.get('blockDropdowns').then(function(dropdowns) {
             dropdowns.forEach( (dropdown) => {
               const dropOrderNumber = dropdown.get('orderNumber');
-              const selected = dropdown.get('defaultTrue');
+              const selected = dropdown.get('selected');
               const menuText = dropdown.get('menuText');
               const block = dropdown.get('block.id');
               const id = dropdown.get('id');
@@ -66,9 +66,9 @@ export default Ember.Component.extend({
         if (block.get('id') === choice.block) {
           block.get('blockDropdowns').forEach( (dropdown) => {
             if (dropdown.get('id') !== choice.id) {
-              dropdown.set('defaultTrue', false);
+              dropdown.set('selected', false);
             } else {
-              dropdown.set('defaultTrue', true);
+              dropdown.set('selected', true);
             }
             this.toggleProperty('rebuildText');
           });

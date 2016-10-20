@@ -1,13 +1,22 @@
-<div class="ui top attached header">
-  <h3>Block {{model.orderNumber}} Editing Mode
-  <button class="ui right floated mini green button" {{action 'saveBlock'}}>Save</button>
-  <button class="ui right floated mini button" {{action 'cancelEditing'}}>Cancel</button></h3>
-</div>
-<div class="ui attached segment">
-  <div class="ui form">
-    <div class="field">
-      <label>Text</label>
-      {{one-way-textarea value=staticText update=(action (mut staticText))}}
+<div class="ui raised teal segment">
+  <h3 class="ui dividing header">
+    Block {{model.orderNumber}} <div class="ui sub header">static</div>
+  </h3>
+  {{#if isEditing}}
+    <div class={{if errorMessage "ui error form" "ui form"}}>
+      <div class="ui error message">
+        <p>{{errors.staticText}}</p>
+      </div>
+      <div class={{if errors.staticText "field error required" "field required"}}>
+        <label>Static Text</label>
+        {{one-way-textarea value=staticText update=(action (mut staticText))}}
+      </div>
+      <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+      <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
     </div>
-  </div>
+  {{else}}
+    <label class="mylabel">Static Text</label>
+    <p>{{model.staticText}}</p>
+    <p class=""><a href='#' {{action 'editBlock'}}>Edit</a></p>
+  {{/if}}
 </div>
