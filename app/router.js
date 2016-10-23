@@ -10,7 +10,11 @@ Router.map(function() {
   this.route('library', function() {
     this.route('clause', { path: '/cl/modal/:clause_id' });
     this.route('fullClause', { path: '/cl/:clause_id' }, function() {
-      this.route('block', { path: '/bl/:block_id' });
+      this.route('builder', function() {
+        this.route('block', { path: '/bl/:block_id' });
+      });
+      this.route('readme');
+      this.route('dashboard');
     });
   });
 });

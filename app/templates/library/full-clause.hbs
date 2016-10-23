@@ -1,54 +1,8 @@
-    <h2>{{model.name}}</h2>
+<h2>{{model.name}}</h2>
 <div class="ui four item block menu">
-  <a class="item">Clause</a>
-  <a class="item">README</a>
-  <a class="active item">Builder</a>
+  {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
+  {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
+  {{#link-to 'library.fullClause.builder' class="item"}}Builder{{/link-to}}
   <a class="item">Sharing</a>
 </div>
-
-
-<div class="ui relaxed grid">
-  <div class="ten wide column">
-    {{outlet}}
-  </div>
-  <div class="six wide column">
-    {{#if blocksActive}}
-      <div class="ui tabular menu">
-        <a class="item active">Blocks</a>
-        <a class="item" {{action "toggleBlockTab"}}>Preview</a>
-      </div>
-      {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
-        <p class="explain-text">Showing default text in each block.</p>
-        {{#each sortedBlocks as |block|}}
-          {{#sortable-item tagName="div" model=block group=group handle=".handle"}}
-            <div class="ui teal fluid card">
-              <div class="content">
-                <div class="meta">Block {{block.orderNumber}} ({{block.type}}) <i class="resize vertical icon ui right floated handle"></i></div>
-                <div class="description">
-                  {{#link-to 'library.fullClause.block' block tagName="div" class="block-link"}}
-                  {{block.staticText}}
-                  {{#each block.blockDropdowns as |dropdown|}}
-                    {{#if dropdown.defaultTrue}}{{dropdown.text}}{{/if}}
-                  {{/each}}
-                  {{#each block.blockCheckboxChoices as |choice|}}
-                    {{#if choice.defaultTrue}}{{choice.text}}{{/if}}
-                  {{/each}}
-                  {{/link-to}}
-                </div>
-              </div>
-            </div>
-          {{/sortable-item}}
-        {{/each}}
-      {{/sortable-group}}
-    {{else}}
-    <div class="ui tabular menu">
-      <a class="item" {{action "toggleBlockTab"}}>Blocks</a>
-      <a class="item active">Preview</a>
-    </div>
-    <h4 class="ui sub header spaced">Clause Options</h4>
-    {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model}}
-    <h4 class="ui sub header spaced">Clause Text</h4>
-    <p>{{clause-text model=model rebuildText=rebuildText}}</p>
-  {{/if}}
-  </div>
-</div>
+{{outlet}}
