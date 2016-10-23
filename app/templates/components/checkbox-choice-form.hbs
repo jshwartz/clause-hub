@@ -1,0 +1,27 @@
+<div class="ui fluid checkbox-choice card">
+  <div class="ui top attached label">
+    {{#if model.formText}}
+      <div class="ui mini horizontal divided list">
+        {{#each model.formText as |value|}}<div class="item">{{value}}</div>{{/each}}
+      </div>
+    {{else}}
+      No checkboxes selected
+    {{/if}}
+  </div>
+  <div class="content">
+    <div class="description">
+      {{#if isEditing}}
+        <div class="ui form">
+          <div class="field">
+            {{one-way-textarea value=text update=(action (mut text))}}
+          </div>
+          <button class="ui mini green button" {{action 'saveCheckboxChoice'}}>Save</button>
+          <button class="ui mini button" {{action 'cancelCheckboxChoice'}}>Cancel</button>
+        </div>
+      {{else}}
+        <p>{{model.text}}</p>
+        <p class="ui right aligned"><a href='#' {{action 'editCheckboxChoice'}}>Edit</a></p>
+      {{/if}}
+    </div>
+  </div>
+</div>

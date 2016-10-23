@@ -1,0 +1,35 @@
+<div class="ui raised teal segment">
+  <h3 class="ui dividing header">
+    Block {{model.orderNumber}} <div class="ui sub header">toggle ({{if model.defaultTrue "Default On" "Default Off"}})</div>
+  </h3>
+  {{#if isEditing}}
+    <div class={{if errorMessage "ui error form" "ui form"}}>
+      <div class="ui error message">
+        <p>{{errors.staticText}}</p>
+        <p>{{errors.title}}</p>
+      </div>
+      <div class={{if errors.staticText "field error required" "field required"}}>
+        <label>Menu title</label>
+        {{one-way-input value=title update=(action (mut title))}}
+      </div>
+      <div class="field">
+        <label>Help hover text</label>
+        {{one-way-input value=helpText update=(action (mut helpText))}}
+      </div>
+      <div class={{if errors.staticText "field error required" "field required"}}>
+        <label>Text</label>
+        {{one-way-textarea value=staticText update=(action (mut staticText))}}
+      </div>
+      <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+      <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
+    </div>
+  {{else}}
+    <label class="mylabel">Menu title</label>
+    <p>{{model.title}}</p>
+    <label class="mylabel">Help hover text</label>
+    <p>{{model.helpText}}</p>
+    <label class="mylabel">Text</label>
+    <p>{{model.staticText}}</p>
+    <p class=""><a href='#' {{action 'editBlock'}}>Edit</a> | <a href='#' {{action 'toggleDefault'}}>Default On/Off</a></p>
+  {{/if}}
+</div>

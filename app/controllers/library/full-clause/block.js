@@ -8,6 +8,9 @@ export default Ember.Controller.extend({
   }),
   staticTrue: Ember.computed.equal('type', "static"),
   dropdownTrue: Ember.computed.equal('type', "dropdown"),
+  toggleTrue: Ember.computed.equal('type', "toggle"),
+  checkboxTrue: Ember.computed.equal('type', "checkbox"),
+
 
 
   actions: {

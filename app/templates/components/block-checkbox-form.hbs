@@ -1,0 +1,59 @@
+<div class="ui raised teal segment">
+  <h3 class="ui dividing header">
+    Block {{model.orderNumber}} <div class="ui sub header">Checkbox</div>
+  </h3>
+
+{{#if isEditing}}
+  <div class={{if errorMessage "ui error form" "ui form"}}>
+    <div class="ui error message">
+      <p>{{errors.title}}</p>
+    </div>
+    <div class={{if errors.title "field error required" "field required"}}>
+      <label>Menu Title </label>
+      {{one-way-input class="active" value=title maxlength="42" update=(action (mut title))}}
+    </div>
+    <div class="field">
+      <label>Help hover text </label>
+      {{one-way-input value=helpText maxlength="140" update=(action (mut helpText))}}
+    </div>
+    <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+    <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
+  </div>
+{{else}}
+  <label class="mylabel">Menu Title </label>
+  <p>{{model.title}}</p>
+  <label class="mylabel">Help hover text</label>
+  <p>{{model.helpText}}</p>
+  <p class=""><a href='#' {{action 'editBlock'}}>Edit</a></p>
+{{/if}}
+
+  <h3 class="ui dividing header">Checkboxes</h3>
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>Checkbox</th>
+        <th>Default?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each sortedCheckboxes as |checkbox|}}
+        <tr>
+          <td>{{checkbox-form model=checkbox rebuildMenu=(action 'rebuildMenu')}}</td>
+          <td class="right aligned collapsing" {{action 'updateCheckbox' checkbox}}>{{ui-checkbox checked=checkbox.selected}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="3">New Checkbox</th>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h3 class="ui dividing header">Checked Combinations &amp; Displayed Text</h3>
+    {{#each sortedCheckboxChoices as |choice|}}
+      {{checkbox-choice-form model=choice rebuildText=(action 'rebuildText')}}
+    {{/each}}
+
+
+</div>

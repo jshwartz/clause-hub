@@ -7,7 +7,7 @@ export default DS.Model.extend({
   orderNumber: DS.attr('number'),
   staticText: DS.attr('string'),
   toggleMenuText: DS.attr('string'),
-  toggleDefault: DS.attr('boolean'),
+  defaultTrue: DS.attr('boolean'),
   selected: DS.attr('boolean'),
   helpText: DS.attr('string'),
   blockDropdowns: DS.hasMany('block-dropdown'),

@@ -2,12 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   isEditing: false,
-  errors: null,
-  errorMessage: false,
-  text: null,
   menuText: null,
   hasValidMenuText: Ember.computed.notEmpty('menuText'),
-  sortBy: ['orderNumber'],
   hasErrors: Ember.computed.not('hasValidMenuText'),
 
   setupErrors: Ember.on('init', function() {
@@ -15,11 +11,12 @@ export default Ember.Component.extend({
   }),
 
   validate() {
-    this.set('errors.title', this.get('hasValidMenuText') ? null : "Dropdown title is required.");
+    this.set('errors.title', this.get('hasValidMenuText') ? null : "title is required.");
   },
 
+
   resetBlockData() {
-    ['text', 'menuText'].forEach((field) => {
+    ['menuText'].forEach((field) => {
       const model = this.get('model');
       const valueInDropdown = model.get(field);
       this.set(field, valueInDropdown);
@@ -27,36 +24,26 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    editDropdown: function() {
+    editCheckbox: function() {
       this.set('isEditing', true);
       this.resetBlockData();
     },
-    saveDropdown() {
-
+    saveCheckbox() {
       this.validate();
       if (this.get('hasErrors')) {
         this.set('errorMessage', true);
         return;
       }
       const model = this.get('model');
-      model.set('text', this.get('text'));
       model.set('menuText', this.get('menuText'));
       model.save().then(() => {
-        this.get('rebuildText')();
+        this.get('rebuildMenu')();
         this.set('isEditing', false);
-        this.set('errorMessage', false);
-
       });
     },
-    cancelDropdown() {
+    cancelCheckbox() {
       this.resetBlockData();
       this.set('isEditing', false);
-      this.set('errorMessage', false);
     },
-    setDefault()  {
-      this.get('setDefault')(this.get('model'));
-    }
-
   }
-
 });

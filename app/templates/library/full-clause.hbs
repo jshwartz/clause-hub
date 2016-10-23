@@ -1,9 +1,17 @@
+    <h2>{{model.name}}</h2>
+<div class="ui four item block menu">
+  <a class="item">Clause</a>
+  <a class="item">README</a>
+  <a class="active item">Builder</a>
+  <a class="item">Sharing</a>
+</div>
+
+
 <div class="ui relaxed grid">
   <div class="ten wide column">
     {{outlet}}
   </div>
   <div class="six wide column">
-    <h2>{{model.name}}</h2>
     {{#if blocksActive}}
       <div class="ui tabular menu">
         <a class="item active">Blocks</a>
@@ -21,6 +29,9 @@
                   {{block.staticText}}
                   {{#each block.blockDropdowns as |dropdown|}}
                     {{#if dropdown.defaultTrue}}{{dropdown.text}}{{/if}}
+                  {{/each}}
+                  {{#each block.blockCheckboxChoices as |choice|}}
+                    {{#if choice.defaultTrue}}{{choice.text}}{{/if}}
                   {{/each}}
                   {{/link-to}}
                 </div>

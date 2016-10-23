@@ -1,0 +1,12 @@
+{{#if isEditing}}
+  <div class="ui form">
+    <div class={{if errors.title "field error required" "field required"}}>
+      {{one-way-input value=menuText update=(action (mut menuText))}}
+    </div>
+    <button class="ui mini green button" {{action 'saveCheckbox'}}>Save</button>
+    <button class="ui mini button" {{action 'cancelCheckbox'}}>Cancel</button>
+  </div>
+{{else}}
+  {{model.menuText}}
+  <p ><a href='#' {{action 'editCheckbox'}}>Edit</a></p>
+{{/if}}
