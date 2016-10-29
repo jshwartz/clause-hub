@@ -38,7 +38,6 @@ export default Ember.Component.extend({
           }
         });
       });
-      console.log(formTextTemp);
       choice.set('formText', formTextTemp);
       choice.save();
     });

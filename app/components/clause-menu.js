@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   rebuildMenu: false,
   rebuildText: false,
+  activeBlock: null,
   sortBy: ['order'],
 
   menuArray: Ember.computed('rebuildMenu', function() {
@@ -13,6 +14,7 @@ export default Ember.Component.extend({
         const orderNumber = block.get('orderNumber');
         const title = block.get('title');
         const helpText = block.get('helpText');
+        const blockID = block.get('id');
         if (type === "dropdown") {
           let choiceArray = [];
           let selectedOption = "";
@@ -31,7 +33,7 @@ export default Ember.Component.extend({
             let sortedChoiceArray = choiceArray.sort(function(a, b) {
               return a.dropOrderNumber-b.dropOrderNumber;
             });
-            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption});
+            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption, blockID: blockID});
           });
         }
         if (type === "checkbox") {
@@ -45,14 +47,13 @@ export default Ember.Component.extend({
               const id = checkbox.get('id');
               checkboxArray.addObject({selected: selected, checkboxOrderNumber: checkboxOrderNumber, menuText: menuText, id: id, block: block});
             });
-            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, checkbox: true, choices: checkboxArray});
+            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, checkbox: true, choices: checkboxArray, blockID: blockID});
           });
 
         }
         if (type === "toggle") {
           const selected = block.get('selected');
-          const blockID = block.get('id');
-          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, toggle: true, selected: selected, block: blockID});
+          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, toggle: true, selected: selected, block: blockID, blockID: blockID});
         }
       });
     });
@@ -96,6 +97,10 @@ export default Ember.Component.extend({
         }
         this.toggleProperty('rebuildText');
       });
+    },
+    sendActiveBlock(blockID) {
+      this.set('activeBlock', parseInt(blockID));
+      console.log(blockID);
     }
   }
 

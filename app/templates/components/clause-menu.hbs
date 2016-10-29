@@ -1,34 +1,36 @@
 {{#ui-accordion class=""}}
   {{#each sortedMenuArray as |option|}}
-    <div class="title">
-      <i class="dropdown icon"></i>
-      {{option.title}}    {{#if option.helpText}}{{ui-popup tagName="i" class="info icon" content=option.helpText}}{{/if}}
-    </div>
-    <div class="content">
-      {{#if option.dropdown}}
-        {{#ui-dropdown class="selection" selected=option.selectedOption}}
-          <div class="default text">Choose Option</div>
-          <i class="dropdown icon"></i>
-          <div class="menu">
-          {{#each option.choices as |choice|}}
-            <div class="item" data-value=123 {{action 'updateDropdown' choice}}>
-              {{choice.menuText}}
+    <div {{action "sendActiveBlock" option.blockID on="mouseEnter"}} {{action "sendActiveBlock" "null" on="mouseLeave"}}>
+      <div class="title">
+        <i class="dropdown icon"></i>
+        {{option.title}}    {{#if option.helpText}}{{ui-popup tagName="i" class="info icon" content=option.helpText}}{{/if}}
+      </div>
+      <div class="content">
+        {{#if option.dropdown}}
+          {{#ui-dropdown class="selection" selected=option.selectedOption}}
+            <div class="default text">Choose Option</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+            {{#each option.choices as |choice|}}
+              <div class="item" data-value=123 {{action 'updateDropdown' choice}}>
+                {{choice.menuText}}
+              </div>
+            {{/each}}
             </div>
+          {{/ui-dropdown}}
+        {{/if}}
+
+        {{#if option.checkbox}}
+          {{#each option.choices as |choice|}}
+            <div {{action 'updateCheckbox' choice}}>{{ui-checkbox label=choice.menuText checked=choice.selected}}</div>
           {{/each}}
-          </div>
-        {{/ui-dropdown}}
-      {{/if}}
+        {{/if}}
 
-      {{#if option.checkbox}}
-        {{#each option.choices as |choice|}}
-          <div {{action 'updateCheckbox' choice}}>{{ui-checkbox label=choice.menuText checked=choice.selected}}</div>
-        {{/each}}
-      {{/if}}
+        {{#if option.toggle}}
+          <div {{action 'updateToggle' option}}>{{ui-checkbox class="slider" label="On / Off" checked=option.selected}}</div>
+        {{/if}}
 
-      {{#if option.toggle}}
-        <div {{action 'updateToggle' option}}>{{ui-checkbox class="slider" label="On / Off" checked=option.selected}}</div>
-      {{/if}}
-
+      </div>
     </div>
   {{/each}}
 {{/ui-accordion}}

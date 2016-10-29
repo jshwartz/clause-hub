@@ -1,1 +1,36 @@
+<div class="ui relaxed grid">
+  <div class="two wide column">
+    <div class="ui vertical icon menu">
+      <a class="item" {{action 'dashboardClauseSmall'}}>
+        <i class="font icon small"></i>
+      </a>
+      <a class="item" {{action 'dashboardClauseBig'}}>
+        <i class="font icon"></i>
+      </a>
+
+      <a class="item">
+        {{#copy-button
+          clipboardTarget= '#copyText'
+          success='success'
+          error='error'
+          tagName='div'
+        }}
+        <i class="copy icon"></i>{{/copy-button}}
+
+      </a>
+
+    </div>
+  </div>
+  <div class="eight wide column">
+    <p class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</p>
+  </div>
+  <div class="six wide column">
+
+
+    <h4 class="ui sub header spaced">Clause Options</h4>
+    {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model activeBlock=activeBlock}}
+
+  </div>
+</div>
+
 {{outlet}}

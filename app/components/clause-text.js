@@ -2,15 +2,22 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   sortBy: ['order'],
+  activeBlock: null,
+  copyText: null,
 
 
   // extract selected clause text into array
-  textArray: Ember.computed('rebuildText', function() {
+  textArray: Ember.computed('rebuildText', 'activeBlock', function() {
+    const activeBlock = this.get('activeBlock');
     let result = [];
     this.get('model.blocks').then(function(blocks){
       blocks.forEach( (block) => {
         const type = block.get('type');
         const orderNumber = block.get('orderNumber');
+        let highlightBlock = false;
+        if (activeBlock === parseInt(block.get('id'))) {
+          highlightBlock = true;
+        }
         let text = '';
         // extract dropdown final text
         if (type === 'dropdown') {
@@ -19,7 +26,11 @@ export default Ember.Component.extend({
               const dropdownSelected = dropdown.get('selected');
               const dropdownText = dropdown.get('text');
               if (dropdownSelected) {
-                text = dropdownText;
+                if (highlightBlock) {
+                  text = "<span class='text-highlight'>" + dropdownText + "</span'>";
+                } else {
+                  text = dropdownText;
+                }
               }
             });
             result.addObject({order: orderNumber, text: text});
@@ -27,15 +38,21 @@ export default Ember.Component.extend({
           // extract static final text
         } else if (type === 'static') {
           const staticText = block.get('staticText');
-          text = staticText;
+          if (highlightBlock) {
+            text = "<span class='text-highlight'>" + staticText + "</span'>";
+          } else {
+            text = staticText;
+          }
           result.addObject({order: orderNumber, text: text});
           //extract checkbox final text
         } else if (type === 'toggle') {
           const staticText = block.get('staticText');
           const toggleSelected = block.get('selected');
-          text = staticText;
-          console.log(toggleSelected);
-
+          if (highlightBlock) {
+            text = "<span class='text-highlight'>" + staticText + "</span'>";
+          } else {
+            text = staticText;
+          }
           if (toggleSelected) {
             result.addObject({order: orderNumber, text: text});
           }
@@ -55,7 +72,12 @@ export default Ember.Component.extend({
             block.get('blockCheckboxChoices').then(function(choices) {
               choices.forEach( (choice) => {
                 if (selected === choice.get('checkboxes')) {
-                  result.addObject({order: orderNumber, text: choice.get('text')});
+                  if (highlightBlock) {
+                    text = "<span class='text-highlight'>" + choice.get('text') + "</span'>";
+                  } else {
+                    text = choice.get('text');
+                  }
+                  result.addObject({order: orderNumber, text: text});
                 }
               });
             });
@@ -71,11 +93,11 @@ export default Ember.Component.extend({
   // build final text block
   finalText: Ember.computed('sortedTextArray', function() {
     const sortedBlockArray = this.get('sortedTextArray');
-    let result = "";
-    for (let object of sortedBlockArray) {
-      result = result.concat(object.text);
-    }
-    return result;
+    let resultArray = [];
+    sortedBlockArray.forEach((block) => {
+      resultArray.pushObject(block.text);
+      });
+    return resultArray;
   }),
 
 
