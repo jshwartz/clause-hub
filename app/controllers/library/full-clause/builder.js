@@ -6,6 +6,8 @@ export default Ember.Controller.extend({
   rebuildText: false,
   rebuildMenu: false,
   blocksActive: true,
+  newBlockMenu: true,
+  newBlockStatic: false,
 
   actions: {
     reorderItems(blockModels) {
@@ -19,6 +21,13 @@ export default Ember.Controller.extend({
     },
     toggleBlockTab() {
       this.toggleProperty('blocksActive');
+    },
+    newBlock() {
+      $('.ui.block.modal').modal('show');
+    },
+    openNewStatic() {
+      this.set('newBlockMenu', false);
+      this.set('newBlockStatic', true);
     }
 
   }

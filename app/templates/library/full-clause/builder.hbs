@@ -33,6 +33,28 @@
           {{/sortable-item}}
         {{/each}}
       {{/sortable-group}}
+      <div class="ui fluid small basic icon vertical animated button" tabindex="0" {{action 'newBlock'}}>
+        <div class="visible content"><i class="plus icon"></i></div>
+        <div class="hidden content">Create New Block</div>
+      </div>
+      {{#ui-modal name="block" class="block small"}}
+        <i class="close icon"></i>
+        <div class="content">
+          {{#if newBlockMenu}}
+            <p>Choose Block Type</p>
+            <p><button class="fluid ui teal button">Toggle Block</button></p>
+            <p><button class="fluid ui teal button" {{action 'openNewStatic'}}>Static Block</button></p>
+
+            <p><button class="fluid ui teal button">Dropdown Block</button></p>
+            <p><button class="fluid ui teal button">Checkblock Block</button></p>
+          {{else if newBlockStatic}}
+            <p>hi</p>
+          {{/if}}
+
+
+        </div>
+      {{/ui-modal}}
+
     {{else}}
     <div class="ui tabular menu">
       <a class="item" {{action "toggleBlockTab"}}>Blocks</a>

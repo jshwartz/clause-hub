@@ -27,14 +27,49 @@
   <p class=""><a href='#' {{action 'editBlock'}}>Edit</a></p>
 {{/if}}
 
-  <h3 class="ui dividing header">Dropdowns</h3>
+  <div class="ui dividing header">
+    Dropdowns
+  </div>
 
     {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
       {{#each sortedDropdowns as |dropdown|}}
         {{#sortable-item tagName="div" model=dropdown group=group handle=".handle"}}
-          {{dropdown-block-form model=dropdown modelText=dropdown.text setDefault=(action 'setDefault') rebuildText=(action 'rebuildText')}}
+          {{dropdown-block-form model=dropdown modelText=dropdown.text deleteDropdown=(action 'deleteDropdown') setDefault=(action 'setDefault') rebuildText=(action 'rebuildText')}}
         {{/sortable-item}}
       {{/each}}
     {{/sortable-group}}
+
+    <div class="ui fluid small basic icon vertical animated button" tabindex="0" {{action 'newDropdown'}}>
+      <div class="visible content"><i class="plus icon"></i></div>
+      <div class="hidden content">Create New Dropdown</div>
+    </div>
+    {{#ui-modal name="dropdown" class="dropdown small" onHidden=(action 'cancelNewDropdown') onApprove=(action 'createNewDropdown')}}
+      <i class="close icon"></i>
+        <div class="content">
+          <div class={{if dropdownErrorMessage "ui error form" "ui form"}}>
+            <div class="ui error message">
+              <p>{{dropdownErrors.title}}</p>
+            </div>
+            <div class={{if dropdownErrors.title "field error required" "field required"}}>
+              <label>Dropdown Title</label>
+              {{one-way-input class="active" value=newMenuTitle maxlength="42" update=(action (mut newMenuTitle))}}
+            </div>
+            <div class="field">
+              <label>Text</label>
+              {{one-way-textarea value=newText update=(action (mut newText))}}
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+        <div class="ui basic small deny button">
+          Cancel
+        </div>
+        <div class="ui teal small button">
+          Create
+        </div>
+      </div>
+     {{/ui-modal}}
+
+
 
 </div>

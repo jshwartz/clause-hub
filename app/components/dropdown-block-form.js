@@ -55,6 +55,9 @@ export default Ember.Component.extend({
     },
     setDefault()  {
       this.get('setDefault')(this.get('model'));
+    },
+    deleteDropdown() {
+      this.get('deleteDropdown')(this.get('model'));
     }
 
   }

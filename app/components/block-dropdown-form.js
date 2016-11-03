@@ -10,13 +10,31 @@ export default Ember.Component.extend({
   sortBy: ['orderNumber'],
   hasErrors: Ember.computed.not('hasValidTitle'),
   sortedDropdowns: Ember.computed.sort('model.blockDropdowns', 'sortBy'),
+  newMenuTitle: null,
+  hasValidNewMenuTitle: Ember.computed.notEmpty('newMenuTitle'),
+  newText: null,
+  dropdownHasErrors: Ember.computed.not('hasValidNewMenuTitle'),
+  dropdownErrorMessage: false,
+
+  dropdownBuild: Ember.observer('rebuildDropdowns', function(){
+    const dropdowns = this.get('model.blockDropdowns');
+    this.send('reorderItems', dropdowns);
+  }),
 
   setupErrors: Ember.on('init', function() {
     this.set('errors', Ember.Object.create());
   }),
 
+  setupDropdownErrors: Ember.on('init', function() {
+    this.set('dropdownErrors', Ember.Object.create());
+  }),
+
   validate() {
     this.set('errors.title', this.get('hasValidTitle') ? null : "Menu title is required.");
+  },
+
+  dropdownValidate() {
+    this.set('dropdownErrors.title', this.get('hasValidNewMenuTitle') ? null : "Dropdown title is required.");
   },
 
   didUpdateAttrs() {
@@ -80,6 +98,24 @@ export default Ember.Component.extend({
       });
       this.get('rebuildMenu')();
     },
+    newDropdown() {
+      this.$('.ui.dropdown.modal').modal('show');
+    },
+    cancelNewDropdown() {
+      this.set('newMenuTitle', null);
+      this.set('newText', null);
+    },
+    createNewDropdown() {
+      this.dropdownValidate();
+      if (this.get('dropdownHasErrors')) {
+        this.set('dropdownErrorMessage', true);
+        return false;
+      }
+      this.get('createNewDropdown')(this.getProperties(['newMenuTitle', 'newText']));
+    },
+    deleteDropdown(dropdown){
+      this.get('deleteDropdown')(dropdown);
+    }
 
   }
 });

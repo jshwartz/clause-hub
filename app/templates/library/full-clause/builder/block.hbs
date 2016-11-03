@@ -2,7 +2,16 @@
   {{#if staticTrue}}
     {{block-static-form class="block-form" model=model saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
   {{else if dropdownTrue}}
-    {{block-dropdown-form model=model rebuildMenu=(action 'rebuildMenu') rebuildText=(action 'rebuildText') class="block-form" saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
+    {{block-dropdown-form
+      model=model
+      rebuildDropdowns=rebuildDropdowns
+      rebuildMenu=(action 'rebuildMenu')
+      rebuildText=(action 'rebuildText')
+      class="block-form"
+      deleteDropdown=(action 'deleteDropdown')
+      createNewDropdown=(action 'createNewDropdown')
+      saveBlock=(action 'saveBlock')
+      cancelEditing=(action (mut isEditing))}}
   {{else if toggleTrue}}
     {{block-toggle-form model=model rebuildMenu=(action 'rebuildMenu') rebuildText=(action 'rebuildText') class="block-form" saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
   {{else if checkboxTrue}}
