@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   title: null,
   hasValidTitle: Ember.computed.notEmpty('title'),
   helpText: null,
+  deleteMessage: false,
   hasErrors: Ember.computed('hasValidTitle', 'hasValidStaticText', function() {
     const hasValidTitle = this.get('hasValidTitle');
     const hasValidStaticText = this.get('hasValidStaticText');
@@ -61,6 +62,15 @@ export default Ember.Component.extend({
       this.toggleProperty('model.defaultTrue');
       this.toggleProperty('model.selected');
       this.model.save();
+    },
+    deleteConfirm() {
+      this.set('deleteMessage', true);
+    },
+    cancelDelete() {
+      this.set('deleteMessage', false);
+    },
+    destroyBlock() {
+      this.get('destroyBlock')();
     }
   }
 });

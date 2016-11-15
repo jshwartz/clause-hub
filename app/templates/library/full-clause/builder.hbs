@@ -42,7 +42,7 @@
         {{#if newBlockMenu}}
           <div class="content">
             <p>Choose Block Type</p>
-            <p><button class="fluid ui teal button">Toggle Block</button></p>
+            <p><button class="fluid ui teal button" {{action 'openNewToggle'}}>Toggle Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewStatic'}}>Static Block</button></p>
             <p><button class="fluid ui teal button">Dropdown Block</button></p>
             <p><button class="fluid ui teal button">Checkblock Block</button></p>
@@ -58,6 +58,38 @@
               </div>
               <div class={{if errors.staticText "field error required" "field required"}}>
                 <label>Static Text</label>
+                {{one-way-textarea value=staticText update=(action (mut staticText))}}
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="ui deny button">
+              Cancel
+            </div>
+            <div class="ui teal approve button">
+              Create
+            </div>
+          </div>
+        {{else if newBlockToggle}}
+          <div class="content">
+            <h3 class="ui dividing header">
+              <div class="ui sub header">new toggle block</div>
+            </h3>
+            <div class={{if errorMessage "ui error form" "ui form"}}>
+              <div class="ui error message">
+                <p>{{errors.staticText}}</p>
+                <p>{{errors.title}}</p>
+              </div>
+              <div class={{if errors.title "field error required" "field required"}}>
+                <label>Menu title</label>
+                {{one-way-input value=title update=(action (mut title))}}
+              </div>
+              <div class="field">
+                <label>Help hover text</label>
+                {{one-way-input value=helpText update=(action (mut helpText))}}
+              </div>
+              <div class={{if errors.staticText "field error required" "field required"}}>
+                <label>Toggle Text</label>
                 {{one-way-textarea value=staticText update=(action (mut staticText))}}
               </div>
             </div>
