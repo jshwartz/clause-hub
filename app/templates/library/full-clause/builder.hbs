@@ -37,22 +37,40 @@
         <div class="visible content"><i class="plus icon"></i></div>
         <div class="hidden content">Create New Block</div>
       </div>
-      {{#ui-modal name="block" class="block small"}}
+      {{#ui-modal name="block" class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
         <i class="close icon"></i>
-        <div class="content">
-          {{#if newBlockMenu}}
+        {{#if newBlockMenu}}
+          <div class="content">
             <p>Choose Block Type</p>
             <p><button class="fluid ui teal button">Toggle Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewStatic'}}>Static Block</button></p>
-
             <p><button class="fluid ui teal button">Dropdown Block</button></p>
             <p><button class="fluid ui teal button">Checkblock Block</button></p>
-          {{else if newBlockStatic}}
-            <p>hi</p>
-          {{/if}}
-
-
-        </div>
+          </div>
+        {{else if newBlockStatic}}
+          <div class="content">
+            <h3 class="ui dividing header">
+              <div class="ui sub header">new static block</div>
+            </h3>
+            <div class={{if errorMessage "ui error form" "ui form"}}>
+              <div class="ui error message">
+                <p>{{errors.staticText}}</p>
+              </div>
+              <div class={{if errors.staticText "field error required" "field required"}}>
+                <label>Static Text</label>
+                {{one-way-textarea value=staticText update=(action (mut staticText))}}
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="ui deny button">
+              Cancel
+            </div>
+            <div class="ui teal approve button">
+              Create
+            </div>
+          </div>
+        {{/if}}
       {{/ui-modal}}
 
     {{else}}

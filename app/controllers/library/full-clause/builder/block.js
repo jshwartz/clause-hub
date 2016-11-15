@@ -28,7 +28,11 @@ export default Ember.Controller.extend({
         this.set('isEditing', false);
       });
     },
-
+    destroyStaticBlock() {
+      const clause = this.get('model.clause');
+      this.transitionToRoute('library.fullClause.builder');
+      this.get('model').destroyRecord();
+    },
     rebuildMenu() {
       this.send('toggleRebuildMenu');
     },

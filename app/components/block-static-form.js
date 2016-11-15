@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   staticText: null,
   hasValidStaticText: Ember.computed.notEmpty('staticText'),
   hasErrors: Ember.computed.not('hasValidStaticText'),
+  deleteMessage: false,
 
   setupErrors: Ember.on('init', function() {
     this.set('errors', Ember.Object.create());
@@ -45,5 +46,14 @@ export default Ember.Component.extend({
       this.set('isEditing', false);
       this.set('errorMessage', false);
     },
+    deleteConfirm() {
+      this.set('deleteMessage', true);
+    },
+    cancelDelete() {
+      this.set('deleteMessage', false);
+    },
+    destroyBlock() {
+      this.get('destroyBlock')();
+    }
   }
 });
