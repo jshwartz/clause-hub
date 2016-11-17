@@ -6,4 +6,6 @@ export default DS.Model.extend({
   formText: DS.attr(),
   checkboxes: DS.attr('number'),
   defaultTrue: DS.attr('boolean'),
+  active: DS.attr('boolean', {defaultValue: true}),
+
 });

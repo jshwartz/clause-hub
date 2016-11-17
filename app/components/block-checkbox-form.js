@@ -54,6 +54,28 @@ export default Ember.Component.extend({
     });
   },
 
+  setCheckboxChoices() {
+    let checkboxes = this.get('model.blockCheckboxes');
+    let choices = this.get('model.blockCheckboxChoices');
+    choices.forEach((choice) => {
+      choice.set('active', true);
+    }).then(() => {
+      checkboxes.forEach((checkbox) => {
+        const checkboxNumber = checkbox.get('orderNumber').toString();
+        if (checkbox.get('active') === false) {
+          choices.forEach((choice) => {
+            const choiceBoxes = choice.get('checkboxes').toString();
+            if (choiceBoxes.includes(checkboxNumber)) {
+              choice.set('active', false);
+              choice.save();
+            }
+          });
+        }
+      });
+    });
+
+  },
+
   actions: {
     editBlock: function() {
       this.set('isEditing', true);
@@ -74,17 +96,6 @@ export default Ember.Component.extend({
         this.rebuildFormText();
       });
     },
-    setDefault: function(dropdownModel) {
-      let dropdowns = this.get('model.blockDropdowns');
-      dropdowns.forEach((dropdown) => {
-        dropdown.set('defaultTrue', false);
-        dropdown.set('selected', false);
-        dropdown.save();
-      });
-      dropdownModel.set('defaultTrue', true);
-      dropdownModel.set('selected', true);
-      dropdownModel.save();
-    },
     cancelEditing() {
       this.resetBlockData();
       this.set('isEditing', false);
@@ -97,13 +108,23 @@ export default Ember.Component.extend({
       this.get('rebuildMenu')();
     },
     updateCheckbox(checkbox) {
-
       checkbox.toggleProperty('selected');
+      checkbox.save();
+      checkbox.toggleProperty('defaultTrue');
       checkbox.save();
       this.get('rebuildMenu')();
       this.get('rebuildText')();
     },
+    onCheckbox(checkbox) {
+      checkbox.set('active', true);
+      checkbox.save().then(() => {this.setCheckboxChoices();});
+    },
+    offCheckbox(checkbox) {
+      checkbox.set('active', false);
+      checkbox.set('defaultTrue', false);
+      checkbox.set('selected', false);
+      checkbox.save().then(() => {this.setCheckboxChoices();});
 
-
+    },
   }
 });
