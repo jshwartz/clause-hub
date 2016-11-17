@@ -18,30 +18,7 @@ export default Ember.Component.extend({
     this.set('errors', Ember.Object.create());
   }),
 
-  rebuildFormText() {
-    let checkboxes = this.get('model.blockCheckboxes');
-    let choices = this.get('model.blockCheckboxChoices');
-    let checkboxArray = [];
-    checkboxes.forEach((checkbox) => {
-      const checkboxOrderNumber = checkbox.get('orderNumber');
-      const menuText = checkbox.get('menuText');
-      checkboxArray.addObject({checkboxOrderNumber: checkboxOrderNumber, menuText: menuText});
-    });
-    choices.forEach((choice) => {
-      const checkboxString = choice.get('checkboxes').toString();
-      const checkboxStringArray = checkboxString.split("");
-      let formTextTemp = [];
-      checkboxStringArray.forEach((valueInArray) => {
-        checkboxArray.forEach((checkbox) => {
-          if (checkbox.checkboxOrderNumber === parseInt(valueInArray)) {
-            formTextTemp.push(checkbox.menuText);
-          }
-        });
-      });
-      choice.set('formText', formTextTemp);
-      choice.save();
-    });
-  },
+
 
   validate() {
     this.set('errors.title', this.get('hasValidTitle') ? null : "Menu title is required.");
@@ -59,6 +36,7 @@ export default Ember.Component.extend({
     let choices = this.get('model.blockCheckboxChoices');
     choices.forEach((choice) => {
       choice.set('active', true);
+      choice.save();
     }).then(() => {
       checkboxes.forEach((checkbox) => {
         const checkboxNumber = checkbox.get('orderNumber').toString();
@@ -93,7 +71,6 @@ export default Ember.Component.extend({
         this.set('errorMessage', false);
         this.set('isEditing', false);
         this.get('rebuildMenu')();
-        this.rebuildFormText();
       });
     },
     cancelEditing() {
@@ -124,7 +101,30 @@ export default Ember.Component.extend({
       checkbox.set('defaultTrue', false);
       checkbox.set('selected', false);
       checkbox.save().then(() => {this.setCheckboxChoices();});
-
+    },
+    rebuildFormText() {
+      let checkboxes = this.get('model.blockCheckboxes');
+      let choices = this.get('model.blockCheckboxChoices');
+      let checkboxArray = [];
+      checkboxes.forEach((checkbox) => {
+        const checkboxOrderNumber = checkbox.get('orderNumber');
+        const menuText = checkbox.get('menuText');
+        checkboxArray.addObject({checkboxOrderNumber: checkboxOrderNumber, menuText: menuText});
+      });
+      choices.forEach((choice) => {
+        const checkboxString = choice.get('checkboxes').toString();
+        const checkboxStringArray = checkboxString.split("");
+        let formTextTemp = [];
+        checkboxStringArray.forEach((valueInArray) => {
+          checkboxArray.forEach((checkbox) => {
+            if (checkbox.checkboxOrderNumber === parseInt(valueInArray)) {
+              formTextTemp.push(checkbox.menuText);
+            }
+          });
+        });
+        choice.set('formText', formTextTemp);
+        choice.save();
+      });
     },
   }
 });

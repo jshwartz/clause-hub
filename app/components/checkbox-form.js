@@ -38,6 +38,7 @@ export default Ember.Component.extend({
       model.set('menuText', this.get('menuText'));
       model.save().then(() => {
         this.get('rebuildMenu')();
+        this.get('rebuildFormText')();
         this.set('isEditing', false);
       });
     },

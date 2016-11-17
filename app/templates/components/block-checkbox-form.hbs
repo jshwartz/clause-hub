@@ -16,7 +16,7 @@
       <label>Help hover text </label>
       {{one-way-input value=helpText maxlength="140" update=(action (mut helpText))}}
     </div>
-    <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+    <button class="ui mini teal button" {{action 'saveBlock'}}>Save</button>
     <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
   </div>
 {{else}}
@@ -28,13 +28,13 @@
 {{/if}}
 
   <h3 class="ui dividing header">Checkboxes</h3>
-  <table class="ui celled table">
+  <table class="ui striped table">
     <tbody>
       {{#each sortedCheckboxes as |checkbox|}}
         <tr>
           {{#if checkbox.active}}
             <td class="collapsing" {{action 'offCheckbox' checkbox}}>{{ui-checkbox class="slider" checked=checkbox.active}}</td>
-            <td>{{checkbox-form model=checkbox rebuildMenu=(action 'rebuildMenu')}}</td>
+            <td>{{checkbox-form model=checkbox rebuildFormText=(action 'rebuildFormText') rebuildMenu=(action 'rebuildMenu')}}</td>
             <td class="right aligned collapsing" {{action 'updateCheckbox' checkbox}}>{{ui-checkbox label="Default" checked=checkbox.defaultTrue}}</td>
           {{else}}
             <td class="collapsing" {{action 'onCheckbox' checkbox}}>{{ui-checkbox class="slider" checked=checkbox.active}}</td>
@@ -47,11 +47,16 @@
   </table>
 
   <h3 class="ui dividing header">Checked Combinations &amp; Displayed Text</h3>
-    {{#each sortedCheckboxChoices as |choice|}}
-      {{#if choice.active}}
-        {{checkbox-choice-form model=choice rebuildText=(action 'rebuildText')}}
-      {{/if}}
-    {{/each}}
+  <table class="ui striped table">
+
+    <tbody>
+      {{#each sortedCheckboxChoices as |choice|}}
+        {{#if choice.active}}
+          {{checkbox-choice-form model=choice rebuildText=(action 'rebuildText')}}
+        {{/if}}
+      {{/each}}
+    </tbody>
+  </table>
 
 
 </div>
