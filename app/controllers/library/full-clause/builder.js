@@ -117,12 +117,12 @@ export default Ember.Controller.extend({
           });
           newCheckbox3.save();
           const newChoice0 = this.get('store').createRecord('blockCheckboxChoice', {
-            active: false,
+            active: true,
             defaultTrue: true,
             checkboxes: 0,
             block: newBlock,
             formText: [],
-            text: "Hi, I'm the text that will display when no checkboxes are selected",
+            text: "Hi, I'm the text that will display when no checkboxes are selected.",
           });
           newChoice0.save();
           const newChoice1 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -131,7 +131,7 @@ export default Ember.Controller.extend({
             checkboxes: 1,
             block: newBlock,
             formText: ["Option 1"],
-            text: "Hi, I'm the text that will display when only checkbox 1 is selected",
+            text: "Hi, I'm the text that will display when only checkbox 1 is selected.",
           });
           newChoice1.save();
           const newChoice2 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -140,7 +140,7 @@ export default Ember.Controller.extend({
             checkboxes: 2,
             block: newBlock,
             formText: ["Option 2"],
-            text: "Hi, I'm the text that will display when only checkbox 2 is selected",
+            text: "Hi, I'm the text that will display when only checkbox 2 is selected.",
           });
           newChoice2.save();
           const newChoice3 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -149,7 +149,7 @@ export default Ember.Controller.extend({
             checkboxes: 3,
             block: newBlock,
             formText: ["Option 3"],
-            text: "Hi, I'm the text that will display when only checkbox 3 is selected",
+            text: "Hi, I'm the text that will display when only checkbox 3 is selected.",
           });
           newChoice3.save();
           const newChoice12 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -158,7 +158,7 @@ export default Ember.Controller.extend({
             checkboxes: 12,
             block: newBlock,
             formText: ["Option 1", "Option 2"],
-            text: "Hi, I'm the text that will display when only checkbox 1 and 2 is selected",
+            text: "Hi, I'm the text that will display when only checkbox 1 and 2 is selected.",
           });
           newChoice12.save();
           const newChoice13 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -167,7 +167,7 @@ export default Ember.Controller.extend({
             checkboxes: 13,
             block: newBlock,
             formText: ["Option 1", "Option 3"],
-            text: "Hi, I'm the text that will display when only checkbox 1 and 3 is selected",
+            text: "Hi, I'm the text that will display when only checkbox 1 and 3 is selected.",
           });
           newChoice13.save();
           const newChoice23 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -176,7 +176,7 @@ export default Ember.Controller.extend({
             checkboxes: 23,
             block: newBlock,
             formText: ["Option 2", "Option 3"],
-            text: "Hi, I'm the text that will display when only checkbox 2 and 3 is selected",
+            text: "Hi, I'm the text that will display when only checkbox 2 and 3 is selected.",
           });
           newChoice23.save();
           const newChoice123 = this.get('store').createRecord('blockCheckboxChoice', {
@@ -185,7 +185,7 @@ export default Ember.Controller.extend({
             checkboxes: 123,
             block: newBlock,
             formText: ["Option 1", "Option 2", "Option 3"],
-            text: "Hi, I'm the text that will display when all three checkboxes are selected",
+            text: "Hi, I'm the text that will display when all three checkboxes are selected.",
           });
           newChoice123.save();
         }).then(() => {

@@ -12,6 +12,7 @@ export default Ember.Component.extend({
   sortChoicesBy: ['checkboxes'],
   sortedCheckboxChoices: Ember.computed.sort('model.blockCheckboxChoices', 'sortChoicesBy'),
   hasErrors: Ember.computed.not('hasValidTitle'),
+  deleteMessage: false,
 
 
   setupErrors: Ember.on('init', function() {
@@ -101,6 +102,15 @@ export default Ember.Component.extend({
       checkbox.set('defaultTrue', false);
       checkbox.set('selected', false);
       checkbox.save().then(() => {this.setCheckboxChoices();});
+    },
+    deleteConfirm() {
+      this.set('deleteMessage', true);
+    },
+    cancelDelete() {
+      this.set('deleteMessage', false);
+    },
+    destroyBlock() {
+      this.get('destroyBlock')();
     },
     rebuildFormText() {
       let checkboxes = this.get('model.blockCheckboxes');

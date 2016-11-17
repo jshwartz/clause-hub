@@ -15,7 +15,7 @@
   {{else if toggleTrue}}
     {{block-toggle-form model=model rebuildMenu=(action 'rebuildMenu') destroyBlock=(action 'destroyStaticBlock') rebuildText=(action 'rebuildText') class="block-form" saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
   {{else if checkboxTrue}}
-    {{block-checkbox-form model=model rebuildMenu=(action 'rebuildMenu') rebuildText=(action 'rebuildText') class="block-form"}}
+    {{block-checkbox-form model=model rebuildMenu=(action 'rebuildMenu') destroyBlock=(action 'destroyCheckboxBlock') rebuildText=(action 'rebuildText') class="block-form"}}
 
   {{/if}}
 

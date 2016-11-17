@@ -29,9 +29,22 @@ export default Ember.Controller.extend({
       });
     },
     destroyStaticBlock() {
-      const clause = this.get('model.clause');
       this.transitionToRoute('library.fullClause.builder');
       this.get('model').destroyRecord();
+    },
+    destroyCheckboxBlock() {
+      this.transitionToRoute('library.fullClause.builder');
+      let checkboxes = this.get('model.blockCheckboxes');
+      let choices = this.get('model.blockCheckboxChoices');
+      checkboxes.forEach((checkbox) => {
+        checkbox.destroyRecord();
+      }).then(() => {
+        choices.forEach((choice) => {
+          choice.destroyRecord();
+        }).then(() => {
+          this.get('model').destroyRecord();
+        });
+      });
     },
     rebuildMenu() {
       this.send('toggleRebuildMenu');

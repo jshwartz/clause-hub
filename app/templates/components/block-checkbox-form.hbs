@@ -24,7 +24,14 @@
   <p>{{model.title}}</p>
   <label class="mylabel">Help hover text</label>
   <p>{{model.helpText}}</p>
-  <p class=""><a href='#' {{action 'editBlock'}}>Edit</a></p>
+  <p class=""><a href='#' {{action 'editBlock'}}>Edit</a>
+  <a href='#' {{action 'deleteConfirm'}}>Delete</a></p>
+  {{#if deleteMessage}}
+    <div class="ui message transition">
+      <i class="close icon" {{action 'cancelDelete'}}></i>
+      This will delete the entire block. Are you sure?<p><a href='#' {{action 'destroyBlock'}}>Confirm Delete</a></p>
+    </div>
+  {{/if}}
 {{/if}}
 
   <h3 class="ui dividing header">Checkboxes</h3>
