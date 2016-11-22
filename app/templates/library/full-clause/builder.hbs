@@ -35,11 +35,11 @@
       </div>
 
       {{#ember-wormhole to="destination"}}
-      {{#ui-modal name="block" class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
+      {{#ui-modal name="block" autofocus=false class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
         <i class="close icon"></i>
         {{#if newBlockMenu}}
           <div class="content">
-            <p>Choose Block Type</p>
+            <p autofocus>Choose Block Type</p>
             <p><button class="fluid ui teal button" {{action 'openNewStatic'}}>Static Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewToggle'}}>Toggle Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewDropdown'}}>Dropdown Block</button></p>
