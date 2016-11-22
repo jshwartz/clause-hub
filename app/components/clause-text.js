@@ -15,7 +15,7 @@ export default Ember.Component.extend({
         const type = block.get('type');
         const orderNumber = block.get('orderNumber');
         let highlightBlock = false;
-        if (activeBlock === parseInt(block.get('id'))) {
+        if (activeBlock === block.get('id')) {
           highlightBlock = true;
         }
         let text = '';

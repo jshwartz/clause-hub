@@ -32,7 +32,7 @@ export default Ember.Component.extend({
       this.validate();
       if (this.get('hasErrors')) {
         this.set('errorMessage', true);
-        return;
+        return false;
       }
       this.get('saveBlock')(this.getProperties(['staticText']));
       this.set('errorMessage', false);

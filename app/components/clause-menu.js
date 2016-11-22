@@ -99,8 +99,7 @@ export default Ember.Component.extend({
       });
     },
     sendActiveBlock(blockID) {
-      this.set('activeBlock', parseInt(blockID));
-      console.log(blockID);
+      this.set('activeBlock', blockID);
     }
   }
 

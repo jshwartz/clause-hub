@@ -11,6 +11,7 @@
       deleteDropdown=(action 'deleteDropdown')
       createNewDropdown=(action 'createNewDropdown')
       saveBlock=(action 'saveBlock')
+      destroyBlock=(action 'destroyDropdownBlock')
       cancelEditing=(action (mut isEditing))}}
   {{else if toggleTrue}}
     {{block-toggle-form model=model rebuildMenu=(action 'rebuildMenu') destroyBlock=(action 'destroyStaticBlock') rebuildText=(action 'rebuildText') class="block-form" saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}

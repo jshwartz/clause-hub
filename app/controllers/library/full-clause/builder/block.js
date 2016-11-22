@@ -46,6 +46,15 @@ export default Ember.Controller.extend({
         });
       });
     },
+    destroyDropdownBlock() {
+      this.transitionToRoute('library.fullClause.builder');
+      let dropdowns = this.get('model.blockDropdowns');
+      dropdowns.forEach((dropdown) => {
+        dropdown.destroyRecord();
+      }).then(() => {
+        this.get('model').destroyRecord();
+      });
+    },
     rebuildMenu() {
       this.send('toggleRebuildMenu');
     },
@@ -56,7 +65,7 @@ export default Ember.Controller.extend({
     createNewDropdown(properties) {
       const model = this.get('model');
       const orderNumber = this.get('model.blockDropdowns.length') + 1;
-      const newDropdown = this.get('store').createRecord('block-dropdown', {
+      const newDropdown = this.get('store').createRecord('blockDropdown', {
         menuText: properties.newMenuTitle,
         text: properties.newText,
         defaultTrue: false,

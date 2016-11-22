@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   newBlockStatic: false,
   newBlockToggle: false,
   newBlockCheckbox: false,
+  newBlockDropdown: false,
   staticText: null,
   title: null,
   helpText: null,
@@ -71,6 +72,22 @@ export default Ember.Controller.extend({
       orderNumber: orderNumber,
     });
     newToggleBlock.save()
+      .then(() => {
+        this.get('model').save();
+      })
+      .catch(error => {
+        console.error("Error saving player", error);
+      });
+  },
+  createDropdownBlock() {
+    const orderNumber = this.get('model.blocks.length') + 1;
+    const newDropdownBlock = this.get('store').createRecord('block', {
+      title: this.get('title'),
+      type: "dropdown",
+      clause: this.get('model'),
+      orderNumber: orderNumber,
+    });
+    newDropdownBlock.save()
       .then(() => {
         this.get('model').save();
       })
@@ -223,19 +240,30 @@ export default Ember.Controller.extend({
       this.set('newBlockMenu', false);
       this.set('newBlockCheckbox', true);
     },
+    openNewDropdown() {
+      this.set('newBlockMenu', false);
+      this.set('newBlockDropdown', true);
+    },
     cancelNewBlock() {
       this.set('newBlockMenu', true);
       this.set('newBlockStatic', false);
       this.set('newBlockToggle', false);
       this.set('newBlockCheckbox', false);
+      this.set('newBlockDropdown', false);
       this.set('errorMessage', false);
       this.set('staticText', null);
       this.set('title', null);
       this.set('helpText', null);
       this.set('errors.staticText', false);
+      this.set('errors.title', false);
     },
     createBlock() {
       if (this.get('newBlockStatic')) {
+        this.validateStatic();
+        if (this.get('hasStaticErrors')) {
+          this.set('errorMessage', true);
+          return false;
+        }
         this.createStaticBlock();
       } else if (this.get('newBlockToggle')) {
         this.validateToggle();
@@ -251,6 +279,13 @@ export default Ember.Controller.extend({
           return false;
         }
         this.createCheckboxBlock();
+      } else if (this.get('newBlockDropdown')) {
+        this.validateMenuTitle();
+        if (this.get('hasMenuTitleErrors')) {
+          this.set('errorMessage', true);
+          return false;
+        }
+        this.createDropdownBlock();
       }
 
     },

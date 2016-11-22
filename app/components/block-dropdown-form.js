@@ -15,6 +15,7 @@ export default Ember.Component.extend({
   newText: null,
   dropdownHasErrors: Ember.computed.not('hasValidNewMenuTitle'),
   dropdownErrorMessage: false,
+  deleteMessage: false,
 
   dropdownBuild: Ember.observer('rebuildDropdowns', function(){
     const dropdowns = this.get('model.blockDropdowns');
@@ -104,8 +105,11 @@ export default Ember.Component.extend({
     cancelNewDropdown() {
       this.set('newMenuTitle', null);
       this.set('newText', null);
+      this.set('dropdownErrorMessage', false);
+      this.set('dropdownErrors', false);
     },
     createNewDropdown() {
+      console.log('block form')
       this.dropdownValidate();
       if (this.get('dropdownHasErrors')) {
         this.set('dropdownErrorMessage', true);
@@ -115,6 +119,15 @@ export default Ember.Component.extend({
     },
     deleteDropdown(dropdown){
       this.get('deleteDropdown')(dropdown);
+    },
+    deleteConfirm() {
+      this.set('deleteMessage', true);
+    },
+    cancelDelete() {
+      this.set('deleteMessage', false);
+    },
+    destroyBlock() {
+      this.get('destroyBlock')();
     }
 
   }

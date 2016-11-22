@@ -11,7 +11,6 @@
         <a class="item" {{action "toggleBlockTab"}}>Preview</a>
       </div>
       {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
-        <p class="explain-text">Showing default text in each block.</p>
         {{#each sortedBlocks as |block|}}
           {{#sortable-item tagName="div" model=block group=group handle=".handle"}}
             <div class="ui teal fluid card">
@@ -19,13 +18,10 @@
                 <div class="meta">Block {{block.orderNumber}} ({{block.type}}) <i class="resize vertical icon ui right floated handle"></i></div>
                 <div class="description">
                   {{#link-to 'library.fullClause.builder.block' block tagName="div" class="block-link"}}
-                  {{block.staticText}}
-                  {{#each block.blockDropdowns as |dropdown|}}
-                    {{#if dropdown.defaultTrue}}{{dropdown.text}}{{/if}}
-                  {{/each}}
-                  {{#each block.blockCheckboxChoices as |choice|}}
-                    {{#if choice.defaultTrue}}{{choice.text}}{{/if}}
-                  {{/each}}
+                    {{#if block.staticText}}
+                      {{block.staticText}}
+                    {{/if}}
+                    {{block.title}}
                   {{/link-to}}
                 </div>
               </div>
@@ -37,6 +33,8 @@
         <div class="visible content"><i class="plus icon"></i></div>
         <div class="hidden content">Create New Block</div>
       </div>
+
+      {{#ember-wormhole to="destination"}}
       {{#ui-modal name="block" class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
         <i class="close icon"></i>
         {{#if newBlockMenu}}
@@ -44,7 +42,7 @@
             <p>Choose Block Type</p>
             <p><button class="fluid ui teal button" {{action 'openNewStatic'}}>Static Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewToggle'}}>Toggle Block</button></p>
-            <p><button class="fluid ui teal button">Dropdown Block</button></p>
+            <p><button class="fluid ui teal button" {{action 'openNewDropdown'}}>Dropdown Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewCheckbox'}}>Checkblock Block</button></p>
           </div>
         {{else if newBlockStatic}}
@@ -129,8 +127,36 @@
               Create
             </div>
           </div>
+          {{else if newBlockDropdown}}
+            <div class="content">
+              <h3 class="ui dividing header">
+                <div class="ui sub header">new dropdown block</div>
+              </h3>
+              <div class={{if errorMessage "ui error form" "ui form"}}>
+                <div class="ui error message">
+                  <p>{{errors.title}}</p>
+                </div>
+                <div class={{if errors.title "field error required" "field required"}}>
+                  <label>Menu title</label>
+                  {{one-way-input value=title update=(action (mut title))}}
+                </div>
+                <div class="field">
+                  <label>Help hover text</label>
+                  {{one-way-input value=helpText update=(action (mut helpText))}}
+                </div>
+              </div>
+            </div>
+            <div class="actions">
+              <div class="ui deny button">
+                Cancel
+              </div>
+              <div class="ui teal approve button">
+                Create
+              </div>
+            </div>
         {{/if}}
       {{/ui-modal}}
+      {{/ember-wormhole}}
 
     {{else}}
     <div class="ui tabular menu">

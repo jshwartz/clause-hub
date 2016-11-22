@@ -11,7 +11,7 @@
         <label>Static Text</label>
         {{one-way-textarea value=staticText update=(action (mut staticText))}}
       </div>
-      <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+      <button class="ui mini teal button" {{action 'saveBlock'}}>Save</button>
       <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
     </div>
   {{else}}
