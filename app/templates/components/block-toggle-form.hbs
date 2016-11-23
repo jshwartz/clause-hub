@@ -20,7 +20,7 @@
         <label>Text</label>
         {{one-way-textarea value=staticText update=(action (mut staticText))}}
       </div>
-      <button class="ui mini green button" {{action 'saveBlock'}}>Save</button>
+      <button class="ui mini teal button" {{action 'saveBlock'}}>Save</button>
       <button class="ui mini button" {{action 'cancelEditing'}}>Cancel</button>
     </div>
   {{else}}
@@ -30,7 +30,7 @@
     <p>{{model.helpText}}</p>
     <label class="mylabel">Text</label>
     <p>{{model.staticText}}</p>
-    <p class=""><a href='#' {{action 'editBlock'}}>Edit</a> | <a href='#' {{action 'toggleDefault'}}>Default On/Off</a> | <a href='#' {{action 'deleteConfirm'}}>Delete</a></p>
+    <p class=""><a href='#' {{action 'editBlock'}}>Edit</a> | {{#if model.defaultTrue}}<a href='#' {{action 'defaultOff'}}>Default Off</a>{{else}}<a href='#' {{action 'defaultOn'}}>Default On</a>{{/if}} | <a href='#' {{action 'deleteConfirm'}}>Delete</a></p>
     {{#if deleteMessage}}
       <div class="ui message transition">
         <i class="close icon" {{action 'cancelDelete'}}></i>

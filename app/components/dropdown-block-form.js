@@ -9,6 +9,8 @@ export default Ember.Component.extend({
   hasValidMenuText: Ember.computed.notEmpty('menuText'),
   sortBy: ['orderNumber'],
   hasErrors: Ember.computed.not('hasValidMenuText'),
+  deleteMessage: false,
+
 
   setupErrors: Ember.on('init', function() {
     this.set('errors', Ember.Object.create());
@@ -52,13 +54,20 @@ export default Ember.Component.extend({
       this.resetBlockData();
       this.set('isEditing', false);
       this.set('errorMessage', false);
+      this.set('errors.title', null);
     },
     setDefault()  {
       this.get('setDefault')(this.get('model'));
     },
     deleteDropdown() {
       this.get('deleteDropdown')(this.get('model'));
-    }
+    },
+    deleteConfirm() {
+      this.set('deleteMessage', true);
+    },
+    cancelDelete() {
+      this.set('deleteMessage', false);
+    },
 
   }
 

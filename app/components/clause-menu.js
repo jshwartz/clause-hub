@@ -40,12 +40,14 @@ export default Ember.Component.extend({
           let checkboxArray = [];
           block.get('blockCheckboxes').then(function(checkboxes) {
             checkboxes.forEach( (checkbox) => {
-              const checkboxOrderNumber = checkbox.get('orderNumber');
-              const selected = checkbox.get('selected');
-              const menuText = checkbox.get('menuText');
-              const block = checkbox.get('block.id');
-              const id = checkbox.get('id');
-              checkboxArray.addObject({selected: selected, checkboxOrderNumber: checkboxOrderNumber, menuText: menuText, id: id, block: block});
+              if (checkbox.get('active')) {
+                const checkboxOrderNumber = checkbox.get('orderNumber');
+                const selected = checkbox.get('selected');
+                const menuText = checkbox.get('menuText');
+                const block = checkbox.get('block.id');
+                const id = checkbox.get('id');
+                checkboxArray.addObject({selected: selected, checkboxOrderNumber: checkboxOrderNumber, menuText: menuText, id: id, block: block});
+              }
             });
             result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, checkbox: true, choices: checkboxArray, blockID: blockID});
           });

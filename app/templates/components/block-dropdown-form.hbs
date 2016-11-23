@@ -52,6 +52,7 @@
       <div class="visible content"><i class="plus icon"></i></div>
       <div class="hidden content">Create New Dropdown</div>
     </div>
+
     {{#ui-modal name="dropdown" class="dropdown small" onHidden=(action 'cancelNewDropdown') onApprove=(action 'createNewDropdown')}}
       <i class="close icon"></i>
         <div class="content">

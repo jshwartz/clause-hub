@@ -78,6 +78,7 @@ export default Ember.Component.extend({
       this.resetBlockData();
       this.set('isEditing', false);
       this.set('errorMessage', false);
+      this.set('errors.title', null);
     },
     rebuildText() {
       this.get('rebuildText')();

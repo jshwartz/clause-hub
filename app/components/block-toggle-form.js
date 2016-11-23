@@ -58,9 +58,14 @@ export default Ember.Component.extend({
       this.set('isEditing', false);
       this.set('errorMessage', false);
     },
-    toggleDefault() {
-      this.toggleProperty('model.defaultTrue');
-      this.toggleProperty('model.selected');
+    defaultOn() {
+      this.set('model.defaultTrue', true);
+      this.set('model.selected', true);
+      this.model.save();
+    },
+    defaultOff() {
+      this.set('model.defaultTrue', false);
+      this.set('model.selected', false);
       this.model.save();
     },
     deleteConfirm() {

@@ -70,6 +70,8 @@ export default Ember.Controller.extend({
       type: "toggle",
       clause: this.get('model'),
       orderNumber: orderNumber,
+      defaultTrue: false,
+      selected: false,
     });
     newToggleBlock.save()
       .then(() => {

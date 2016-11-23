@@ -45,6 +45,7 @@ export default Ember.Component.extend({
       this.resetBlockData();
       this.set('isEditing', false);
       this.set('errorMessage', false);
+      this.set('errors.staticText', null);
     },
     deleteConfirm() {
       this.set('deleteMessage', true);

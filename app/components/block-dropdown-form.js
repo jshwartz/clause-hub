@@ -106,10 +106,9 @@ export default Ember.Component.extend({
       this.set('newMenuTitle', null);
       this.set('newText', null);
       this.set('dropdownErrorMessage', false);
-      this.set('dropdownErrors', false);
+      this.set('dropdownErrors.title', null);
     },
     createNewDropdown() {
-      console.log('block form')
       this.dropdownValidate();
       if (this.get('dropdownHasErrors')) {
         this.set('dropdownErrorMessage', true);
