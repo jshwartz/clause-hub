@@ -10,6 +10,6 @@ export default DS.Model.extend({
   type: DS.attr('string'),
   createdBy: DS.attr('string'),
   lastUpdatedBy: DS.attr('string'),
-
+  readmeMD: DS.attr('string'),
 
 });

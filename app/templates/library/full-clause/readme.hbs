@@ -1,1 +1,65 @@
-{{outlet}}
+<div class="ui grid">
+  <div class="ten wide column">
+    {{#if isEditing}}
+      <div class="ui raised segment">
+        <div class="ui top attached label">README <a href="#" {{action 'cancelEdit'}}> &nbsp;&nbsp; (Cancel Edit)</a></div>
+        {{#if editMessage}}
+          <div class="ui info message">
+            <i class="close icon" {{action 'closeEditMessage'}}></i>
+            The README doc accepts HTML formatting. We don't yet have a built-in HTML editor, but in the meantime, we recommend copying and pasting the HTML below into a free online editor, like <a href="https://html-online.com/" target="_blank"> HTML Online.</a>
+          </div>
+          <div class="ui hidden divider"></div>
+        {{/if}}
+        <div class="ui right-aligned">
+          <button class="ui mini teal button" {{action 'saveReadme'}}>Save</button>
+          <button class="ui mini button" {{action 'cancelEdit'}}>Cancel</button>
+        </div>
+        <div class="ui form">
+          <div class="field">
+            <label>Edit README (HTML):</label>
+            {{one-way-textarea rows=30 value=readmeTemp update=(action (mut readmeTemp))}}
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <div class="ui raised segment">
+        <div class="ui top attached label">README <a href="#" {{action 'openEdit'}}> &nbsp;&nbsp; (Edit)</a></div>
+        {{{model.readmeMD}}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="six wide column">
+    <div class="ui card">
+      <div class="ui top attached label">Info</div>
+      <div class="image">
+        <img src="http://immixlaw.com/wp-content/uploads/2016/09/JacobShwartz.jpg">
+      </div>
+      <div class="content">
+        <div class="meta">Owner</div>
+        Jacob Shwartz
+      </div>
+      <div class="content">
+        <div class="meta">Contributors</div>
+        <div class="description">
+          <div class="ui large labels">
+            <a class="ui basic image label"><img src="http://immixlaw.com/wp-content/uploads/2016/09/JacobShwartz.jpg"> Jacob</a>
+            <a class="ui basic image label"><img src="http://immixlaw.com/wp-content/uploads/2016/09/JacobShwartz.jpg"> Jacob</a>
+            <a class="ui basic image label"><img src="http://immixlaw.com/wp-content/uploads/2016/09/JacobShwartz.jpg"> Jacob</a>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="meta">Tags</div>
+        <div class="description">
+          <div class="ui small tag labels">
+            <a class="ui green label">OR Vetted</a>
+            <a class="ui green label">WA Vetted</a>
+            <a class="ui label">Risk Allocation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
