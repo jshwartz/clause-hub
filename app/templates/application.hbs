@@ -7,47 +7,81 @@
       ClauseHub
     </div>
     {{#link-to 'library' class='item'}}Library{{/link-to}}
-    <div class="ui right dropdown item">
-      Menu
-      <i class="dropdown icon"></i>
-      <div class="menu">
-        <div class="item">Applications</div>
-        <div class="item">International Students</div>
-        <div class="item">Scholarships</div>
-      </div>
-    </div>
+    {{#if session.isAuthenticated}}
+      <div class="ui right item" {{action 'signOut'}}>Sign-Out</div>
+    {{else if session.isWorking}}
+      <div class="ui right item"><i>Signing In</i></div>
+    {{else}}
+      <div class="ui right item" {{action 'openSignIn'}}>Sign-In</div>
+    {{/if}}
+
   </div>
-  <div class="ui flowing basic admission popup">
-    <div class="ui three column relaxed divided grid">
-      <div class="column">
-        <h4 class="ui header">Business</h4>
-        <div class="ui link list">
-          <a class="item">Design &amp; Urban Ecologies</a>
-          <a class="item">Fashion Design</a>
-          <a class="item">Fine Art</a>
-          <a class="item">Strategic Design</a>
-        </div>
-      </div>
-      <div class="column">
-        <h4 class="ui header">Liberal Arts</h4>
-        <div class="ui link list">
-          <a class="item">Anthropology</a>
-          <a class="item">Economics</a>
-          <a class="item">Media Studies</a>
-          <a class="item">Philosophy</a>
-        </div>
-      </div>
-      <div class="column">
-        <h4 class="ui header">Social Sciences</h4>
-        <div class="ui link list">
-          <a class="item">Food Studies</a>
-          <a class="item">Journalism</a>
-          <a class="item">Non Profit Management</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
   </div>
   <div class="ui container">
   {{outlet}}
 </div>
+
+{{#ui-modal name="sign-in" autofocus=false class="sign-in small" onApprove=(action 'signInUp' 'password')}}
+  <i class="close icon"></i>
+  {{#if signInModal}}
+    <div class="content">
+      <form class="ui form">
+        <div class="field">
+          <label>Email</label>
+          {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
+        </div>
+        <div class="field">
+          <label>Password</label>
+          {{one-way-input value=password type="password" placeholder="Password" update=(action (mut password))}}
+        </div>
+      </form>
+      Don't have an account? <a href="#" {{action 'changeToSignUp'}}>Sign-up here!</a>
+    </div>
+    <div class="actions">
+      <div class="ui deny button">
+        Cancel
+      </div>
+      <div class="ui teal approve button">
+        Sign-In
+      </div>
+    </div>
+  {{else}}
+    <div class="content">
+      <form class="ui form">
+        <div class="two fields">
+          <div class="field">
+            <label>First Name</label>
+            {{one-way-input value=firstName placeholder="First Name" update=(action (mut email))}}
+          </div>
+          <div class="field">
+            <label>Last Name</label>
+            {{one-way-input value=lastName placeholder="Last Name" update=(action (mut email))}}
+          </div>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>Password</label>
+            {{one-way-input value=password type="password" placeholder="Password" update=(action (mut password))}}
+          </div>
+          <div class="field">
+            <label>Re-Type Password</label>
+            {{one-way-input value=passwordCheck type="password" placeholder="Re-Type Password" update=(action (mut passwordCheck))}}
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui deny button">
+        Cancel
+      </div>
+      <div class="ui teal approve button">
+        Sign-Up!
+      </div>
+    </div>
+  {{/if}}
+{{/ui-modal}}

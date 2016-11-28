@@ -47,6 +47,7 @@
     "ember-wormhole": "0.5.1",
     "emberfire": "2.0.4",
     "loader.js": "^4.0.1",
-    "semantic-ui-ember": "2.0.0-beta.2"
+    "semantic-ui-ember": "2.0.0-beta.2",
+    "torii": "0.8.1"
   }
 }
