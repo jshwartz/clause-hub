@@ -49,14 +49,36 @@
         </div>
       </div>
       <div class="content">
-        <div class="meta">Tags</div>
+        <div class="meta">Public Tags</div>
         <div class="description">
           <div class="ui small tag labels">
-            <a class="ui green label">OR Vetted</a>
-            <a class="ui green label">WA Vetted</a>
-            <a class="ui label">Risk Allocation</a>
+            {{#each model.tags as |tag|}}
+            <a class="ui label">{{tag.name}}<i class="delete icon" {{action 'removeTag' tag}}></i></a>
+            {{/each}}
           </div>
         </div>
+      </div>
+      <div class="extra content">
+        <form class="ui form">
+          <div class="field">
+            {{#ui-dropdown class="search selection" allowAdditions=true onShow=(action 'resetTagDropdown') fullTextSearch=true selected=selectedTag onNoResults=(action 'showNewTag') onChange=(action 'handleTagDropdown') as |execute mapper|}}
+              <div class="default text">Search or Create Tags</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                {{#each tags as |tag|}}
+                  <div class="item" data-value="{{tag.id}}">
+                    {{tag.name}}
+                  </div>
+                {{/each}}
+              </div>
+            {{/ui-dropdown}}
+          </div>
+          {{#if newTagButton}}
+            <button class="ui mini teal basic button" {{action 'createTag'}}>Create and Add New Tag</button>
+          {{else}}
+            <button class="ui mini basic button" {{action 'addTag'}}>Add Tag</button>
+          {{/if}}
+        </form>
       </div>
     </div>
 

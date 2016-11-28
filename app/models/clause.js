@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   blocks: DS.hasMany('block'),
+  tags: DS.hasMany('tag'),
   name: DS.attr('string'),
   title: DS.attr('string'),
   createdAt: DS.attr('date', {
