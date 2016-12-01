@@ -7,13 +7,18 @@
       ClauseHub
     </div>
     {{#link-to 'library' class='item'}}Library{{/link-to}}
-    {{#if session.isAuthenticated}}
-      <div class="ui right item" {{action 'signOut'}}>Sign-Out</div>
-    {{else if session.isWorking}}
-      <div class="ui right item"><i>Signing In</i></div>
-    {{else}}
-      <div class="ui right item" {{action 'openSignIn'}}>Sign-In</div>
-    {{/if}}
+    <div class="right menu">
+      {{#if session.isAuthenticated}}
+        <div class="ui item" {{action 'signOut'}}>Hello {{currentUser.firstName}}</div>
+      {{else if session.isWorking}}
+        <div class="ui item"><i>Signing In</i></div>
+      {{else}}
+        <a class="ui item" {{action 'openSignIn'}}>Log-In</a>
+        <div class="ui item"><div class="ui mini compact yellow button" {{action 'openSignUp'}}>Sign-Up!</div></div>
+
+      {{/if}}
+    </div>
+
 
   </div>
 
@@ -22,66 +27,96 @@
   {{outlet}}
 </div>
 
-{{#ui-modal name="sign-in" autofocus=false class="sign-in small" onApprove=(action 'signInUp' 'password')}}
+{{#ui-modal name="sign-in" autofocus=false class="sign-in small" onHidden=(action 'onHidden') onApprove=(action 'signInUp' 'password')}}
   <i class="close icon"></i>
   {{#if signInModal}}
+  <div class="header">Hello again!</div>
     <div class="content">
-      <form class="ui form">
-        <div class="field">
+      <form class={{if errorMessage "ui error form" "ui form"}}>
+        <div class="ui error message">
+          <p>{{errors.email}}</p>
+          <p>{{errors.password}}</p>
+          <p>{{errors.server}}</p>
+        </div>
+        <div class={{if errors.email "field error required" "field required"}}>
           <label>Email</label>
           {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
         </div>
-        <div class="field">
+        <div class={{if errors.password "field error required" "field required"}}>
           <label>Password</label>
           {{one-way-input value=password type="password" placeholder="Password" update=(action (mut password))}}
         </div>
+        <p>Don't have an account? <a href="#" {{action 'changeToSignUp'}}>Sign-up here!</a></p>
+
       </form>
-      Don't have an account? <a href="#" {{action 'changeToSignUp'}}>Sign-up here!</a>
     </div>
     <div class="actions">
       <div class="ui deny button">
         Cancel
       </div>
-      <div class="ui teal approve button">
+      {{#if session.isWorking}}
+      <div class="ui teal approve loading button">
         Sign-In
       </div>
+      {{else}}
+        <div class="ui teal approve button">
+          Sign-In
+        </div>
+      {{/if}}
     </div>
   {{else}}
+    <div class="header">Welcome! Let's get you started.</div>
     <div class="content">
-      <form class="ui form">
+      <form class={{if errorMessage "ui error form" "ui form"}}>
+        <div class="ui error message">
+          <p>{{errors.firstName}}</p>
+          <p>{{errors.lastName}}</p>
+          <p>{{errors.email}}</p>
+          <p>{{errors.passwordMatch}}</p>
+          <p>{{errors.password}}</p>
+          <p>{{errors.server}}</p>
+        </div>
         <div class="two fields">
-          <div class="field">
+          <div class={{if errors.firstName "field error required" "field required"}}>
             <label>First Name</label>
-            {{one-way-input value=firstName placeholder="First Name" update=(action (mut email))}}
+            {{one-way-input value=firstName placeholder="First Name" update=(action (mut firstName))}}
           </div>
-          <div class="field">
+          <div class={{if errors.lastName "field error required" "field required"}}>
             <label>Last Name</label>
-            {{one-way-input value=lastName placeholder="Last Name" update=(action (mut email))}}
+            {{one-way-input value=lastName placeholder="Last Name" update=(action (mut lastName))}}
           </div>
         </div>
-        <div class="field">
+        <div class={{if errors.email "field error required" "field required"}}>
           <label>Email</label>
           {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
         </div>
         <div class="two fields">
-          <div class="field">
+          <div class={{if errors.password "field error required" "field required"}}>
             <label>Password</label>
             {{one-way-input value=password type="password" placeholder="Password" update=(action (mut password))}}
           </div>
-          <div class="field">
+          <div class={{if errors.passwordMatch "field error required" "field required"}}>
             <label>Re-Type Password</label>
             {{one-way-input value=passwordCheck type="password" placeholder="Re-Type Password" update=(action (mut passwordCheck))}}
           </div>
         </div>
+        <p><a href="#" {{action 'changeToSignIn'}}>I already have account</a></p>
       </form>
     </div>
     <div class="actions">
       <div class="ui deny button">
         Cancel
       </div>
-      <div class="ui teal approve button">
-        Sign-Up!
+      {{#if signingUpWorking}}
+      <div class="ui yellow approve loading button">
+        Sign-Up
       </div>
+      {{else}}
+        <div class="ui yellow approve button">
+          Sign-Up
+        </div>
+      {{/if}}
     </div>
   {{/if}}
 {{/ui-modal}}
+{{log session.currentUser.uid}}
