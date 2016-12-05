@@ -1,8 +1,20 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  metadata: DS.attr(),
   blocks: DS.hasMany('block'),
   tags: DS.hasMany('tag'),
+  canWriteUsers: DS.hasMany('user', {
+    inverse: 'canWriteClauses'
+  }),
+  canReadUsers: DS.hasMany('user', {
+    inverse: 'canReadClauses'
+  }),
+  owner: DS.belongsTo('user', {
+    inverse: 'ownsClauses'
+  }),
+
+
   name: DS.attr('string'),
   title: DS.attr('string'),
   createdAt: DS.attr('date', {

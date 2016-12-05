@@ -1,10 +1,13 @@
 
 <h2>{{model.name}}</h2>
 
-<div class="ui four item block menu">
+<div class={{if userCanWrite "ui four item block menu" "ui two item block menu"}}>
   {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
   {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
-  {{#link-to 'library.fullClause.builder' class="item"}}Builder{{/link-to}}
-  <a class="item">Sharing</a>
+  {{#if userCanWrite}}
+    {{#link-to 'library.fullClause.builder' class="item"}}Builder{{/link-to}}
+    {{#link-to 'library.fullClause.sharing' class="item"}}Sharing{{/link-to}}
+  {{/if}}
+
 </div>
 {{outlet}}

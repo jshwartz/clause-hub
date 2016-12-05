@@ -5,5 +5,6 @@ export default Ember.Route.extend({
     this.render('library/full-clause', {
       into: 'application',
     });
-  }
+  },
+
 });

@@ -1,17 +1,69 @@
-<h1>Clause Library</h1>
+<h1>Clause Library
+<div class="ui teal button" {{action 'openClauseModal'}}>
+  New Clause
+</div></h1>
 <div class="ui cards">
   {{#each model as |clause|}}
-    {{#link-to "library.fullClause.dashboard" clause class="ui card"}}
-    <div class="ui card">
+    <div class="ui raised link card">
       <div class="content">
-        <div class="header">{{clause.title}}</div>
-        <div class="description">
-          <p></p>
+        <i class="right floated star icon"></i>
+        {{#link-to "library.fullClause.dashboard" clause class="header"}}
+          {{clause.metadata.title}}
+        {{/link-to}}
+        {{#link-to "library.fullClause.dashboard" clause class="meta"}}
+          <p><span class="left floated">Last Updated</span><span class="right floated">{{moment-from-now clause.metadata.lastModified}}</span></p>
+        {{/link-to}}
+        {{#link-to "library.fullClause.dashboard" clause class="description"}}
+          <div class="ui hidden clearing divider"></div>
+          <p>{{clause.metadata.subTitle}}</p>
+        {{/link-to}}
+      </div>
+      <div class="extra content">
+        <div class="left floated">Owner</div>
+        <div class="right floated author">
+          <img class="ui avatar image" src="http://immixlaw.com/wp-content/uploads/2016/09/JacobShwartz.jpg"> Jake
         </div>
       </div>
     </div>
-    {{/link-to}}
   {{/each}}
 </div>
+
+{{#ember-wormhole to="destination"}}
+{{#ui-modal name="clause" autofocus=false class="clause small" onHidden=(action 'cancelNewClause') onApprove=(action 'createClause')}}
+  <i class="close icon"></i>
+    <div class="content">
+      <h3 class="ui dividing header">
+        <div class="ui sub header">new clause</div>
+      </h3>
+      <div class={{if errorMessage "ui error form" "ui form"}}>
+        <div class="ui error message">
+          <p>{{errors.title}}</p>
+          <p>{{errors.subTitle}}</p>
+        </div>
+        <div class={{if errors.title "field error required" "field required"}}>
+          <label>Clause title</label>
+          {{one-way-input value=title placeholder="Title for use within ClauseHub" update=(action (mut title))}}
+        </div>
+        <div class={{if errors.subTitle "field error required" "field required"}}>
+          <label>Sub-title</label>
+          {{one-way-input value=subTitle placeholder="Short description of clause" update=(action (mut subTitle))}}
+        </div>
+        <div class="field">
+          <label>Heading</label>
+          {{one-way-input value=heading placeholder="Header for use in clause" update=(action (mut heading))}}
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui deny button">
+        Cancel
+      </div>
+      <div class="ui teal approve button">
+        Create
+      </div>
+    </div>
+  {{/ui-modal}}
+  {{/ember-wormhole}}
+
 
 {{outlet}}

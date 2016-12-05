@@ -23,7 +23,7 @@
       </div>
     {{else}}
       <div class="ui raised segment">
-        <div class="ui top attached label">README <a href="#" {{action 'openEdit'}}> &nbsp;&nbsp; (Edit)</a></div>
+        <div class="ui top attached label">README {{#if userCanWrite}}<a href="#" {{action 'openEdit'}}> &nbsp;&nbsp; (Edit)</a>{{/if}}</div>
         {{{model.readmeMD}}}
       </div>
     {{/if}}

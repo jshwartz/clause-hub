@@ -48,7 +48,6 @@ export default Ember.Controller.extend({
       const userID = this.get('session.currentUser.uid');
       return this.get('store').findRecord('user', userID );
     }
-    console.log(this.get('session.currentUser.uid'));
     return null;
   }),
 

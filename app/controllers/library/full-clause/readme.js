@@ -8,6 +8,8 @@ export default Ember.Controller.extend({
   selectedTag: null,
   selectedTagId: null,
   tags: null,
+  fullClauseController: Ember.inject.controller('library.fullClause'),
+  userCanWrite: Ember.computed.reads('fullClauseController.userCanWrite'),
 
   init() {
     let tags = this.store.findAll('tag');

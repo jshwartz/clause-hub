@@ -5,7 +5,15 @@ export default DS.Model.extend({
   firstName: DS.attr(),
   lastName: DS.attr(),
   email: DS.attr(),
-  clauses: DS.hasMany('clause'),
+  canWriteClauses: DS.hasMany('clause', {
+    inverse: 'canWriteUsers'
+  }),
+  canReadClauses: DS.hasMany('clause', {
+    inverse: 'canReadUsers'
+  }),
+  ownsClauses: DS.hasMany('clause', {
+    inverse: 'owner'
+  }),
   verified: DS.attr('boolean', { defaultValue: false }),
   createdAt: DS.attr('date', {
     defaultValue() { return new Date(); }

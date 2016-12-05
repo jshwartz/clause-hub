@@ -15,6 +15,7 @@ Router.map(function() {
       });
       this.route('readme');
       this.route('dashboard');
+      this.route('sharing');
     });
   });
 });
