@@ -1,13 +1,22 @@
 
-<h2>{{model.name}}</h2>
-
-<div class={{if userCanWrite "ui four item block menu" "ui two item block menu"}}>
-  {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
-  {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
-  {{#if userCanWrite}}
+<h2 class="ui header">{{model.metadata.title}}<div class="sub header">{{model.metadata.subTitle}}</div></h2>
+{{#if userCanWrite}}
+  <div class="ui three item block menu">
+    {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
+    {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
     {{#link-to 'library.fullClause.builder' class="item"}}Builder{{/link-to}}
-    {{#link-to 'library.fullClause.sharing' class="item"}}Sharing{{/link-to}}
-  {{/if}}
-
-</div>
+  </div>
+{{else if userAdmin}}
+  <div class="ui four item block menu clause-menu">
+    {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
+    {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
+    {{#link-to 'library.fullClause.builder' class="item"}}Builder{{/link-to}}
+    {{#link-to 'library.fullClause.sharing' class="item"}}Settings{{/link-to}}
+  </div>
+{{else}}
+  <div class="ui two item block menu">
+    {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
+    {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
+  </div>
+{{/if}}
 {{outlet}}

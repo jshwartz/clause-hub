@@ -11,6 +11,9 @@ export default DS.Model.extend({
   canReadClauses: DS.hasMany('clause', {
     inverse: 'canReadUsers'
   }),
+  adminClauses: DS.hasMany('clause', {
+    inverse: 'adminUsers'
+  }),
   ownsClauses: DS.hasMany('clause', {
     inverse: 'owner'
   }),

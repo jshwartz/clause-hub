@@ -48,7 +48,6 @@ export default Ember.Controller.extend({
         lastModified: new Date(),
       };
       this.get('store').findRecord('user', this.get('session.currentUser.uid')).then((owner) => {
-        console.log(owner.get('id'));
         const newClause = this.get('store').createRecord('clause', {
           metadata: metadata,
           owner: owner,

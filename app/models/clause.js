@@ -10,6 +10,9 @@ export default DS.Model.extend({
   canReadUsers: DS.hasMany('user', {
     inverse: 'canReadClauses'
   }),
+  adminUsers: DS.hasMany('user', {
+    inverse: 'adminClauses'
+  }),
   owner: DS.belongsTo('user', {
     inverse: 'ownsClauses'
   }),
