@@ -21,19 +21,18 @@ export default Ember.Component.extend({
         let text = '';
         // extract dropdown final text
         if (type === 'dropdown') {
-          block.get('blockDropdowns').then(function(dropdowns) {
-            dropdowns.forEach( (dropdown) => {
-              const dropdownSelected = dropdown.get('selected');
-              const dropdownText = dropdown.get('text');
-              if (dropdownSelected) {
-                if (highlightBlock) {
-                  text = "<span class='text-highlight'>" + dropdownText + "</span'>";
-                } else {
-                  text = dropdownText;
-                }
+          block.get('dropdowns').forEach( (dropdown) => {
+            const dropdownSelected = dropdown.selected;
+            const dropdownText = dropdown.text;
+            if (dropdownSelected) {
+              if (highlightBlock) {
+                text = "<span class='text-highlight'>" + dropdownText + "</span'>";
+                result.addObject({order: orderNumber, text: text});
+              } else {
+                text = dropdownText;
+                result.addObject({order: orderNumber, text: text});
               }
-            });
-            result.addObject({order: orderNumber, text: text});
+            }
           });
           // extract static final text
         } else if (type === 'static') {

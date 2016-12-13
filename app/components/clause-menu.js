@@ -15,27 +15,29 @@ export default Ember.Component.extend({
         const title = block.get('title');
         const helpText = block.get('helpText');
         const blockID = block.get('id');
+
         if (type === "dropdown") {
           let choiceArray = [];
           let selectedOption = "";
-          block.get('blockDropdowns').then(function(dropdowns) {
-            dropdowns.forEach( (dropdown) => {
-              const dropOrderNumber = dropdown.get('orderNumber');
-              const selected = dropdown.get('selected');
-              const menuText = dropdown.get('menuText');
-              const block = dropdown.get('block.id');
-              const id = dropdown.get('id');
-              choiceArray.addObject({dropOrderNumber: dropOrderNumber, menuText: menuText, id: id, block: block});
-              if (selected) {
-                selectedOption = menuText;
-              }
-            });
-            let sortedChoiceArray = choiceArray.sort(function(a, b) {
-              return a.dropOrderNumber-b.dropOrderNumber;
-            });
-            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption, blockID: blockID});
+          block.get('dropdowns').forEach( (dropdown) => {
+            const dropOrderNumber = dropdown.orderNumber;
+            const selected = dropdown.selected;
+            const menuTitle = dropdown.menuTitle;
+            const blockID = block.get('id');
+            choiceArray.addObject({dropOrderNumber: dropOrderNumber, menuTitle: menuTitle, blockID: blockID});
+            if (selected) {
+              selectedOption = menuTitle;
+            }
           });
+
+          let sortedChoiceArray = choiceArray.sort(function(a, b) {
+            return a.dropOrderNumber-b.dropOrderNumber;
+          });
+          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption, blockID: blockID});
+
+
         }
+
         if (type === "checkbox") {
           let checkboxArray = [];
           block.get('blockCheckboxes').then(function(checkboxes) {
@@ -66,12 +68,12 @@ export default Ember.Component.extend({
     updateDropdown: function(choice) {
       const blocks = this.get('model.blocks');
       blocks.forEach( (block) => {
-        if (block.get('id') === choice.block) {
-          block.get('blockDropdowns').forEach( (dropdown) => {
-            if (dropdown.get('id') !== choice.id) {
-              dropdown.set('selected', false);
+        if (block.get('id') === choice.blockID) {
+          block.get('dropdowns').forEach( (dropdown) => {
+            if (dropdown.orderNumber !== choice.dropOrderNumber) {
+              Ember.set(dropdown, 'selected', false);
             } else {
-              dropdown.set('selected', true);
+              Ember.set(dropdown, 'selected', true);
             }
             this.toggleProperty('rebuildText');
           });
