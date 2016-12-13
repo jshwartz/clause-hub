@@ -41,9 +41,9 @@
   </div>
 
     {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
-      {{#each sortedDropdowns as |dropdown|}}
+      {{#each model.dropdowns as |dropdown|}}
         {{#sortable-item tagName="div" model=dropdown group=group handle=".handle"}}
-          {{dropdown-block-form model=dropdown modelText=dropdown.text deleteDropdown=(action 'deleteDropdown') setDefault=(action 'setDefault') rebuildText=(action 'rebuildText')}}
+          {{dropdown-block-form model=dropdown clause=model}}
         {{/sortable-item}}
       {{/each}}
     {{/sortable-group}}

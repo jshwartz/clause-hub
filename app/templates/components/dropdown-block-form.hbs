@@ -9,7 +9,7 @@
           </div>
           <div class={{if errors.title "field error required" "field required"}}>
             <label>Dropdown Title</label>
-            {{one-way-input class="active" value=menuText maxlength="42" update=(action (mut menuText))}}
+            {{one-way-input class="active" value=menuTitle maxlength="42" update=(action (mut menuTitle))}}
           </div>
           <div class="field">
             <label>Text</label>
@@ -19,7 +19,7 @@
           <button class="ui mini button" {{action 'cancelDropdown'}}>Cancel</button>
         </div>
       {{else}}
-        <p><b>{{model.menuText}}</b></p>
+        <p><b>{{model.menuTitle}}</b></p>
         <p>{{model.text}}</p>
         <p class="ui right aligned"><a href='#' {{action 'setDefault'}}>Default</a> | <a href='#' {{action 'editDropdown'}}>Edit</a> |
           <a href='#' {{action 'deleteConfirm'}}>

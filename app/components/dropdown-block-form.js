@@ -5,10 +5,9 @@ export default Ember.Component.extend({
   errors: null,
   errorMessage: false,
   text: null,
-  menuText: null,
-  hasValidMenuText: Ember.computed.notEmpty('menuText'),
-  sortBy: ['orderNumber'],
-  hasErrors: Ember.computed.not('hasValidMenuText'),
+  menuTitle: null,
+  hasValidMenuTitle: Ember.computed.notEmpty('menuTitle'),
+  hasErrors: Ember.computed.not('hasValidMenuTitle'),
   deleteMessage: false,
 
 
@@ -17,15 +16,13 @@ export default Ember.Component.extend({
   }),
 
   validate() {
-    this.set('errors.title', this.get('hasValidMenuText') ? null : "Dropdown title is required.");
+    this.set('errors.title', this.get('hasValidMenuTitle') ? null : "Dropdown title is required.");
   },
 
   resetBlockData() {
-    ['text', 'menuText'].forEach((field) => {
-      const model = this.get('model');
-      const valueInDropdown = model.get(field);
-      this.set(field, valueInDropdown);
-    });
+    const model = this.get('model');
+    this.set('menuTitle', model.menuTitle);
+    this.set('text', model.text);
   },
 
   actions: {
@@ -40,11 +37,9 @@ export default Ember.Component.extend({
         this.set('errorMessage', true);
         return;
       }
-      const model = this.get('model');
-      model.set('text', this.get('text'));
-      model.set('menuText', this.get('menuText'));
-      model.save().then(() => {
-        this.get('rebuildText')();
+      this.set('model.text', this.get('text'));
+      this.set('model.menuTitle', this.get('menuTitle'));
+      this.get('clause').save().then(() => {
         this.set('isEditing', false);
         this.set('errorMessage', false);
 
@@ -57,10 +52,26 @@ export default Ember.Component.extend({
       this.set('errors.title', null);
     },
     setDefault()  {
-      this.get('setDefault')(this.get('model'));
+      this.get('clause.dropdowns').forEach((dropdown) => {
+        Ember.set(dropdown, 'defaultTrue', false);
+        Ember.set(dropdown, 'selected', false);
+      });
+      this.set('model.defaultTrue', true);
+      this.set('model.selected', true);
+      this.get('clause').save();
     },
     deleteDropdown() {
-      this.get('deleteDropdown')(this.get('model'));
+      const indexNumber = this.get('model.orderNumber') - 1;
+      const dropdowns = this.get('clause.dropdowns');
+      dropdowns.splice(indexNumber , 1);
+      dropdowns.forEach((dropdown, index) => {
+        const newOrderNumber = index + 1;
+        Ember.set(dropdown, 'orderNumber', newOrderNumber);
+      });
+      this.set('clause.dropdowns', dropdowns);
+      this.get('clause').save().then(() => {
+        //need to add a rebuild menu and clause text thing.
+      });
     },
     deleteConfirm() {
       this.set('deleteMessage', true);

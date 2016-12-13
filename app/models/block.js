@@ -1,8 +1,11 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  dropdowns: DS.attr({ defaultValue: [] }),
   title: DS.attr('string'),
-  clause: DS.belongsTo('clause'),
+  clause: DS.belongsTo('clause', {
+    inverse: 'blocks'
+  }),
   type: DS.attr('string'),
   orderNumber: DS.attr('number'),
   staticText: DS.attr('string'),

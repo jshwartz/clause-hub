@@ -2,7 +2,9 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   metadata: DS.attr(),
-  blocks: DS.hasMany('block'),
+  blocks: DS.hasMany('block', {
+    inverse: 'clause'
+  }),
   tags: DS.hasMany('tag'),
   canWriteUsers: DS.hasMany('user', {
     inverse: 'canWriteClauses'

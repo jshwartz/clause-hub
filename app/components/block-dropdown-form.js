@@ -7,9 +7,7 @@ export default Ember.Component.extend({
   title: null,
   hasValidTitle: Ember.computed.notEmpty('title'),
   helpText: null,
-  sortBy: ['orderNumber'],
   hasErrors: Ember.computed.not('hasValidTitle'),
-  sortedDropdowns: Ember.computed.sort('model.blockDropdowns', 'sortBy'),
   newMenuTitle: null,
   hasValidNewMenuTitle: Ember.computed.notEmpty('newMenuTitle'),
   newText: null,
@@ -91,13 +89,15 @@ export default Ember.Component.extend({
     rebuildText() {
       this.get('rebuildText')();
     },
-    reorderItems(dropdownModels) {
-      dropdownModels.forEach((dropdown, index) => {
+    reorderItems(newDropdowns) {
+      newDropdowns.forEach((newDropdown, index) => {
         const newOrderNumber = index + 1;
-        dropdown.set('orderNumber', newOrderNumber);
-        dropdown.save();
+        Ember.set(newDropdown, 'orderNumber', newOrderNumber);
       });
-      this.get('rebuildMenu')();
+      this.set('model.dropdowns', newDropdowns);
+      this.get('model').save().then(() => {
+        this.get('rebuildMenu')();
+      });
     },
     newDropdown() {
       this.$('.ui.dropdown.modal').modal('show');
@@ -108,13 +108,32 @@ export default Ember.Component.extend({
       this.set('dropdownErrorMessage', false);
       this.set('dropdownErrors.title', null);
     },
+    // createNewDropdown() {
+    //   this.dropdownValidate();
+    //   if (this.get('dropdownHasErrors')) {
+    //     this.set('dropdownErrorMessage', true);
+    //     return false;
+    //   }
+    //   this.get('createNewDropdown')(this.getProperties(['newMenuTitle', 'newText']));
+    // },
     createNewDropdown() {
       this.dropdownValidate();
       if (this.get('dropdownHasErrors')) {
         this.set('dropdownErrorMessage', true);
         return false;
       }
-      this.get('createNewDropdown')(this.getProperties(['newMenuTitle', 'newText']));
+      const menuTitle = this.get('newMenuTitle');
+      const text = this.get('newText');
+      if (this.get('model.dropdowns')) {
+        let dropdowns = this.get('model.dropdowns');
+        const orderNumber = this.get('model.dropdowns.length') + 1;
+        const newDropdown = {menuTitle: menuTitle, text: text, orderNumber: orderNumber, defaultTrue: false, selected: false};
+        dropdowns.pushObject(newDropdown);
+      } else {
+        const newDropdown = [{menuTitle: menuTitle, text: text, orderNumber: 1, defaultTrue: true, selected: true}];
+        this.set('model.dropdowns', newDropdown);
+      }
+      this.get('model').save();
     },
     deleteDropdown(dropdown){
       this.get('deleteDropdown')(dropdown);
