@@ -1,5 +1,5 @@
 
-  <strong>{{model.title}}: </strong>
+  {{#if model.metadata.header}}<strong>{{model.metadata.header}}: </strong>{{/if}}
   {{#each finalText as |block|}}
     {{{block}}}
   {{/each}}
