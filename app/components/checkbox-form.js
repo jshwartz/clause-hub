@@ -15,18 +15,18 @@ export default Ember.Component.extend({
   },
 
 
-  resetBlockData() {
-    ['menuText'].forEach((field) => {
-      const model = this.get('model');
-      const valueInDropdown = model.get(field);
-      this.set(field, valueInDropdown);
-    });
-  },
+  // resetBlockData() {
+  //   ['menuText'].forEach((field) => {
+  //     const model = this.get('model');
+  //     const valueInDropdown = model.get(field);
+  //     this.set(field, valueInDropdown);
+  //   });
+  // },
 
   actions: {
     editCheckbox: function() {
       this.set('isEditing', true);
-      this.resetBlockData();
+      this.set('menuText', this.get('model.menuText'));
     },
     saveCheckbox() {
       this.validate();
@@ -35,15 +35,14 @@ export default Ember.Component.extend({
         return;
       }
       const model = this.get('model');
-      model.set('menuText', this.get('menuText'));
-      model.save().then(() => {
+      Ember.set(model, 'menuText', this.get('menuText'));
+      this.get('block').save().then(() => {
         this.get('rebuildMenu')();
         this.get('rebuildFormText')();
         this.set('isEditing', false);
       });
     },
     cancelCheckbox() {
-      this.resetBlockData();
       this.set('isEditing', false);
     },
   }

@@ -7,10 +7,10 @@ export default Ember.Component.extend({
   title: null,
   hasValidTitle: Ember.computed.notEmpty('title'),
   helpText: null,
-  sortBy: ['orderNumber'],
-  sortedCheckboxes: Ember.computed.sort('model.blockCheckboxes', 'sortBy'),
-  sortChoicesBy: ['checkboxes'],
-  sortedCheckboxChoices: Ember.computed.sort('model.blockCheckboxChoices', 'sortChoicesBy'),
+  // sortBy: ['orderNumber'],
+  // sortedCheckboxes: Ember.computed.sort('model.blockCheckboxes', 'sortBy'),
+  // sortChoicesBy: ['checkboxes'],
+  // sortedCheckboxChoices: Ember.computed.sort('model.blockCheckboxChoices', 'sortChoicesBy'),
   hasErrors: Ember.computed.not('hasValidTitle'),
   deleteMessage: false,
 
@@ -33,26 +33,23 @@ export default Ember.Component.extend({
   },
 
   setCheckboxChoices() {
-    let checkboxes = this.get('model.blockCheckboxes');
-    let choices = this.get('model.blockCheckboxChoices');
+    let checkboxes = this.get('model.checkboxes');
+    let choices = this.get('model.checkboxChoices');
     choices.forEach((choice) => {
-      choice.set('active', true);
-      choice.save();
-    }).then(() => {
-      checkboxes.forEach((checkbox) => {
-        const checkboxNumber = checkbox.get('orderNumber').toString();
-        if (checkbox.get('active') === false) {
-          choices.forEach((choice) => {
-            const choiceBoxes = choice.get('checkboxes').toString();
-            if (choiceBoxes.includes(checkboxNumber)) {
-              choice.set('active', false);
-              choice.save();
-            }
-          });
-        }
-      });
+      Ember.set(choice, 'active', true);
     });
-
+    checkboxes.forEach((checkbox) => {
+      const checkboxNumber = checkbox.orderNumber.toString();
+      if (checkbox.active === false) {
+        choices.forEach((choice) => {
+          const choiceBoxes = choice.checkboxes.toString();
+          if (choiceBoxes.includes(checkboxNumber)) {
+            Ember.set(choice, 'active', false);
+          }
+        });
+      }
+    });
+    this.get('model').save();
   },
 
   actions: {
@@ -87,22 +84,26 @@ export default Ember.Component.extend({
       this.get('rebuildMenu')();
     },
     updateCheckbox(checkbox) {
-      checkbox.toggleProperty('selected');
-      checkbox.save();
-      checkbox.toggleProperty('defaultTrue');
-      checkbox.save();
+      if (checkbox.selected) {
+        Ember.set(checkbox, 'selected', false);
+        Ember.set(checkbox, 'defaultTrue', false);
+      } else {
+        Ember.set(checkbox, 'selected', true);
+        Ember.set(checkbox, 'defaultTrue', true);
+      }
+      this.get('model').save();
       this.get('rebuildMenu')();
       this.get('rebuildText')();
     },
     onCheckbox(checkbox) {
-      checkbox.set('active', true);
-      checkbox.save().then(() => {this.setCheckboxChoices();});
+      Ember.set(checkbox, 'active', true);
+      this.get('model').save().then(() => {this.setCheckboxChoices();});
     },
     offCheckbox(checkbox) {
-      checkbox.set('active', false);
-      checkbox.set('defaultTrue', false);
-      checkbox.set('selected', false);
-      checkbox.save().then(() => {this.setCheckboxChoices();});
+      Ember.set(checkbox, 'active', false);
+      Ember.set(checkbox, 'defaultTrue', false);
+      Ember.set(checkbox, 'selected', false);
+      this.get('model').save().then(() => {this.setCheckboxChoices();});
     },
     deleteConfirm() {
       this.set('deleteMessage', true);
@@ -114,16 +115,16 @@ export default Ember.Component.extend({
       this.get('destroyBlock')();
     },
     rebuildFormText() {
-      let checkboxes = this.get('model.blockCheckboxes');
-      let choices = this.get('model.blockCheckboxChoices');
+      let checkboxes = this.get('model.checkboxes');
+      let choices = this.get('model.checkboxChoices');
       let checkboxArray = [];
       checkboxes.forEach((checkbox) => {
-        const checkboxOrderNumber = checkbox.get('orderNumber');
-        const menuText = checkbox.get('menuText');
+        const checkboxOrderNumber = checkbox.orderNumber;
+        const menuText = checkbox.menuText;
         checkboxArray.addObject({checkboxOrderNumber: checkboxOrderNumber, menuText: menuText});
       });
       choices.forEach((choice) => {
-        const checkboxString = choice.get('checkboxes').toString();
+        const checkboxString = choice.checkboxes.toString();
         const checkboxStringArray = checkboxString.split("");
         let formTextTemp = [];
         checkboxStringArray.forEach((valueInArray) => {
@@ -133,8 +134,8 @@ export default Ember.Component.extend({
             }
           });
         });
-        choice.set('formText', formTextTemp);
-        choice.save();
+        Ember.set(choice, 'formText', formTextTemp);
+        this.get('model').save();
       });
     },
   }

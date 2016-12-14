@@ -67,9 +67,9 @@ export default Ember.Component.extend({
       this.set('errorMessage', false);
       this.set('isEditing', false);
     },
-    saveDropdown: function(properties) {
-      this.get('saveDropdown')(properties);
-    },
+    // saveDropdown: function(properties) {
+    //   this.get('saveDropdown')(properties);
+    // },
     setDefault: function(dropdownModel) {
       let dropdowns = this.get('model.blockDropdowns');
       dropdowns.forEach((dropdown) => {
