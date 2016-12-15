@@ -43,7 +43,7 @@ export default Ember.Component.extend({
             text = staticText;
           }
           result.addObject({order: orderNumber, text: text});
-          //extract checkbox final text
+          //extract toggle final text
         } else if (type === 'toggle') {
           const staticText = block.get('staticText');
           const toggleSelected = block.get('selected');
@@ -55,31 +55,28 @@ export default Ember.Component.extend({
           if (toggleSelected) {
             result.addObject({order: orderNumber, text: text});
           }
+          //extract checkbox final text
         } else if (type === 'checkbox') {
           let selected = null;
-          block.get('blockCheckboxes').then(function(checkboxes) {
-            let selectedArray = [];
-            checkboxes.forEach( (checkbox) => {
-              if (checkbox.get('selected')) {
-                selectedArray.push(checkbox.get('orderNumber'));
-              }
-            });
-            selected = parseInt(selectedArray.sort().join(""));
-            if (isNaN(selected)) {
-              selected = 0;
+          let selectedArray = [];
+          block.get('checkboxes').forEach( (checkbox) => {
+            if (checkbox.selected) {
+              selectedArray.push(checkbox.orderNumber);
             }
-            block.get('blockCheckboxChoices').then(function(choices) {
-              choices.forEach( (choice) => {
-                if (selected === choice.get('checkboxes')) {
-                  if (highlightBlock) {
-                    text = "<span class='text-highlight'>" + choice.get('text') + "</span'>";
-                  } else {
-                    text = choice.get('text');
-                  }
-                  result.addObject({order: orderNumber, text: text});
-                }
-              });
-            });
+          });
+          selected = parseInt(selectedArray.sort().join(""));
+          if (isNaN(selected)) {
+            selected = 0;
+          }
+          block.get('checkboxChoices').forEach( (choice) => {
+            if (selected === choice.checkboxes) {
+              if (highlightBlock) {
+                text = "<span class='text-highlight'>" + choice.text + "</span'>";
+              } else {
+                text = choice.text;
+              }
+              result.addObject({order: orderNumber, text: text});
+            }
           });
         }
       });

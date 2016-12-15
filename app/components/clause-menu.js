@@ -40,19 +40,12 @@ export default Ember.Component.extend({
 
         if (type === "checkbox") {
           let checkboxArray = [];
-          block.get('blockCheckboxes').then(function(checkboxes) {
-            checkboxes.forEach( (checkbox) => {
-              if (checkbox.get('active')) {
-                const checkboxOrderNumber = checkbox.get('orderNumber');
-                const selected = checkbox.get('selected');
-                const menuText = checkbox.get('menuText');
-                const block = checkbox.get('block.id');
-                const id = checkbox.get('id');
-                checkboxArray.addObject({selected: selected, checkboxOrderNumber: checkboxOrderNumber, menuText: menuText, id: id, block: block});
+          block.get('checkboxes').forEach(function(checkbox) {
+              if (checkbox.active) {
+                checkboxArray.addObject({selected: checkbox.selected, menuText: checkbox.menuText, orderNumber: checkbox.orderNumber, blockID: blockID});
               }
             });
             result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, checkbox: true, choices: checkboxArray, blockID: blockID});
-          });
 
         }
         if (type === "toggle") {
@@ -83,10 +76,14 @@ export default Ember.Component.extend({
     updateCheckbox: function(choice) {
       const blocks = this.get('model.blocks');
       blocks.forEach( (block) => {
-        if (block.get('id') === choice.block) {
-          block.get('blockCheckboxes').forEach( (checkbox) => {
-            if (checkbox.get('id') === choice.id) {
-              checkbox.toggleProperty('selected');
+        if (block.get('id') === choice.blockID) {
+          block.get('checkboxes').forEach( (checkbox) => {
+            if (checkbox.orderNumber === choice.orderNumber) {
+              if (checkbox.selected) {
+                Ember.set(checkbox, 'selected', false);
+              } else {
+                Ember.set(checkbox, 'selected', true);
+              }
             }
             this.toggleProperty('rebuildText');
           });
