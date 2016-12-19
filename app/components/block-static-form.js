@@ -34,9 +34,15 @@ export default Ember.Component.extend({
         this.set('errorMessage', true);
         return false;
       }
-      this.get('saveBlock')(this.getProperties(['staticText']));
-      this.set('errorMessage', false);
-      this.set('isEditing', false);
+      const model = this.get('model');
+      model.set('staticText', this.get('staticText'));
+      model.save().then(() => {
+        this.get('rebuildText')();
+        this.set('errorMessage', false);
+        this.set('isEditing', false);
+      }).catch(error => {
+        console.error(error);
+      });
     },
     editBlock: function() {
       this.set('isEditing', true);

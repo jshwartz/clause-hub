@@ -17,10 +17,11 @@
               <div class="content">
                 <div class="meta">Block {{block.orderNumber}} ({{block.type}}) <i class="resize vertical icon ui right floated handle"></i></div>
                 <div class="description">
-                    {{#if block.staticText}}
-                      {{block.staticText}}
-                    {{/if}}
-                    {{block.title}}
+                  {{#if block.defaultText}}
+                    {{block.defaultText}}
+                  {{else}}
+                    <i>No defaulted text.</i>
+                  {{/if}}
                 </div>
               </div>
             {{/link-to}}

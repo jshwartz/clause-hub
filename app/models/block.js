@@ -1,4 +1,6 @@
 import DS from 'ember-data';
+import Ember from 'ember';
+
 
 export default DS.Model.extend({
   dropdowns: DS.attr({ defaultValue: [] }),
@@ -88,5 +90,44 @@ export default DS.Model.extend({
   blockDropdowns: DS.hasMany('block-dropdown'),
   blockCheckboxes: DS.hasMany('block-checkbox'),
   blockCheckboxChoices: DS.hasMany('block-checkbox-choice'),
+  defaultText: Ember.computed('dropdowns', 'defaultTrue', 'checkboxes', function(){
+    let returnText = null;
+    if (this.get('type') === 'dropdown') {
+      this.get('dropdowns').forEach( (dropdown) => {
+        const dropdownDefault = dropdown.defaultTrue;
+        const dropdownText = dropdown.text;
+        if (dropdownDefault) {
+          returnText = dropdownText;
+        }
+      });
+    } else if (this.get('type') === 'static') {
+      returnText = this.get('staticText');
+    } else if (this.get('type') === 'toggle' ) {
+      if (this.get('defaultTrue')) {
+        returnText = this.get('staticText');
+      } else {
+        returnText = null;
+      }
+    } else if (this.get('type') === 'checkbox') {
+      let selected = null;
+      let selectedArray = [];
+      this.get('checkboxes').forEach( (checkbox) => {
+        if (checkbox.defaultTrue) {
+          selectedArray.push(checkbox.orderNumber);
+        }
+      });
+      selected = parseInt(selectedArray.sort().join(""));
+      if (isNaN(selected)) {
+        selected = 0;
+      }
+      this.get('checkboxChoices').forEach( (choice) => {
+        if (selected === choice.checkboxes) {
+          returnText = choice.text;
+        }
+      });
+    }
+    return returnText;
+  }),
+
 
 });

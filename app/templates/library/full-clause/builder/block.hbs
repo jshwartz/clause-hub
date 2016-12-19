@@ -1,6 +1,6 @@
 
   {{#if staticTrue}}
-    {{block-static-form class="block-form" model=model destroyBlock=(action 'destroyStaticBlock') saveBlock=(action 'saveBlock') cancelEditing=(action (mut isEditing))}}
+    {{block-static-form class="block-form" model=model destroyBlock=(action 'destroyStaticBlock') rebuildText=(action 'rebuildText') cancelEditing=(action (mut isEditing))}}
   {{else if dropdownTrue}}
     {{block-dropdown-form
       model=model
