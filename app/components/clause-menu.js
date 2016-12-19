@@ -68,6 +68,7 @@ export default Ember.Component.extend({
             }
             this.toggleProperty('rebuildText');
           });
+          block.toggleProperty('selected');
         }
       });
     },
@@ -84,6 +85,8 @@ export default Ember.Component.extend({
               }
             }
             this.toggleProperty('rebuildText');
+            block.toggleProperty('selected');
+
           });
         }
       });

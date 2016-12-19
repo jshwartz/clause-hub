@@ -128,6 +128,45 @@ export default DS.Model.extend({
     }
     return returnText;
   }),
+  selectedText: Ember.computed('selected', function(){
+    let returnText = null;
+    if (this.get('type') === 'dropdown') {
+      this.get('dropdowns').forEach( (dropdown) => {
+        const dropdownSelected = dropdown.selected;
+        const dropdownText = dropdown.text;
+        if (dropdownSelected) {
+          returnText = dropdownText;
+        }
+      });
+    } else if (this.get('type') === 'static') {
+      returnText = this.get('staticText');
+    } else if (this.get('type') === 'toggle' ) {
+      if (this.get('selected')) {
+        returnText = this.get('staticText');
+      } else {
+        returnText = null;
+      }
+    } else if (this.get('type') === 'checkbox') {
+      let selected = null;
+      let selectedArray = [];
+      this.get('checkboxes').forEach( (checkbox) => {
+        if (checkbox.selected) {
+          selectedArray.push(checkbox.orderNumber);
+        }
+      });
+      selected = parseInt(selectedArray.sort().join(""));
+      if (isNaN(selected)) {
+        selected = 0;
+      }
+      this.get('checkboxChoices').forEach( (choice) => {
+        if (selected === choice.checkboxes) {
+          returnText = choice.text;
+        }
+      });
+    }
+    return returnText;
+  }),
+
 
 
 });
