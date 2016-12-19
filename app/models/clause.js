@@ -18,8 +18,6 @@ export default DS.Model.extend({
   owner: DS.belongsTo('user', {
     inverse: 'ownsClauses'
   }),
-
-
   name: DS.attr('string'),
   title: DS.attr('string'),
   createdAt: DS.attr('date', {
@@ -28,6 +26,6 @@ export default DS.Model.extend({
   type: DS.attr('string'),
   createdBy: DS.attr('string'),
   lastUpdatedBy: DS.attr('string'),
-  readmeMD: DS.attr('string'),
+  readme: DS.attr('string'),
 
 });

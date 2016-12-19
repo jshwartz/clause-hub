@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
       console.log(value);
     },
     success() {
-      alert('hi');
+      alert('Copied!');
     }
   }
 

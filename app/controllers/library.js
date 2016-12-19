@@ -47,14 +47,14 @@ export default Ember.Controller.extend({
         created: new Date(),
         lastModified: new Date(),
       };
-      this.get('store').findRecord('user', this.get('session.currentUser.uid')).then((owner) => {
+      this.get('store').findRecord('user', this.get('session.currentUser.uid')).then((admin) => {
         const newClause = this.get('store').createRecord('clause', {
           metadata: metadata,
-          owner: owner,
         });
+        newClause.get('adminUsers').pushObject(admin);
         newClause.save()
           .then(() => {
-            owner.save();
+            admin.save();
             this.set('clauseIsSaving', false);
             this.transitionToRoute('library.fullClause.builder', newClause);
           })

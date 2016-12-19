@@ -5,27 +5,25 @@
     {{outlet}}
   </div>
   <div class="six wide column">
-    {{#if blocksActive}}
-      <div class="ui tabular menu">
+    {{!-- {{#if blocksActive}} --}}
+      {{!-- <div class="ui tabular menu">
         <a class="item active">Blocks</a>
         <a class="item" {{action "toggleBlockTab"}}>Preview</a>
-      </div>
+      </div> --}}
       {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
         {{#each sortedBlocks as |block|}}
           {{#sortable-item tagName="div" model=block group=group handle=".handle"}}
-            <div class="ui teal fluid card">
+            {{#link-to 'library.fullClause.builder.block' block tagName="div" class="ui block link fluid card"}}
               <div class="content">
                 <div class="meta">Block {{block.orderNumber}} ({{block.type}}) <i class="resize vertical icon ui right floated handle"></i></div>
                 <div class="description">
-                  {{#link-to 'library.fullClause.builder.block' block tagName="div" class="block-link"}}
                     {{#if block.staticText}}
                       {{block.staticText}}
                     {{/if}}
                     {{block.title}}
-                  {{/link-to}}
                 </div>
               </div>
-            </div>
+            {{/link-to}}
           {{/sortable-item}}
         {{/each}}
       {{/sortable-group}}
@@ -158,7 +156,7 @@
       {{/ui-modal}}
       {{/ember-wormhole}}
 
-    {{else}}
+    {{!-- {{else}}
     <div class="ui tabular menu">
       <a class="item" {{action "toggleBlockTab"}}>Blocks</a>
       <a class="item active">Preview</a>
@@ -167,6 +165,6 @@
     {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model}}
     <h4 class="ui sub header spaced">Clause Text</h4>
     <p>{{clause-text model=model rebuildText=rebuildText}}</p>
-  {{/if}}
+  {{/if}} --}}
   </div>
 </div>

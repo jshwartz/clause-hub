@@ -1,5 +1,12 @@
 
-<h2 class="ui header">{{model.metadata.title}}<div class="sub header">{{model.metadata.subTitle}}</div></h2>
+<div class="ui grid">
+  <div class="ui twelve wide column">
+    <h2 class="ui header">{{model.metadata.title}}<div class="sub header">{{model.metadata.subTitle}}</div></h2>
+  </div>
+  <div class="ui right aligned four wide column">
+    <a href="#" {{action 'goback'}}><span class="back-link"><i class="angle double left icon"></i>Back</span></a>
+  </div>
+</div>
 {{#if userCanWrite}}
   <div class="ui three item block menu">
     {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
@@ -10,7 +17,7 @@
   <div class="ui four item block menu clause-menu">
     {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
     {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
-    {{#link-to 'library.fullClause.builder' class="item"}}Builder{{/link-to}}
+    <a href="#" class="item" {{action 'gotoCurrentBlock'}}>Builder</a>
     {{#link-to 'library.fullClause.sharing' class="item"}}Settings{{/link-to}}
   </div>
 {{else}}

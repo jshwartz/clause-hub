@@ -1,12 +1,11 @@
 <div class="ui grid">
   <div class="ten wide column">
     {{#if isEditing}}
-      <div class="ui raised segment">
-        <div class="ui top attached label">README <a href="#" {{action 'cancelEdit'}}> &nbsp;&nbsp; (Cancel Edit)</a></div>
+      <div class="ui raised block segment">
         {{#if editMessage}}
           <div class="ui info message">
             <i class="close icon" {{action 'closeEditMessage'}}></i>
-            The README doc accepts HTML formatting. We don't yet have a built-in HTML editor, but in the meantime, we recommend copying and pasting the HTML below into a free online editor, like <a href="https://html-online.com/" target="_blank"> HTML Online.</a>
+            The README doc accepts HTML formatting. We don't yet have a built-in HTML editor, but in the meantime, we recommend copying and pasting the HTML below into a free online editor, like <a href="https://html-online.com/" target="_blank"> HTML Online.</a> Or just write plain text. That's cool too.
           </div>
           <div class="ui hidden divider"></div>
         {{/if}}
@@ -22,14 +21,41 @@
         </div>
       </div>
     {{else}}
-      <div class="ui raised segment">
-        <div class="ui top attached label">README {{#if userCanWrite}}<a href="#" {{action 'openEdit'}}> &nbsp;&nbsp; (Edit)</a>{{/if}}</div>
-        {{{model.readmeMD}}}
+      <div class="ui raised block segment">
+        <h1 class="ui header"><strong>README</strong>{{#if userCanEditReadme}}<a class="sub header" href="#" {{action 'openEdit'}}>Edit</a>{{/if}}</h1>
+        <div class="ui clearing divider"></div>
+        {{{model.readme}}}
       </div>
     {{/if}}
   </div>
   <div class="six wide column">
-    <div class="ui card">
+    <div class="ui center aligned basic segment">
+      <h2 class="ui icon header">
+        <i class="users icon"></i>
+        <div class="content">
+          Clausemasters
+          <div class="sub header">This Clause was Hand Crafted by</div>
+        </div>
+      </h2>
+      <div class="ui large labels">
+        {{#each model.adminUsers as |user|}}
+          <a class="ui basic image label">
+            {{ember-initials name=user.fullName size=50}}
+            {{user.fullName}}
+          </a>
+        {{/each}}
+        {{#each model.canWriteUsers as |user|}}
+          <a class="ui basic image label">
+            {{ember-initials name=user.fullName size=50}}
+            {{user.fullName}}
+          </a>
+        {{/each}}
+      </div>
+      <div class="ui divider"></div>
+      <p>{{model.metadata.createdBy}} brought this clause into the world on {{moment-format model.metadata.createdAt 'MMMM do YYYY'}}. It was lasted updated {{moment-from-now model.metadata.lastModified}} by {{model.metadata.lastModifiedBy}}.</p>
+    </div>
+
+    {{!-- <div class="ui card">
       <div class="ui top attached label">Info</div>
       <div class="image">
         <img src="http://immixlaw.com/wp-content/uploads/2016/09/JacobShwartz.jpg">
@@ -80,7 +106,7 @@
           {{/if}}
         </form>
       </div>
-    </div>
+    </div> --}}
 
   </div>
 

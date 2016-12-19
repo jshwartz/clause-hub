@@ -4,59 +4,57 @@ export default Ember.Component.extend({
   rebuildMenu: false,
   rebuildText: false,
   activeBlock: null,
-  sortBy: ['order'],
+  sortBy: ['orderNumber'],
 
-  menuArray: Ember.computed('rebuildMenu', function() {
+  sortedMenuArray: Ember.computed.sort('model.blocks', 'sortBy'),
+  menuArray: Ember.computed('sortedMenuArray', function() {
     let result = [];
-    this.get('model.blocks').then(function(blocks){
-      blocks.forEach( (block) => {
-        const type = block.get('type');
-        const orderNumber = block.get('orderNumber');
-        const title = block.get('title');
-        const helpText = block.get('helpText');
-        const blockID = block.get('id');
+    this.get('sortedMenuArray').forEach( (block, index) => {
+      const type = block.get('type');
+      const orderNumber = block.get('orderNumber');
+      const title = block.get('title');
+      const helpText = block.get('helpText');
+      const blockID = block.get('id');
+      let openMe = false;
+      if (index === 0) {
+        openMe = false;
+      }
+      if (type === "dropdown") {
+        let choiceArray = [];
+        let selectedOption = "";
+        block.get('dropdowns').forEach( (dropdown) => {
+          const dropOrderNumber = dropdown.orderNumber;
+          const selected = dropdown.selected;
+          const menuTitle = dropdown.menuTitle;
+          const blockID = block.get('id');
+          choiceArray.addObject({dropOrderNumber: dropOrderNumber, menuTitle: menuTitle, blockID: blockID});
+          if (selected) {
+            selectedOption = menuTitle;
+          }
+        });
 
-        if (type === "dropdown") {
-          let choiceArray = [];
-          let selectedOption = "";
-          block.get('dropdowns').forEach( (dropdown) => {
-            const dropOrderNumber = dropdown.orderNumber;
-            const selected = dropdown.selected;
-            const menuTitle = dropdown.menuTitle;
-            const blockID = block.get('id');
-            choiceArray.addObject({dropOrderNumber: dropOrderNumber, menuTitle: menuTitle, blockID: blockID});
-            if (selected) {
-              selectedOption = menuTitle;
+        let sortedChoiceArray = choiceArray.sort(function(a, b) {
+          return a.dropOrderNumber-b.dropOrderNumber;
+        });
+        result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption, blockID: blockID, openMe: openMe});
+      }
+      if (type === "checkbox") {
+        let checkboxArray = [];
+        block.get('checkboxes').forEach(function(checkbox) {
+            if (checkbox.active) {
+              checkboxArray.addObject({selected: checkbox.selected, menuText: checkbox.menuText, orderNumber: checkbox.orderNumber, blockID: blockID});
             }
           });
+          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, checkbox: true, choices: checkboxArray, blockID: blockID, openMe: openMe});
 
-          let sortedChoiceArray = choiceArray.sort(function(a, b) {
-            return a.dropOrderNumber-b.dropOrderNumber;
-          });
-          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, dropdown: true, choices: sortedChoiceArray, selectedOption: selectedOption, blockID: blockID});
-
-
-        }
-
-        if (type === "checkbox") {
-          let checkboxArray = [];
-          block.get('checkboxes').forEach(function(checkbox) {
-              if (checkbox.active) {
-                checkboxArray.addObject({selected: checkbox.selected, menuText: checkbox.menuText, orderNumber: checkbox.orderNumber, blockID: blockID});
-              }
-            });
-            result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, checkbox: true, choices: checkboxArray, blockID: blockID});
-
-        }
-        if (type === "toggle") {
-          const selected = block.get('selected');
-          result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, toggle: true, selected: selected, block: blockID, blockID: blockID});
-        }
-      });
+      }
+      if (type === "toggle") {
+        const selected = block.get('selected');
+        result.addObject({order: orderNumber, type: type, helpText: helpText, title: title, toggle: true, selected: selected, block: blockID, blockID: blockID, openMe: openMe});
+      }
     });
     return result;
   }),
-  sortedMenuArray: Ember.computed.sort('menuArray', 'sortBy'),
   actions: {
     updateDropdown: function(choice) {
       const blocks = this.get('model.blocks');

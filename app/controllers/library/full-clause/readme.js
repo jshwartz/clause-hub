@@ -9,7 +9,10 @@ export default Ember.Controller.extend({
   selectedTagId: null,
   tags: null,
   fullClauseController: Ember.inject.controller('library.fullClause'),
+  currentUser: Ember.computed.reads('fullClauseController.currentUser'),
   userCanWrite: Ember.computed.reads('fullClauseController.userCanWrite'),
+  userAdmin: Ember.computed.reads('fullClauseController.userAdmin'),
+  userCanEditReadme: Ember.computed.or('userCanWrite', 'userAdmin'),
 
   init() {
     let tags = this.store.findAll('tag');
@@ -19,7 +22,7 @@ export default Ember.Controller.extend({
   actions: {
     openEdit() {
       this.set('isEditing', true);
-      this.set('readmeTemp', this.get('model.readmeMD'));
+      this.set('readmeTemp', this.get('model.readme'));
     },
     cancelEdit() {
       this.set('isEditing', false);
@@ -28,10 +31,15 @@ export default Ember.Controller.extend({
     saveReadme() {
       const readmeTemp = this.get('readmeTemp');
       const model = this.get('model');
-      model.set('readmeMD', readmeTemp);
-      model.save().then(() => {
-        this.set('isEditing', false);
-        this.set('readmeTemp', null);
+      this.get('store').findRecord('user', this.get('currentUser')).then((user) => {
+        model.set('metadata.lastModifiedBy', user.get('fullName'));
+        model.set('readme', readmeTemp);
+        model.set('metadata.lastModified', new Date());
+        model.save().then(() => {
+          this.set('isEditing', false);
+          this.set('readmeTemp', null);
+      });
+      //model.set('metadata.lastModifiedBy', this.get('currentUser.fullName'));
       });
     },
     closeEditMessage() {

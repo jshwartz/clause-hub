@@ -1,11 +1,11 @@
 {{#ui-accordion class=""}}
-  {{#each sortedMenuArray as |option|}}
+  {{#each menuArray as |option|}}
     <div {{action "sendActiveBlock" option.blockID on="mouseEnter"}} {{action "sendActiveBlock" "null" on="mouseLeave"}}>
-      <div class="title">
+      <div class="title {{if option.openMe "active"}}">
         <i class="dropdown icon"></i>
         {{option.title}}    {{#if option.helpText}}{{ui-popup tagName="i" class="info icon" content=option.helpText}}{{/if}}
       </div>
-      <div class="content">
+      <div class="content {{if option.openMe "active"}}">
         {{#if option.dropdown}}
           {{#ui-dropdown class="selection" selected=option.selectedOption}}
             <div class="default text">Choose Option</div>
@@ -27,7 +27,7 @@
         {{/if}}
 
         {{#if option.toggle}}
-          <div {{action 'updateToggle' option}}>{{ui-checkbox class="slider" label="On / Off" checked=option.selected}}</div>
+          <div {{action 'updateToggle' option}}>{{ui-checkbox class="slider" label="Toggle" checked=option.selected}}</div>
         {{/if}}
 
       </div>
