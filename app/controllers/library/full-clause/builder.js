@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  fullClause: Ember.inject.controller('library.fullClause'),
   sortBy: ['orderNumber'],
   sortedBlocks: Ember.computed.sort('model.blocks', 'sortBy'),
   rebuildText: false,
@@ -303,7 +304,9 @@ export default Ember.Controller.extend({
         }
         this.createDropdownBlock();
       }
-
+    },
+    updateCurrentBlock(block) {
+      this.get('fullClause').set('currentBlock', block);
     },
 
 

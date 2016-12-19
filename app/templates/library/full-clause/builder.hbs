@@ -13,7 +13,7 @@
       {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
         {{#each sortedBlocks as |block|}}
           {{#sortable-item tagName="div" model=block group=group handle=".handle"}}
-            {{#link-to 'library.fullClause.builder.block' block tagName="div" class="ui block link fluid card"}}
+            {{#link-to 'library.fullClause.builder.block' block tagName="div" class="ui block link fluid card" invokeAction=(action 'updateCurrentBlock' block)}}
               <div class="content">
                 <div class="meta">Block {{block.orderNumber}} ({{block.type}}) <i class="resize vertical icon ui right floated handle"></i></div>
                 <div class="description">

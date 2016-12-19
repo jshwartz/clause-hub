@@ -2,11 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   firstBlock: null,
+  currentBlock: null,
   firstBlockChanged: Ember.observer('model.blocks.@each.orderNumber', function() {
     if (this.get("model.blocks.length") > 0) {
-      console.log(1);
       this.get('model.blocks').then((blocks) => {
-        console.log(2);
         blocks.forEach((block) => {
           if (block.get('orderNumber') === 1) {
             this.set('firstBlock', block);
@@ -17,7 +16,6 @@ export default Ember.Controller.extend({
       this.set('firstBlock', null);
     }
   }),
-  currentBlock: null,
   currentUser: Ember.computed('session.currentUser.uid', function() {
     return this.get('session.currentUser.uid');
   }),
@@ -59,11 +57,17 @@ export default Ember.Controller.extend({
     gotoCurrentBlock() {
       const firstBlock = this.get('firstBlock');
       const clause = this.get('model');
-      if (firstBlock) {
-        this.transitionToRoute('library.fullClause.builder.block', clause, firstBlock);
+      const currentBlock = this.get('currentBlock');
+      if (currentBlock) {
+        this.transitionToRoute('library.fullClause.builder.block', clause, currentBlock);
       } else {
-        this.transitionToRoute('library.fullClause.builder', clause);
+        if (firstBlock) {
+          this.transitionToRoute('library.fullClause.builder.block', clause, firstBlock);
+        } else {
+          this.transitionToRoute('library.fullClause.builder', clause);
+        }
       }
+
     },
 
   }
