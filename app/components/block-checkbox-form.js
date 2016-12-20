@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import clauseUpdate from '../mixins/clauseupdate';
 
-export default Ember.Component.extend({
+
+export default Ember.Component.extend(clauseUpdate, {
   isEditing: false,
   errors: null,
   errorMessage: false,
@@ -53,6 +55,9 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    updateLastModified() {
+      this.updateLastModified(this.get('model.clause'));
+    },
     editBlock: function() {
       this.set('isEditing', true);
       this.resetBlockData();
@@ -66,9 +71,9 @@ export default Ember.Component.extend({
       this.set('model.title', this.get('title'));
       this.set('model.helpText', this.get('helpText'));
       this.get('model').save().then(() => {
+        this.updateLastModified(this.get('model.clause'));
         this.set('errorMessage', false);
         this.set('isEditing', false);
-        this.get('rebuildMenu')();
       });
     },
     cancelEditing() {
@@ -91,7 +96,9 @@ export default Ember.Component.extend({
         Ember.set(checkbox, 'selected', true);
         Ember.set(checkbox, 'defaultTrue', true);
       }
-      this.get('model').save();
+      this.get('model').save().then(() => {
+        this.updateLastModified(this.get('model.clause'));
+      });
       this.get('rebuildMenu')();
       this.get('rebuildText')();
     },
@@ -113,6 +120,7 @@ export default Ember.Component.extend({
     },
     destroyBlock() {
       this.get('destroyBlock')();
+      this.updateLastModified(this.get('model.clause'));
     },
     rebuildFormText() {
       let checkboxes = this.get('model.checkboxes');

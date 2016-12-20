@@ -37,6 +37,7 @@ export default Ember.Component.extend({
       const model = this.get('model');
       Ember.set(model, 'menuText', this.get('menuText'));
       this.get('block').save().then(() => {
+        this.get('updateLastModified')();
         this.get('rebuildMenu')();
         this.get('rebuildFormText')();
         this.set('isEditing', false);

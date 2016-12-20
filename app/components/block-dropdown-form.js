@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import clauseUpdate from '../mixins/clauseupdate';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(clauseUpdate, {
+  user: Ember.inject.service(),
   isEditing: false,
   errors: null,
   errorMessage: false,
@@ -52,7 +54,11 @@ export default Ember.Component.extend({
     });
   },
 
+
   actions: {
+    updateLastModified() {
+      this.updateLastModified(this.get('model.clause'));
+    },
     editBlock: function() {
       this.set('isEditing', true);
     },
@@ -64,6 +70,8 @@ export default Ember.Component.extend({
         return;
       }
       this.get('saveBlock')(this.getProperties(['title', 'helpText']));
+      // this.updateLastModified();
+      this.updateLastModified(this.get('model.clause'));
       this.set('errorMessage', false);
       this.set('isEditing', false);
     },
@@ -134,10 +142,12 @@ export default Ember.Component.extend({
         this.set('model.dropdowns', newDropdown);
       }
       this.get('model').save();
+      this.updateLastModified(this.get('model.clause'));
     },
-    deleteDropdown(dropdown){
-      this.get('deleteDropdown')(dropdown);
-    },
+    // deleteDropdown(dropdown){
+    //   this.get('deleteDropdown')(dropdown);
+    //   this.updateLastModified();
+    // },
     deleteConfirm() {
       this.set('deleteMessage', true);
     },
@@ -146,6 +156,7 @@ export default Ember.Component.extend({
     },
     destroyBlock() {
       this.get('destroyBlock')();
+      this.updateLastModified(this.get('model.clause'));
     }
 
   }

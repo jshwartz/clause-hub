@@ -25,6 +25,7 @@ export default Ember.Component.extend({
       this.get('block').save().then(() => {
         this.get('rebuildText')();
         this.set('isEditing', false);
+        this.get('updateLastModified')();
       });
     },
     cancelCheckboxChoice() {

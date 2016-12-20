@@ -27,5 +27,4 @@ export default DS.Model.extend({
   createdBy: DS.attr('string'),
   lastUpdatedBy: DS.attr('string'),
   readme: DS.attr('string'),
-
 });

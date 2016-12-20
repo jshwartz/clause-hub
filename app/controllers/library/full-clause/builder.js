@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import clauseUpdate from '../../../mixins/clauseupdate';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(clauseUpdate, {
   fullClause: Ember.inject.controller('library.fullClause'),
   sortBy: ['orderNumber'],
   sortedBlocks: Ember.computed.sort('model.blocks', 'sortBy'),
@@ -51,6 +52,7 @@ export default Ember.Controller.extend({
     const orderNumber = this.get('model.blocks.length') + 1;
     const newStaticBlock = this.get('store').createRecord('block', {
       staticText: this.get('staticText'),
+      helpText: this.get('helpText'),
       type: "static",
       clause: this.get('model'),
       orderNumber: orderNumber,
@@ -58,6 +60,7 @@ export default Ember.Controller.extend({
     newStaticBlock.save()
       .then(() => {
         this.get('model').save();
+        this.updateLastModified(this.get('model'));
       })
       .catch(error => {
         console.error("Error saving player", error);
@@ -68,6 +71,7 @@ export default Ember.Controller.extend({
     const newToggleBlock = this.get('store').createRecord('block', {
       staticText: this.get('staticText'),
       title: this.get('title'),
+      helpText: this.get('helpText'),
       type: "toggle",
       clause: this.get('model'),
       orderNumber: orderNumber,
@@ -77,6 +81,7 @@ export default Ember.Controller.extend({
     newToggleBlock.save()
       .then(() => {
         this.get('model').save();
+        this.updateLastModified(this.get('model'));
       })
       .catch(error => {
         console.error("Error saving player", error);
@@ -86,6 +91,7 @@ export default Ember.Controller.extend({
     const orderNumber = this.get('model.blocks.length') + 1;
     const newDropdownBlock = this.get('store').createRecord('block', {
       title: this.get('title'),
+      helpText: this.get('helpText'),
       type: "dropdown",
       clause: this.get('model'),
       orderNumber: orderNumber,
@@ -93,6 +99,7 @@ export default Ember.Controller.extend({
     newDropdownBlock.save()
       .then(() => {
         this.get('model').save();
+        this.updateLastModified(this.get('model'));
       })
       .catch(error => {
         console.error("Error saving player", error);
@@ -109,6 +116,7 @@ export default Ember.Controller.extend({
     });
     newCheckboxBlock.save().then(() => {
       this.get('model').save();
+      this.updateLastModified(this.get('model'));
     });
 
   },

@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import clauseUpdate from '../mixins/clauseupdate';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(clauseUpdate, {
   isEditing: false,
   staticText: null,
   hasValidStaticText: Ember.computed.notEmpty('staticText'),
@@ -39,6 +40,7 @@ export default Ember.Component.extend({
     this.set('errors.title', this.get('hasValidTitle') ? null : "Title is required.");
   },
 
+
   actions: {
     saveBlock() {
       this.validate();
@@ -49,6 +51,7 @@ export default Ember.Component.extend({
       this.get('saveBlock')(this.getProperties(['staticText', 'title', 'helpText']));
       this.set('errorMessage', false);
       this.set('isEditing', false);
+      this.updateLastModified(this.get('model.clause'));
     },
     editBlock: function() {
       this.set('isEditing', true);
@@ -76,6 +79,7 @@ export default Ember.Component.extend({
     },
     destroyBlock() {
       this.get('destroyBlock')();
+      this.updateLastModified(this.get('model.clause'));
     }
   }
 });

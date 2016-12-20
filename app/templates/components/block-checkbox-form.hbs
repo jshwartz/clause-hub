@@ -41,7 +41,7 @@
         <tr>
           {{#if checkbox.active}}
             <td class="collapsing" {{action 'offCheckbox' checkbox}}>{{ui-checkbox class="slider" checked=checkbox.active}}</td>
-            <td>{{checkbox-form block=model model=checkbox rebuildFormText=(action 'rebuildFormText') rebuildMenu=(action 'rebuildMenu')}}</td>
+            <td>{{checkbox-form block=model model=checkbox updateLastModified=(action 'updateLastModified') rebuildFormText=(action 'rebuildFormText') rebuildMenu=(action 'rebuildMenu')}}</td>
             <td class="right aligned collapsing" {{action 'updateCheckbox' checkbox}}>{{ui-checkbox label="Default" checked=checkbox.defaultTrue}}</td>
           {{else}}
             <td class="collapsing" {{action 'onCheckbox' checkbox}}>{{ui-checkbox class="slider" checked=checkbox.active}}</td>
@@ -59,7 +59,7 @@
     <tbody>
       {{#each model.checkboxChoices as |choice|}}
         {{#if choice.active}}
-          {{checkbox-choice-form block= model model=choice rebuildText=(action 'rebuildText')}}
+          {{checkbox-choice-form block=model model=choice updateLastModified=(action 'updateLastModified') rebuildText=(action 'rebuildText')}}
         {{/if}}
       {{/each}}
     </tbody>

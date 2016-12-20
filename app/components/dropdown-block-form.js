@@ -40,6 +40,7 @@ export default Ember.Component.extend({
       this.set('model.text', this.get('text'));
       this.set('model.menuTitle', this.get('menuTitle'));
       this.get('clause').save().then(() => {
+        this.get('updateLastModified')();
         this.set('isEditing', false);
         this.set('errorMessage', false);
 
@@ -70,6 +71,7 @@ export default Ember.Component.extend({
       });
       this.set('clause.dropdowns', dropdowns);
       this.get('clause').save().then(() => {
+        this.get('updateLastModified')();
         //need to add a rebuild menu and clause text thing.
       });
     },
