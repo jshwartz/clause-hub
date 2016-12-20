@@ -6,6 +6,11 @@ export default Ember.Route.extend({
       into: 'application',
     });
   },
+  resetController: function(controller, isExiting, transition) {
+    if (isExiting) {
+      controller.set('currentBlock', null);
+    }
+  },
   // setupController: function(controller, model) {
   //   this._super(controller, model);
   //   model.get('blocks').then((blocks) => {
