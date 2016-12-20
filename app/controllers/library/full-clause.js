@@ -58,7 +58,7 @@ export default Ember.Controller.extend({
       const firstBlock = this.get('firstBlock');
       const clause = this.get('model');
       const currentBlock = this.get('currentBlock');
-      if (currentBlock) {
+      if (currentBlock && !currentBlock.get('isDeleted')) {
         this.transitionToRoute('library.fullClause.builder.block', clause, currentBlock);
       } else {
         if (firstBlock) {
