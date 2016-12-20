@@ -61,6 +61,7 @@ export default Ember.Controller.extend(clauseUpdate, {
       .then(() => {
         this.get('model').save();
         this.updateLastModified(this.get('model'));
+        this.transitionToRoute('library.fullClause.builder.block', this.get('model'), newStaticBlock);
       })
       .catch(error => {
         console.error("Error saving player", error);
@@ -82,6 +83,7 @@ export default Ember.Controller.extend(clauseUpdate, {
       .then(() => {
         this.get('model').save();
         this.updateLastModified(this.get('model'));
+        this.transitionToRoute('library.fullClause.builder.block', this.get('model'), newToggleBlock);
       })
       .catch(error => {
         console.error("Error saving player", error);
@@ -100,6 +102,7 @@ export default Ember.Controller.extend(clauseUpdate, {
       .then(() => {
         this.get('model').save();
         this.updateLastModified(this.get('model'));
+        this.transitionToRoute('library.fullClause.builder.block', this.get('model'), newDropdownBlock);
       })
       .catch(error => {
         console.error("Error saving player", error);
@@ -117,6 +120,7 @@ export default Ember.Controller.extend(clauseUpdate, {
     newCheckboxBlock.save().then(() => {
       this.get('model').save();
       this.updateLastModified(this.get('model'));
+      this.transitionToRoute('library.fullClause.builder.block', this.get('model'), newCheckboxBlock);
     });
 
   },
