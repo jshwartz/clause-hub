@@ -155,7 +155,35 @@ export default Ember.Controller.extend({
     },
     closeSearch() {
       this.set('searchTerm', null);
-    }
+    },
+    confirmDelete() {
+      this.set('confirmDelete', true);
+    },
+    cancelDelete() {
+      this.set('confirmDelete', false);
+    },
+    destroyClause() {
+      let users = this.get('mergedCurrentUsers');
+      let clause = this.get('model.clause');
+      let tags = this.get('model.clause.tags');
+      this.get('model.clause.blocks').then((blocks) => {
+        blocks.forEach((block) => {
+          block.destroyRecord();
+        });
+      }).then(() => {
+        clause.deleteRecord();
+        users.forEach((user) => {
+          user.save();
+        });
+        tags.forEach((tag) => {
+          tag.save();
+        });
+      }).then(() => {
+        clause.save().then(() => {
+          this.transitionToRoute('library');
+        });
+      });
+    },
 
   }
 

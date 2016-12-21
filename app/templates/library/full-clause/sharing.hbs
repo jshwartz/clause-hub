@@ -33,6 +33,19 @@
         <a href='#' {{action 'openEdit'}}>Edit</a>
       </p>
     {{/if}}
+    <h1>Delete Clause</h1>
+    <button class="negative ui basic mini button" {{action 'confirmDelete'}}>Delete Clause</button>
+    {{#if confirmDelete}}
+    <div class="ui message">
+      <i class="close icon" {{action 'cancelDelete'}}></i>
+      <div class="header">
+        <i class="warning sign icon"></i>
+        Action cannot be undone.
+      </div>
+      Are you sure you want to delete the clause? <a href="#" {{action 'destroyClause'}}>Delete Clause</a>
+    </div>
+    {{/if}}
+
   </div>
 
   <div class="eight wide column">
