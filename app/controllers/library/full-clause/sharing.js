@@ -50,6 +50,10 @@ export default Ember.Controller.extend({
       return user.get('fullName').toLowerCase().indexOf(searchTerm) !== -1;
     });
   }),
+  mergedCurrentUsers: Ember.computed.union('model.clause.canReadUsers', 'model.clause.canWriteUsers', 'model.clause.adminUsers'),
+  matchingNoCurrentUsers: Ember.computed('matchingUsers', 'mergedCurrentUsers', function() {
+    return this.get('matchingUsers').removeObjects(this.get('mergedCurrentUsers'));
+  }),
   matchingUsersSortOptions: ['firstName'],
   combinedUsersSortOptions: ['fullName'],
   filteredMatchingUsers: Ember.computed.sort('matchingUsers', 'matchingUsersSortOptions'),
@@ -87,6 +91,7 @@ export default Ember.Controller.extend({
       user.get('canReadClauses').pushObject(clause);
       clause.save().then(() => {
         user.save();
+        this.set('searchTerm', null);
       });
     },
     setCanWriteUser(userObject) {

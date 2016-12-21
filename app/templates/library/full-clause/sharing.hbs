@@ -44,8 +44,8 @@
     </div>
     {{#if searchTermNotEmpty}}
       <div class="ui vertical menu search-results">
-        {{#if filteredMatchingUsers}}
-          {{#each filteredMatchingUsers as |user|}}
+        {{#if matchingNoCurrentUsers}}
+          {{#each matchingNoCurrentUsers as |user|}}
           <a class="item" {{action 'addUser' user}}>
             <h4 class="ui image header">
               {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
