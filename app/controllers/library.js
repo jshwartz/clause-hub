@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  user: Ember.inject.service(),
+  combinedClauses: Ember.computed.union('model.adminClauses', 'model.canReadClauses', 'model.canWriteClauses'),
   title: null,
   hasValidTitle: Ember.computed.notEmpty('title'),
   subTitle: null,
@@ -44,8 +46,10 @@ export default Ember.Controller.extend({
         title: this.get('title'),
         subTitle: this.get('subTitle'),
         heading: this.get('heading'),
-        created: new Date(),
+        createdAt: new Date(),
         lastModified: new Date(),
+        lastModifiedBy: this.get('model.fullName'),
+        createdBy: this.get('model.fullName'),
       };
       this.get('store').findRecord('user', this.get('session.currentUser.uid')).then((admin) => {
         const newClause = this.get('store').createRecord('clause', {
@@ -65,6 +69,23 @@ export default Ember.Controller.extend({
     },
     openClauseModal() {
       $('.ui.clause.modal').modal('show');
-    }
+    },
+    updateClauseFavorite(clause) {
+      this.get('user.currentUser').then((user) => {
+        if (clause.get('favoriteTrue')) {
+          console.log(true);
+          clause.get('favoriteUsers').removeObject(user);
+          clause.save().then(() => {
+            user.save();
+          });
+        } else if (!clause.get('favoriteTrue')) {
+          console.log(false);
+          clause.get('favoriteUsers').pushObject(user);
+          clause.save().then(() => {
+            user.save();
+          });
+        }
+      });
+    },
   }
 });

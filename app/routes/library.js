@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
+
   beforeModel(transition) {
     if (!this.get('session.isAuthenticated')) {
       alert('your not supposed to be here...');
@@ -9,7 +10,7 @@ export default Ember.Route.extend({
   },
 
   model() {
-    return this.store.findAll('clause');
+    return this.get('store').findRecord('user', this.get('session.currentUser.uid'));
   }
 
 

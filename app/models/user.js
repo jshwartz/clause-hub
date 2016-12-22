@@ -5,6 +5,9 @@ export default DS.Model.extend({
   firstName: DS.attr(),
   lastName: DS.attr(),
   email: DS.attr(),
+  favoriteClauses: DS.hasMany('clause', {
+    inverse: 'favoriteUsers'
+  }),
   canWriteClauses: DS.hasMany('clause', {
     inverse: 'canWriteUsers'
   }),

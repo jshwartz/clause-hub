@@ -3,10 +3,11 @@
   New Clause
 </div></h1>
 <div class="ui cards">
-  {{#each model as |clause|}}
+  {{#each combinedClauses as |clause|}}
     <div class="ui raised link card">
       <div class="content">
-        <i class="right floated star icon"></i>
+        <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
+        {{!-- {{ui-rating tag="<i>" class="right floated star" maxRating=1 rating=clause.favoriteTrue onRate=(action 'updateClauseFavorite' clause) clearable=true}} --}}
         {{#link-to "library.fullClause.dashboard" clause class="header"}}
           {{clause.metadata.title}}
         {{/link-to}}
