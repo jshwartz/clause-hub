@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 export default DS.Model.extend({
   session: Ember.inject.service(),
+  // lastModified: DS.attr('date'),
   metadata: DS.attr(),
   blocks: DS.hasMany('block', {
     inverse: 'clause'

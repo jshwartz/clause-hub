@@ -4,6 +4,10 @@ body {
     overflow-y: scroll;
 }
 
+.ui.cards > .card > .content .active.star.icon, .ui.card > .content .active.star.icon {
+  color: #fbbd08;
+}
+
 a:hover {
   color: #009891;
 }

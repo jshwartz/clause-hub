@@ -1,27 +1,75 @@
-<h1>Clause Library
-<div class="ui teal button" {{action 'openClauseModal'}}>
-  New Clause
-</div></h1>
-<div class="ui cards">
-  {{#each combinedClauses as |clause|}}
-    <div class="ui raised link card">
-      <div class="content">
-        <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
-        {{!-- {{ui-rating tag="<i>" class="right floated star" maxRating=1 rating=clause.favoriteTrue onRate=(action 'updateClauseFavorite' clause) clearable=true}} --}}
-        {{#link-to "library.fullClause.dashboard" clause class="header"}}
-          {{clause.metadata.title}}
-        {{/link-to}}
-        {{#link-to "library.fullClause.dashboard" clause class="meta"}}
-          <p><span class="left floated">Last Updated</span><span class="right floated">{{moment-from-now clause.metadata.lastModified}}</span></p>
-        {{/link-to}}
-        {{#link-to "library.fullClause.dashboard" clause class="description"}}
-          <div class="ui hidden clearing divider"></div>
-          <p>{{clause.metadata.subTitle}}</p>
-        {{/link-to}}
-      </div>
+{{!-- {{#if sortedClauses.isFulFilled}} --}}
+<h1 class="ui header">Clause Library</h1>
+<div class="ui grid">
+  <div class="thirteen wide column">
+    <div class="ui cards">
+      {{#each searchedClauses as |clause|}}
+        <div class="ui raised link card">
+          <div class="content">
+            <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
+            {{#link-to "library.fullClause.dashboard" clause class="header"}}
+              {{clause.metadata.title}}
+            {{/link-to}}
+            {{#link-to "library.fullClause.dashboard" clause class="meta"}}
+              <p><span class="left floated">Last Updated</span><span class="right floated">{{moment-from-now clause.metadata.lastModified}}</span></p>
+            {{/link-to}}
+            {{#link-to "library.fullClause.dashboard" clause class="description"}}
+              <div class="ui hidden clearing divider"></div>
+              <p>{{clause.metadata.subTitle}}</p>
+            {{/link-to}}
+          </div>
+        </div>
+      {{/each}}
     </div>
-  {{/each}}
+  </div>
+  <div class="three wide column">
+    <form class="ui form">
+      <div class="ui left icon input">
+        <i class="search icon"></i>
+        {{one-way-input type="text" value=search placeholder="Search..." update=(action (mut search))}}
+      </div>
+      <h4 class="ui dividing header">Sort</h4>
+      <div class="field">
+        {{#ui-dropdown class="ui small floating labeled icon dropdown button" selected=sortBy onChange=(action (mut sortBy))}}
+          <div class="default text">Sort By</div>
+          <i class="sort icon"></i>
+          <div class="menu">
+            {{#each sortOptions as |sortOption|}}
+              <div class="item" data-value="{{sortOption.value}}">
+                {{sortOption.title}}
+              </div>
+            {{/each}}
+          </div>
+        {{/ui-dropdown}}
+      </div>
+      {{#link-to "library" (query-params direction="asc") class='ui icon button'}}<i class="sort content ascending icon"></i>{{/link-to}}
+      {{#link-to "library" (query-params direction="desc") class='ui icon button'}}<i class="sort content descending icon"></i>{{/link-to}}
+      <h4 class="ui dividing header">Filters</h4>
+      <div class="field">
+        {{#ui-dropdown class="ui small floating labeled icon dropdown button" selected=dateFilter onChange=(action (mut dateFilter))}}
+          <div class="default text">Date Filter</div>
+          <i class="calendar icon"></i>
+          <div class="menu">
+            {{#each dateFilterOptions as |option|}}
+              <div class="item" data-value="{{option.value}}">
+                {{option.title}}
+              </div>
+            {{/each}}
+          </div>
+        {{/ui-dropdown}}
+      </div>
+      <div class="field">
+        {{ui-checkbox label="My Favorites" checked=favoriteFilter onChange=(action (mut favoriteFilter))}}
+      </div>
+
+    </form>
+    {{!-- <div class="ui mini teal button" {{action 'openClauseModal'}}>
+      New Clause
+    </div> --}}
+
+  </div>
 </div>
+
 
 {{#ember-wormhole to="destination"}}
 {{#ui-modal name="clause" autofocus=false class="clause small" onHidden=(action 'cancelNewClause') onApprove=(action 'createClause')}}
