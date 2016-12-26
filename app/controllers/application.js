@@ -147,7 +147,9 @@ export default Ember.Controller.extend({
       }
     },
     signOut() {
-      this.get('session').close();
+      this.get('session').close().then(() => {
+        this.transitionToRoute('login');
+      });
     },
     changeToSignUp() {
       this.set('signInModal', false);

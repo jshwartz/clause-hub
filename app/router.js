@@ -18,6 +18,8 @@ Router.map(function() {
       this.route('sharing');
     });
   });
+  this.route('login');
+  this.route('profile');
 });
 
 export default Router;

@@ -1,0 +1,34 @@
+<div class="ui middle aligned centered grid">
+  <div class="ui six wide column">
+    <h1 class="ui center aligned header">Login</h1>
+        <form class={{if errorMessage "ui error form" "ui form"}}>
+          <div class="ui error message">
+            <p>{{errors.email}}</p>
+            <p>{{errors.password}}</p>
+            <p>{{errors.server}}</p>
+          </div>
+          <div class={{if errors.email "field error" "field"}}>
+            <label>Email</label>
+            {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
+          </div>
+          <div class={{if errors.password "field error" "field"}}>
+            <label>Password</label>
+            {{one-way-input value=password type="password" placeholder="Password" update=(action (mut password))}}
+          </div>
+          {{!-- <p>Don't have an account? <a href="#" {{action 'changeToSignUp'}}>Sign-up here!</a></p> --}}
+          {{#if session.isWorking}}
+            <div class="ui fluid basic teal loading button">
+              Login
+            </div>
+          {{else}}
+            <div class="ui fluid basic teal  button" {{action 'signIn' 'password'}}>
+              Login
+            </div>
+          {{/if}}
+        </form>
+        {{!-- <div class="ui deny button">
+          Cancel
+        </div> --}}
+
+  </div>
+</div>

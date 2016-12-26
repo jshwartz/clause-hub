@@ -3,8 +3,8 @@ import Ember from 'ember';
 
 
 export default DS.Model.extend({
-  dropdowns: DS.attr({ defaultValue: [] }),
-  checkboxes: DS.attr({ defaultValue: [
+  dropdowns: DS.attr({ defaultValue: () => [] }),
+  checkboxes: DS.attr({ defaultValue: () => [
     {
       active: false,
       defaultTrue: false,
@@ -25,7 +25,7 @@ export default DS.Model.extend({
       menuText: "Option 3"
     }
   ] }),
-  checkboxChoices: DS.attr({ defaultValue: [
+  checkboxChoices: DS.attr({ defaultValue: () => [
     {
       active: true,
       defaultTrue: true,
