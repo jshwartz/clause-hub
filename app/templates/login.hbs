@@ -25,6 +25,18 @@
               Login
             </div>
           {{/if}}
+          <p class="center-aligned">Forgot your password? <a href="#" {{action 'resetPassword'}}>Reset</a></p>
+          {{#if passwordIsReset}}
+          <div class="ui message">
+            <i class="close icon" {{action 'closePasswordMessage'}}></i>
+            <div class="header">
+              <i class="warning sign icon"></i>
+              Further Action Required
+            </div>
+            <p>{{passwordIsReset}}</p>
+          </div>
+          {{/if}}
+
         </form>
         {{!-- <div class="ui deny button">
           Cancel
