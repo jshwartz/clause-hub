@@ -33,13 +33,13 @@ export default DS.Model.extend({
   owner: DS.belongsTo('user', {
     inverse: 'ownsClauses'
   }),
-  name: DS.attr('string'),
-  title: DS.attr('string'),
-  createdAt: DS.attr('date', {
-    defaultValue() { return new Date(); }
-  }),
+  // name: DS.attr('string'),
+  // title: DS.attr('string'),
+  // createdAt: DS.attr('date', {
+  //   defaultValue() { return new Date(); }
+  // }),
   type: DS.attr('string'),
-  createdBy: DS.attr('string'),
-  lastUpdatedBy: DS.attr('string'),
+  // createdBy: DS.attr('string'),
+  // lastUpdatedBy: DS.attr('string'),
   readme: DS.attr('string'),
 });

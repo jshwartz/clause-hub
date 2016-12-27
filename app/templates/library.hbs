@@ -44,10 +44,10 @@
       </div>
       {{#link-to "library" (query-params direction="asc") class='ui icon button'}}<i class="sort content ascending icon"></i>{{/link-to}}
       {{#link-to "library" (query-params direction="desc") class='ui icon button'}}<i class="sort content descending icon"></i>{{/link-to}}
-      <h4 class="ui dividing header">Filters</h4>
+      <h4 class="ui dividing header">Filter</h4>
       <div class="field">
         {{#ui-dropdown class="ui small floating labeled icon dropdown button" selected=dateFilter onChange=(action (mut dateFilter))}}
-          <div class="default text">Date Filter</div>
+          <div class="default text">Date Filters</div>
           <i class="calendar icon"></i>
           <div class="menu">
             {{#each dateFilterOptions as |option|}}
@@ -61,11 +61,13 @@
       <div class="field">
         {{ui-checkbox label="My Favorites" checked=favoriteFilter onChange=(action (mut favoriteFilter))}}
       </div>
+      <h4 class="ui dividing header">Create</h4>
+      <div class="ui small button" {{action 'openClauseModal'}}>
+        New Clause
+      </div>
 
     </form>
-    {{!-- <div class="ui mini teal button" {{action 'openClauseModal'}}>
-      New Clause
-    </div> --}}
+
 
   </div>
 </div>

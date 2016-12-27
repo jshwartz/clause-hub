@@ -24,7 +24,11 @@
       <div class="ui raised block segment">
         <h1 class="ui header"><strong>README</strong>{{#if userCanEditReadme}}<a class="sub header" href="#" {{action 'openEdit'}}>Edit</a>{{/if}}</h1>
         <div class="ui clearing divider"></div>
-        {{{model.readme}}}
+        {{#if model.readme}}
+          {{{model.readme}}}
+        {{else}}
+          <p><em>Nothing to see here - You're on your own <i class="frown icon"></i></em></p>
+        {{/if}}
       </div>
     {{/if}}
   </div>
@@ -52,7 +56,7 @@
         {{/each}}
       </div>
       <div class="ui divider"></div>
-      <p>{{model.metadata.createdBy}} brought this clause into the world on {{moment-format model.metadata.createdAt 'MMMM do YYYY'}}. It was lasted updated {{moment-from-now model.metadata.lastModified}} by {{model.metadata.lastModifiedBy}}.</p>
+      <p>{{model.metadata.createdBy}} brought this clause into the world on <strong>{{moment-format model.metadata.createdAt "MMMM Do YYYY"}}</strong>. It was lasted updated <strong>{{moment-from-now model.metadata.lastModified}}</strong> by {{model.metadata.lastModifiedBy}}.</p>
     </div>
 
     {{!-- <div class="ui card">

@@ -67,13 +67,6 @@ export default Ember.Controller.extend({
   updatedLastYear: Ember.computed.filter('favoriteClauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'years') < 1;
   }),
-
-
-
-
-
-
-
   title: null,
   hasValidTitle: Ember.computed.notEmpty('title'),
   subTitle: null,
@@ -116,7 +109,7 @@ export default Ember.Controller.extend({
       const metadata = {
         title: this.get('title'),
         subTitle: this.get('subTitle'),
-        heading: this.get('heading'),
+        header: this.get('heading'),
         createdAt: new Date(),
         lastModified: new Date(),
         lastModifiedBy: this.get('model.fullName'),
