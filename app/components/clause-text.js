@@ -18,7 +18,7 @@ export default Ember.Component.extend({
           highlightBlock = true;
         }
         let text = '';
-        if (selectedText !== null) {
+        if (selectedText !== null && selectedText !== undefined) {
           if (highlightBlock) {
             text = "<span class='text-highlight'>" + selectedText + "</span>";
             result.addObject({order: orderNumber, text: text, paragraph: false});
@@ -46,8 +46,10 @@ export default Ember.Component.extend({
     sortedBlockArray.forEach((block, index) => {
       if (block.paragraph) {
         const nextBlock = sortedBlockArray.objectAt(index + 1);
-        if (!nextBlock.paragraph) {
-          resultArray.pushObject(block.text);
+        if (nextBlock !== undefined) {
+          if (!nextBlock.paragraph) {
+            resultArray.pushObject(block.text);
+          }
         }
       } else {
         resultArray.pushObject(block.text);
