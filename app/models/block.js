@@ -90,6 +90,7 @@ export default DS.Model.extend({
   blockDropdowns: DS.hasMany('block-dropdown'),
   blockCheckboxes: DS.hasMany('block-checkbox'),
   blockCheckboxChoices: DS.hasMany('block-checkbox-choice'),
+  paragraph: Ember.computed.equal('type', 'paragraph'),
   defaultText: Ember.computed('dropdowns', 'defaultTrue', 'checkboxes', function(){
     let returnText = null;
     if (this.get('type') === 'dropdown') {
@@ -128,7 +129,7 @@ export default DS.Model.extend({
     }
     return returnText;
   }),
-  selectedText: Ember.computed('selected', function(){
+  selectedText: Ember.computed('selected', 'staticText', function(){
     let returnText = null;
     if (this.get('type') === 'dropdown') {
       this.get('dropdowns').forEach( (dropdown) => {
@@ -163,6 +164,8 @@ export default DS.Model.extend({
           returnText = choice.text;
         }
       });
+    } else if (this.get('type') === 'paragraph') {
+        returnText = this.get('staticText');
     }
     return returnText;
   }),

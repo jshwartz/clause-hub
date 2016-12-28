@@ -12,6 +12,13 @@ body {
   text-align: center;
 }
 
+.ui.paragraph.block.fluid.card {
+  margin-top: 25px;
+  background-color: rgb(245, 245, 245);
+  .meta {
+    font-size: 1em;
+  }
+}
 
 .ui.cards > .card > .content .active.star.icon, .ui.card > .content .active.star.icon {
   color: #fbbd08;

@@ -317,6 +317,24 @@ export default Ember.Controller.extend(clauseUpdate, {
         this.createDropdownBlock();
       }
     },
+    createParagraphBlock() {
+      const orderNumber = this.get('model.blocks.length') + 1;
+      const newParagraphBlock = this.get('store').createRecord('block', {
+        staticText: this.get('staticText'),
+        type: "paragraph",
+        clause: this.get('model'),
+        orderNumber: orderNumber,
+      });
+      newParagraphBlock.save()
+        .then(() => {
+          this.get('model').save();
+          this.updateLastModified(this.get('model'));
+          this.transitionToRoute('library.fullClause.builder.block', this.get('model'), newParagraphBlock);
+        })
+        .catch(error => {
+          console.error("Error saving player", error);
+        });
+    },
     updateCurrentBlock(block) {
       this.get('fullClause').set('currentBlock', block);
     },
