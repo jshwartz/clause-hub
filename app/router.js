@@ -20,7 +20,10 @@ Router.map(function() {
   });
   this.route('login');
   this.route('profile');
-  this.route('admin');
+  this.route('admin', function() {
+    this.route('users');
+    this.route('clauses');
+  });
 });
 
 export default Router;

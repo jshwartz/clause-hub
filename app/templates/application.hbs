@@ -7,7 +7,16 @@
       ClauseHub
     </div>
     {{#link-to 'library' class='item'}}Library{{/link-to}}
-    {{#link-to 'admin' class='item'}}Admin{{/link-to}}
+    {{#if currentUser.admin}}
+      {{#ui-dropdown class="browse item" tagName="a"}}
+        Admin
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          {{#link-to 'admin.users' class='item'}}Users{{/link-to}}
+          {{#link-to 'admin.clauses' class='item'}}Clauses{{/link-to}}
+        </div>
+      {{/ui-dropdown}}
+    {{/if}}
     <div class="right menu">
       {{#if session.isAuthenticated}}
         {{#ui-dropdown class="browse item" tagName="a"}}
