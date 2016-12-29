@@ -21,6 +21,7 @@ export default DS.Model.extend({
   ownsClauses: DS.hasMany('clause', {
     inverse: 'owner'
   }),
+  admin: DS.attr('boolean', { defaultValue: false }),
   verified: DS.attr('boolean', { defaultValue: false }),
   createdAt: DS.attr('date', {
     defaultValue() { return new Date(); }

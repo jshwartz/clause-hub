@@ -1,0 +1,99 @@
+
+<h1 class="ui header">Manage Users</h1>
+<div class="ui raised block segment">
+  {{#if newUserForm}}
+    <div class="content">
+      <form class={{if errorMessage "ui error form" "ui form"}}>
+        <div class="ui error message">
+          <p>{{errors.firstName}}</p>
+          <p>{{errors.lastName}}</p>
+          <p>{{errors.email}}</p>
+          <p>{{errors.passwordMatch}}</p>
+          <p>{{errors.password}}</p>
+          <p>{{errors.server}}</p>
+        </div>
+        <div class="two fields">
+          <div class={{if errors.firstName "field error required" "field required"}}>
+            <label>First Name</label>
+            {{one-way-input value=firstName placeholder="First Name" update=(action (mut firstName))}}
+          </div>
+          <div class={{if errors.lastName "field error required" "field required"}}>
+            <label>Last Name</label>
+            {{one-way-input value=lastName placeholder="Last Name" update=(action (mut lastName))}}
+          </div>
+        </div>
+        <div class={{if errors.email "field error required" "field required"}}>
+          <label>Email</label>
+          {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
+        </div>
+        <div class="two fields">
+          <div class={{if errors.password "field error required" "field required"}}>
+            <label>Password</label>
+            {{one-way-input value=password type="password" placeholder="Password" update=(action (mut password))}}
+          </div>
+          <div class={{if errors.passwordMatch "field error required" "field required"}}>
+            <label>Re-Type Password</label>
+            {{one-way-input value=passwordCheck type="password" placeholder="Re-Type Password" update=(action (mut passwordCheck))}}
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui mini button" {{action 'cancelCreateUser'}}>
+        Cancel
+      </div>
+      {{#if signingUpWorking}}
+      <div class="ui mini teal loading button">
+        Create
+      </div>
+      {{else}}
+        <div class="ui mini teal approve button" {{action 'createUser'}}>
+          Create
+        </div>
+      {{/if}}
+    </div>
+  {{else}}
+    <div class="ui mini teal button" {{action 'openCreateUser'}}>Create User</div>
+  {{/if}}
+</div>
+
+{{#if singleAdminClauses}}
+  <div class="ui raised block segment">
+    <div class="ui message">
+      <i class="close icon"{{action 'closeAdminClauseMessage'}}></i>
+      <div class="header">
+        Cannot delete user - single admin of the following clauses:
+      </div>
+      <ul class="list">
+        {{#each singleAdminClauses as |clause|}}
+          <li>{{#link-to 'library.fullClause.sharing' clause}}{{clause.metadata.title}} ({{clause.id}}){{/link-to}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+{{/if}}
+
+<div class="ui raised block segment">
+  <table class="ui selectable very basic table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>ID</th>
+        <th>Admin</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model as |user|}}
+        <tr>
+          <td>{{user.fullName}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.id}}</td>
+          <td>None</td>
+          <td><button class="ui mini basic button" {{action 'countAdminClausesNoDelete' user}}>Count</button><button class="ui mini negative basic button" {{action 'countAdminClauses' user}}>Delete</button></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
