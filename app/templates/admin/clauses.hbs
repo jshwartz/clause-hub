@@ -1,1 +1,23 @@
-{{outlet}}
+<h1 class="ui header">Manage Clauses</h1>
+<div class="ui raised block segment">
+  <table class="ui selectable very basic table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Created</th>
+        <th>Last Modified</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model as |clause|}}
+        <tr>
+          <td>{{#link-to 'library.fullClause.dashboard' clause}}{{clause.metadata.title}}{{/link-to}}</td>
+          <td>{{moment-format clause.metadata.createdAt "MMMM Do YYYY"}}</td>
+          <td>{{moment-format clause.metadata.lastModified "MMMM Do YYYY"}}</td>
+          <td><button class="ui mini negative basic button" {{action 'deleteClause' clause}}>Delete</button></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

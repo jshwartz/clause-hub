@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
   currentUser: Ember.computed('session.currentUser.uid', function() {
     return this.get('session.currentUser.uid');
   }),
-  adminUser123: null,
+  user: Ember.inject.service(),
   userAdmin:  Ember.computed('model', 'currentUser', function() {
     const currentUser = this.get('currentUser');
     const adminUsers = this.get('model.adminUsers');
