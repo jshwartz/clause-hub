@@ -1,8 +1,9 @@
 {{!-- {{#if sortedClauses.isFulFilled}} --}}
 <h1 class="ui header">{{model.firstName}}'s Library</h1>
-<div class="ui grid">
+<div class="ui hidden divider"></div>
+<div class="ui stackable grid">
   <div class="thirteen wide column">
-    <div class="ui cards">
+    <div class="ui stackable cards">
       {{#each searchedClauses as |clause|}}
         <div class="ui raised link card">
           <div class="content">

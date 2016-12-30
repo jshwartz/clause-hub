@@ -1,111 +1,116 @@
-<div class="ui grid">
+<div class="ui stackable grid">
   <div class="eight wide column">
-    <h1>Metadata</h1>
-    {{#if isEditing}}
-      <div class={{if errorMessage "ui error form" "ui form"}}>
-        <div class="ui error message">
-          <p>{{errors.title}}</p>
-          <p>{{errors.subtitle}}</p>
+    {{!-- <div class="ui raised block segment"> --}}
+      <h1>Metadata</h1>
+      {{#if isEditing}}
+        <div class={{if errorMessage "ui error form" "ui form"}}>
+          <div class="ui error message">
+            <p>{{errors.title}}</p>
+            <p>{{errors.subtitle}}</p>
+          </div>
+          <div class={{if errors.title "field error required" "field required"}}>
+            <label>Clause Title</label>
+            {{one-way-input value=titleText update=(action (mut titleText))}}
+          </div>
+          <div class={{if errors.subtitle "field error required" "field required"}}>
+            <label>Clause Subtitle</label>
+            {{one-way-input value=subtitleText update=(action (mut subtitleText))}}
+          </div>
+          <div class="field">
+            <label>Clause Header</label>
+            {{one-way-input value=headerText update=(action (mut headerText))}}
+          </div>
+          <button class="ui mini teal button"{{action 'saveMetadata'}}>Save</button>
+          <button class="ui mini button" {{action 'closeEdit'}}>Cancel</button>
         </div>
-        <div class={{if errors.title "field error required" "field required"}}>
-          <label>Clause Title</label>
-          {{one-way-input value=titleText update=(action (mut titleText))}}
+      {{else}}
+        <strong>Clause Title</strong>
+        <p>{{model.clause.metadata.title}}</p>
+        <strong>Clause Subtitle</strong>
+        <p>{{model.clause.metadata.subTitle}}</p>
+        <strong>Clause Header</strong>
+        <p>{{model.clause.metadata.header}}</p>
+        <p class="">
+          <a href='#' {{action 'openEdit'}}>Edit</a>
+        </p>
+      {{/if}}
+    {{!-- </div> --}}
+    {{!-- <div class="ui raised block segment"> --}}
+      <h1>Delete Clause</h1>
+      <button class="negative ui basic mini button" {{action 'confirmDelete'}}>Delete Clause</button>
+      {{#if confirmDelete}}
+      <div class="ui message">
+        <i class="close icon" {{action 'cancelDelete'}}></i>
+        <div class="header">
+          <i class="warning sign icon"></i>
+          Action cannot be undone.
         </div>
-        <div class={{if errors.subtitle "field error required" "field required"}}>
-          <label>Clause Subtitle</label>
-          {{one-way-input value=subtitleText update=(action (mut subtitleText))}}
-        </div>
-        <div class="field">
-          <label>Clause Header</label>
-          {{one-way-input value=headerText update=(action (mut headerText))}}
-        </div>
-        <button class="ui mini teal button"{{action 'saveMetadata'}}>Save</button>
-        <button class="ui mini button" {{action 'closeEdit'}}>Cancel</button>
+        Are you sure you want to delete the clause? <a href="#" {{action 'destroyClause'}}>Delete Clause</a>
       </div>
-    {{else}}
-      <strong>Clause Title</strong>
-      <p>{{model.clause.metadata.title}}</p>
-      <strong>Clause Subtitle</strong>
-      <p>{{model.clause.metadata.subTitle}}</p>
-      <strong>Clause Header</strong>
-      <p>{{model.clause.metadata.header}}</p>
-      <p class="">
-        <a href='#' {{action 'openEdit'}}>Edit</a>
-      </p>
-    {{/if}}
-    <h1>Delete Clause</h1>
-    <button class="negative ui basic mini button" {{action 'confirmDelete'}}>Delete Clause</button>
-    {{#if confirmDelete}}
-    <div class="ui message">
-      <i class="close icon" {{action 'cancelDelete'}}></i>
-      <div class="header">
-        <i class="warning sign icon"></i>
-        Action cannot be undone.
-      </div>
-      Are you sure you want to delete the clause? <a href="#" {{action 'destroyClause'}}>Delete Clause</a>
-    </div>
-    {{/if}}
-
+      {{/if}}
+    {{!-- </div> --}}
   </div>
 
   <div class="eight wide column">
-    <h1>Sharing</h1>
-    {{#click-outside action=(action "closeSearch")}}
-    <div class="ui icon input">
-      <i class="search icon"></i>
-      {{one-way-input value=searchTerm placeholder="Add users.." update=(action (mut searchTerm))}}
-    </div>
-    {{#if searchTermNotEmpty}}
-      <div class="ui vertical menu search-results">
-        {{#if matchingNoCurrentUsers}}
-          {{#each matchingNoCurrentUsers as |user|}}
-          <a class="item" {{action 'addUser' user}}>
-            <h4 class="ui image header">
-              {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
-              <div class="content">
-                {{user.fullName}}
-                <div class="sub header">{{if user.company user.company user.fullName}}</div>
-              </div>
-            </h4>
-          </a>
-          {{/each}}
-        {{else}}
-          <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
-        {{/if}}
+    {{!-- <div class="ui raised block segment"> --}}
+      <h1>Sharing</h1>
+      {{#click-outside action=(action "closeSearch")}}
+      <div class="ui icon input">
+        <i class="search icon"></i>
+        {{one-way-input value=searchTerm placeholder="Add users.." update=(action (mut searchTerm))}}
       </div>
-    {{/if}}{{/click-outside}}
+      {{#if searchTermNotEmpty}}
+        <div class="ui vertical menu search-results">
+          {{#if matchingNoCurrentUsers}}
+            {{#each matchingNoCurrentUsers as |user|}}
+            <a class="item" {{action 'addUser' user}}>
+              <h4 class="ui image header">
+                {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
+                <div class="content">
+                  {{user.fullName}}
+                  <div class="sub header">{{if user.company user.company user.fullName}}</div>
+                </div>
+              </h4>
+            </a>
+            {{/each}}
+          {{else}}
+            <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
+          {{/if}}
+        </div>
+      {{/if}}{{/click-outside}}
 
-    <table class="ui very basic collapsing celled table">
-  <thead>
-    <tr><th>User</th>
-    <th>Can Read</th>
-    <th>Can Edit</th>
-    <th>Admin</th>
-  </tr></thead>
-  <tbody>
-    {{#each filteredCombinedUsers as |user|}}
-      <tr>
-        <td>
-          <h4 class="ui image header">
-            {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
-            <div class="content">
-              {{user.fullName}}
-              <div class="sub header">{{user.company}}</div>
-            </div>
-          </h4>
-        </td>
-        <td>
-          {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.canRead onUnchecked=(action 'removeCanReadUser' user)}}
-        </td>
-        <td>
-          {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.canWrite onChecked=(action 'setCanWriteUser' user) onUnchecked=(action 'setCanReadUser' user)}}
-        </td>
-        <td>
-          {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.admin onChecked=(action 'setAdminUser' user) onUnchecked=(action 'setCanWriteUser' user)}}
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+      <table class="ui very basic collapsing celled table">
+        <thead>
+          <tr><th>User</th>
+          <th>Can Read</th>
+          <th>Can Edit</th>
+          <th>Admin</th>
+        </tr></thead>
+        <tbody>
+          {{#each filteredCombinedUsers as |user|}}
+            <tr>
+              <td>
+                <h4 class="ui image header">
+                  {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
+                  <div class="content">
+                    {{user.fullName}}
+                    <div class="sub header">{{user.company}}</div>
+                  </div>
+                </h4>
+              </td>
+              <td>
+                {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.canRead onUnchecked=(action 'removeCanReadUser' user)}}
+              </td>
+              <td>
+                {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.canWrite onChecked=(action 'setCanWriteUser' user) onUnchecked=(action 'setCanReadUser' user)}}
+              </td>
+              <td>
+                {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.admin onChecked=(action 'setAdminUser' user) onUnchecked=(action 'setCanWriteUser' user)}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{!-- </div> --}}
   </div>
 </div>
