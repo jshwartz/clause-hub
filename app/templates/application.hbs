@@ -1,4 +1,3 @@
-
 <div id="destination"></div>
 
   <div class="ui teal inverted top menu">
@@ -45,6 +44,7 @@
   <div class="ui container">
   {{outlet}}
 </div>
+
 
 {{#ui-modal name="sign-in" autofocus=false class="sign-in small" onHidden=(action 'onHidden') onApprove=(action 'signInUp' 'password')}}
   <i class="close icon"></i>

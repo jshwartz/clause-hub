@@ -151,5 +151,8 @@ export default Ember.Controller.extend({
         }
       });
     },
+    openLibraryOptions() {
+      $('.ui.mobilelibrary.modal').modal('show');
+    }
   }
 });

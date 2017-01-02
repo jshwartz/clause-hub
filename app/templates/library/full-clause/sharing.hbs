@@ -1,6 +1,6 @@
 <div class="ui stackable grid">
   <div class="eight wide column">
-    {{!-- <div class="ui raised block segment"> --}}
+    <div class={{if media.isMobile "ui raised block segment"}}>
       <h1>Metadata</h1>
       {{#if isEditing}}
         <div class={{if errorMessage "ui error form" "ui form"}}>
@@ -34,8 +34,8 @@
           <a href='#' {{action 'openEdit'}}>Edit</a>
         </p>
       {{/if}}
-    {{!-- </div> --}}
-    {{!-- <div class="ui raised block segment"> --}}
+    </div>
+    <div class={{if media.isMobile "ui raised block segment"}}>
       <h1>Delete Clause</h1>
       <button class="negative ui basic mini button" {{action 'confirmDelete'}}>Delete Clause</button>
       {{#if confirmDelete}}
@@ -48,11 +48,11 @@
         Are you sure you want to delete the clause? <a href="#" {{action 'destroyClause'}}>Delete Clause</a>
       </div>
       {{/if}}
-    {{!-- </div> --}}
+    </div>
   </div>
 
   <div class="eight wide column">
-    {{!-- <div class="ui raised block segment"> --}}
+    <div class={{if media.isMobile "ui raised block segment"}}>
       <h1>Sharing</h1>
       {{#click-outside action=(action "closeSearch")}}
       <div class="ui icon input">
@@ -79,13 +79,13 @@
         </div>
       {{/if}}{{/click-outside}}
 
-      <table class="ui very basic collapsing celled table">
-        <thead>
+      <table class={{unless media.isMobile "ui very basic collapsing celled table" "ui striped celled table"}}>
+        {{#unless media.isMobile }}<thead>
           <tr><th>User</th>
           <th>Can Read</th>
           <th>Can Edit</th>
           <th>Admin</th>
-        </tr></thead>
+        </tr></thead>{{/unless}}
         <tbody>
           {{#each filteredCombinedUsers as |user|}}
             <tr>
@@ -99,18 +99,18 @@
                 </h4>
               </td>
               <td>
-                {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.canRead onUnchecked=(action 'removeCanReadUser' user)}}
+                {{ui-checkbox class=(if user.singleAdmin "disabled") label=(if media.isMobile "Can Read") checked=user.canRead onUnchecked=(action 'removeCanReadUser' user)}}
               </td>
               <td>
-                {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.canWrite onChecked=(action 'setCanWriteUser' user) onUnchecked=(action 'setCanReadUser' user)}}
+                {{ui-checkbox class=(if user.singleAdmin "disabled") label=(if media.isMobile "Can Write") checked=user.canWrite onChecked=(action 'setCanWriteUser' user) onUnchecked=(action 'setCanReadUser' user)}}
               </td>
               <td>
-                {{ui-checkbox class=(if user.singleAdmin "disabled") checked=user.admin onChecked=(action 'setAdminUser' user) onUnchecked=(action 'setCanWriteUser' user)}}
+                {{ui-checkbox class=(if user.singleAdmin "disabled") label=(if media.isMobile "Admin") checked=user.admin onChecked=(action 'setAdminUser' user) onUnchecked=(action 'setCanWriteUser' user)}}
               </td>
             </tr>
           {{/each}}
         </tbody>
       </table>
-    {{!-- </div> --}}
+    </div>
   </div>
 </div>

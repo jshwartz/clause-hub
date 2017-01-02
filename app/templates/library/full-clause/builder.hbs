@@ -82,7 +82,7 @@
       </div>
 
       {{#ember-wormhole to="destination"}}
-      {{#ui-modal name="block" autofocus=false class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
+      {{#ui-modal name="block" duration=200 transition='fade down' autofocus=false class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
         <i class="close icon"></i>
         {{#if newBlockMenu}}
           <div class="content">

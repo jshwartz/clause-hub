@@ -1,11 +1,13 @@
 
-<div class="ui grid">
+<div class="ui stackable grid">
   <div class="ui twelve wide column">
     <h2 class="ui header">{{model.metadata.title}}<div class="sub header">{{model.metadata.subTitle}}</div></h2>
   </div>
-  <div class="ui right aligned four wide column">
-    <a href="#" {{action 'goback'}}><span class="back-link"><i class="angle double left icon"></i>Back</span></a>
-  </div>
+  {{#unless media.isMobile}}
+    <div class="ui right aligned four wide column">
+      <a href="#" {{action 'goback'}}><span class="back-link"><i class="angle double left icon"></i>Back</span></a>
+    </div>
+  {{/unless}}
 </div>
 {{#if user.currentUser.admin}}
   <div class="ui four item block menu clause-menu">

@@ -53,7 +53,7 @@
       <div class="hidden content">Create New Dropdown</div>
     </div>
 
-    {{#ui-modal name="dropdown" class="dropdown small" onHidden=(action 'cancelNewDropdown') onApprove=(action 'createNewDropdown')}}
+    {{#ui-modal name="dropdown" duration=200 transition='fade down' class="dropdown small" onHidden=(action 'cancelNewDropdown') onApprove=(action 'createNewDropdown')}}
       <i class="close icon"></i>
         <div class="content">
           <div class={{if dropdownErrorMessage "ui error form" "ui form"}}>

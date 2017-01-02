@@ -17,6 +17,9 @@ export default Ember.Controller.extend({
     },
     success() {
       alert('Copied!');
+    },
+    openMobileOptions() {
+      $('.ui.mobileoptions.modal').modal('show');
     }
   }
 

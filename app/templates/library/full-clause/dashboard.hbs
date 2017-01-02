@@ -1,6 +1,6 @@
 <div class="ui relaxed stackable grid">
   <div class="two wide column">
-    <div class="ui right floated compact vertical icon menu">
+    <div class={{if media.isMobile "ui left floated compact icon menu" "ui right floated compact vertical icon menu"}}>
       <a class="item" {{action 'dashboardClauseSmall'}}>
         <i class="font icon small"></i>
       </a>
@@ -17,19 +17,36 @@
         <i class="copy icon"></i>{{/copy-button}}
       </a>
     </div>
+
+    {{#if media.isMobile}}
+      <div class="ui right floated compact icon menu">
+        <a class="item" {{action 'openMobileOptions'}}>
+          <i class="options icon"></i>
+        </a>
+      </div>
+    {{/if}}
   </div>
-  <div class="eight wide column">
-    <div class="ui raised block segment">
-      <div class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</div>
+      <div class="eight wide column">
+        <div class="ui raised block segment">
+          <div class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</div>
+        </div>
+      </div>
+      <div class="six wide column">
+        {{#unless media.isMobile}}
+          <h4 class="ui sub header spaced">Clause Options</h4>
+          {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model activeBlock=activeBlock}}
+        {{/unless}}
+      </div>
     </div>
-  </div>
-  <div class="six wide column">
 
-
-    <h4 class="ui sub header spaced">Clause Options</h4>
-    {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model activeBlock=activeBlock}}
-
-  </div>
-</div>
+    {{#ember-wormhole to="destination"}}
+      {{#ui-modal name="mobileoptions" duration=200 autofocus=false class="mobileoptions basic"}}
+        <i class="close icon"></i>
+        <div class="header">Clause Options</div>
+        <div class="content">
+          {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model activeBlock=activeBlock}}
+        </div>
+      {{/ui-modal}}
+    {{/ember-wormhole}}
 
 {{outlet}}
