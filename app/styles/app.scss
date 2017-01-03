@@ -4,8 +4,19 @@ body {
     overflow-y: scroll;
 }
 
+.large.ui.accordion .title:not(.ui) {
+  font-size: 1.3em;
+  .ui.checkbox label {
+    font-size: 1.3rem;
+  }
+}
+
 .ui.large.checkbox {
     font-size: 1.14285714rem;
+}
+
+.ui.large-options.checkbox label {
+    font-size: 1.2rem;
 }
 
 .ui.middle.aligned {

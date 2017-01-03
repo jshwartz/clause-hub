@@ -5,7 +5,7 @@
     <div class="header item">
       ClauseHub
     </div>
-    {{#link-to 'library' class='item'}}Library{{/link-to}}
+    {{#if session.isAuthenticated}}{{#link-to 'library' class='item'}}Library{{/link-to}}{{/if}}
     {{#if currentUser.admin}}
       {{#ui-dropdown class="browse item" tagName="a"}}
         Admin

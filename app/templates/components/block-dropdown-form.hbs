@@ -1,3 +1,4 @@
+<div id="destination2"></div>
 <div class="ui raised block segment">
   <h1 class="ui dividing header">
     Block {{model.orderNumber}} <div class="ui sub header">dropdown</div>
@@ -53,6 +54,7 @@
       <div class="hidden content">Create New Dropdown</div>
     </div>
 
+    {{#ember-wormhole to="destination2"}}
     {{#ui-modal name="dropdown" duration=200 transition='fade down' class="dropdown small" onHidden=(action 'cancelNewDropdown') onApprove=(action 'createNewDropdown')}}
       <i class="close icon"></i>
         <div class="content">
@@ -79,6 +81,7 @@
         </div>
       </div>
      {{/ui-modal}}
+     {{/ember-wormhole}}
 
 
 

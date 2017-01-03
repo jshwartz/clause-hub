@@ -1,4 +1,4 @@
-{{#ui-accordion class=(if media.isMobile "inverted" "")}}
+{{#ui-accordion class=(if media.isMobile "large inverted")}}
   {{#each menuArray as |option|}}
     <div {{action "sendActiveBlock" option.blockID on="mouseEnter"}} {{action "sendActiveBlock" "null" on="mouseLeave"}}>
       <div class="title {{if option.openMe "active"}}">
@@ -24,7 +24,7 @@
           {{#each option.choices as |choice|}}
             {{#if media.isMobile}}
               <div class="ui inverted form">
-                <div {{action 'updateCheckbox' choice}}>{{ui-checkbox class="inverted" label=choice.menuText checked=choice.selected}}</div>
+                <div {{action 'updateCheckbox' choice}}>{{ui-checkbox class="large-options" label=choice.menuText checked=choice.selected}}</div>
               </div>
             {{else}}
             <div {{action 'updateCheckbox' choice}}>{{ui-checkbox label=choice.menuText checked=choice.selected}}</div>
@@ -35,7 +35,7 @@
         {{#if option.toggle}}
           {{#if media.isMobile}}
             <div class="ui inverted form">
-              <div {{action 'updateToggle' option}}>{{ui-checkbox class="inverted" label=option.title checked=option.selected}}</div>
+              <div {{action 'updateToggle' option}}>{{ui-checkbox class="large-options" label=option.title checked=option.selected}}</div>
             </div>
           {{else}}
             <div {{action 'updateToggle' option}}>{{ui-checkbox class="slider" label=option.title checked=option.selected}}</div>
