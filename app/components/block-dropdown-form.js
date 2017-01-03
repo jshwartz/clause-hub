@@ -108,7 +108,7 @@ export default Ember.Component.extend(clauseUpdate, {
       });
     },
     newDropdown() {
-      this.$('.ui.dropdown.modal').modal('show');
+      $('.ui.new-dropdown.modal').modal('show');
     },
     cancelNewDropdown() {
       this.set('newMenuTitle', null);
