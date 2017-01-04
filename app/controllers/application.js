@@ -159,6 +159,9 @@ export default Ember.Controller.extend({
     },
     onHidden() {
       this.reset();
+    },
+    openMobileMenu() {
+      $('.ui.mobilemenu.modal').modal('show');
     }
   }
 });

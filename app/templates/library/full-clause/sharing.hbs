@@ -1,7 +1,7 @@
-<div class="ui stackable grid">
+<div class="ui stackable relaxed grid">
   <div class="eight wide column">
-    <div class={{if media.isMobile "ui raised block segment"}}>
-      <h1>Metadata</h1>
+    <div class="ui raised block segment">
+      <h1 class="ui dividing header">Metadata</h1>
       {{#if isEditing}}
         <div class={{if errorMessage "ui error form" "ui form"}}>
           <div class="ui error message">
@@ -35,8 +35,8 @@
         </p>
       {{/if}}
     </div>
+    <div class="ui hidden divider"></div>
     <div class={{if media.isMobile "ui raised block segment"}}>
-      <h1>Delete Clause</h1>
       <button class="negative ui basic mini button" {{action 'confirmDelete'}}>Delete Clause</button>
       {{#if confirmDelete}}
       <div class="ui message">
@@ -53,7 +53,8 @@
 
   <div class="eight wide column">
     <div class={{if media.isMobile "ui raised block segment"}}>
-      <h1>Sharing</h1>
+      {{#if media.isMobile}}<h1 class="ui dividing header">Sharing</h1>{{else}}
+      <h5 class="ui horizontal divider header"><i class="share alternate icon"></i>Sharing</h5>{{/if}}
       {{#click-outside action=(action "closeSearch")}}
       <div class="ui icon input">
         <i class="search icon"></i>
@@ -94,7 +95,7 @@
                   {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
                   <div class="content">
                     {{user.fullName}}
-                    <div class="sub header">{{user.company}}</div>
+                    <div class="sub header">{{if user.company user.company user.fullName}}</div>
                   </div>
                 </h4>
               </td>

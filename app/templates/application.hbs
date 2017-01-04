@@ -1,11 +1,10 @@
 <div id="destination"></div>
 
-  <div class="ui teal inverted top menu">
+  <div class={{if media.isMobile "ui teal large inverted top menu" "ui teal inverted top menu"}}>
     <div class="ui container">
     <div class="header item">
-      ClauseHub
+      {{#link-to 'library'}}ClauseHub{{/link-to}}
     </div>
-    {{#if session.isAuthenticated}}{{#link-to 'library' class='item'}}Library{{/link-to}}{{/if}}
     {{#if currentUser.admin}}
       {{#ui-dropdown class="browse item" tagName="a"}}
         Admin
@@ -18,14 +17,30 @@
     {{/if}}
     <div class="right menu">
       {{#if session.isAuthenticated}}
-        {{#ui-dropdown class="browse item" tagName="a"}}
-          Hello {{currentUser.firstName}}
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            {{#link-to 'profile' class='item'}}<i class="settings icon"></i>Account{{/link-to}}
-            <div class="item" {{action 'signOut'}}><i class="hand peace icon"></i>Logout</div>
-          </div>
-        {{/ui-dropdown}}
+        {{#if media.isMobile}}
+          <a class="item" {{action 'openMobileMenu'}}>
+            <i class="content icon"></i>
+          </a>
+          {{#ui-modal name="mobilemenu" duration=200 autofocus=false class="mobilemenu basic"}}
+            <i class="dark close icon"></i>
+            <div class="ui basic center aligned segment">
+              <div class="ui relaxed massive list">
+                {{#link-to 'library' class='item'}}Library{{/link-to}}
+                {{#link-to 'profile' class='item'}}Account Settings{{/link-to}}
+                <a class="item" href="#" {{action 'signOut'}}>Logout</a>
+              </div>
+            </div>
+          {{/ui-modal}}
+        {{else}}
+          {{#ui-dropdown class="browse item" tagName="a"}}
+            Hello {{currentUser.firstName}}
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              {{#link-to 'profile' class='item'}}<i class="settings icon"></i>Account{{/link-to}}
+              <div class="item" {{action 'signOut'}}><i class="hand peace icon"></i>Logout</div>
+            </div>
+          {{/ui-dropdown}}
+        {{/if}}
 
       {{else if session.isWorking}}
         <div class="ui item"><i>Signing In</i></div>

@@ -2,7 +2,56 @@
 
 <div class="ui relaxed stackable grid">
   <div class="ten wide column">
+    {{#if model.blocks}}
     {{outlet}}
+    {{else}}
+
+      <div class="ui raised block segment">
+        <h1 class="ui header">Builder</h1>
+        <div class="ui divider"></div>
+        <p>ClauseHub clauses are built up with <strong> blocks</strong>.</p>
+        <div class="ui list">
+          <div class="item">
+            <i class="cubes icon"></i>
+            <div class="content">
+              Blocks can be as short as a single letter or as long as an entire paragraph.
+            </div>
+          </div>
+          <div class="item">
+            <i class="cubes icon"></i>
+            <div class="content">
+              Blocks can be <strong> static </strong> or <strong> dynamic </strong>.
+            </div>
+          </div>
+        </div>
+        <p>Dynamic blocks correspond to options that users can interact with. For dynamic blocks, you can create:</p>
+        <div class="ui list">
+          <div class="item">
+            <i class="toggle off icon"></i>
+            <div class="content">
+              <div class="header">Toggle Blocks</div>
+              <div class="description">User can turn the block on and off.</div>
+            </div>
+          </div>
+          <div class="item">
+            <i class="toggle off icon"></i>
+            <div class="content">
+              <div class="header">Dropdown Blocks </div>
+              <div class="description">User can select one of multiple options.</div>
+            </div>
+          </div>
+          <div class="item">
+            <i class="toggle off icon"></i>
+            <div class="content">
+              <div class="header">Combo Blocks </div>
+              <div class="description">The user can select a combination of options.</div>
+            </div>
+          </div>
+        </div>
+        <p>There are also special <strong> Paragraph Blocks </strong> , which, you guessed it, creates a paragraph space. Go ahead and get started!</p>
+
+      </div>
+    {{/if}}
   </div>
   <div class="six wide column">
     {{!-- {{#if blocksActive}} --}}
@@ -10,6 +59,7 @@
         <a class="item active">Blocks</a>
         <a class="item" {{action "toggleBlockTab"}}>Preview</a>
       </div> --}}
+      <h5 class="ui horizontal divider header"><i class="cubes icon"></i>Blocks</h5>
       {{#sortable-group tagName="div" onChange="reorderItems" as |group|}}
         {{#each sortedBlocks as |block|}}
           {{#sortable-item tagName="div" model=block group=group handle=".handle"}}
@@ -80,6 +130,15 @@
           </div>
         </div>
       </div>
+      {{#unless model.blocks}}
+      <h2 class="ui icon header">
+        <i class="arrow up icon"></i>
+        <div class="content">
+          Start Here
+          <div class="sub header">Create, rearrange, and manage your clause blocks</div>
+        </div>
+      </h2>
+      {{/unless}}
 
       {{#ember-wormhole to="destination"}}
       {{#ui-modal name="block" duration=200 transition='fade down' autofocus=false class="block small" onHidden=(action 'cancelNewBlock') onApprove=(action 'createBlock')}}
@@ -90,7 +149,7 @@
             <p><button class="fluid ui teal button" {{action 'openNewStatic'}}>Static Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewToggle'}}>Toggle Block</button></p>
             <p><button class="fluid ui teal button" {{action 'openNewDropdown'}}>Dropdown Block</button></p>
-            <p><button class="fluid ui teal button" {{action 'openNewCheckbox'}}>Checkblock Block</button></p>
+            <p><button class="fluid ui teal button" {{action 'openNewCheckbox'}}>Combination Block</button></p>
           </div>
         {{else if newBlockStatic}}
           <div class="content">
@@ -150,7 +209,7 @@
         {{else if newBlockCheckbox}}
           <div class="content">
             <h3 class="ui dividing header">
-              <div class="ui sub header">new checkbox block</div>
+              <div class="ui sub header">new combination block</div>
             </h3>
             <div class={{if errorMessage "ui error form" "ui form"}}>
               <div class="ui error message">

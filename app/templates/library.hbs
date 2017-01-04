@@ -5,7 +5,7 @@
   <div class="thirteen wide column">
     <div class="ui stackable cards">
       {{#each searchedClauses as |clause|}}
-        <div class="ui raised link card">
+        <div class={{if media.isMobile "ui raised card" "ui raised link card"}}>
           <div class="content">
             <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
             {{#link-to "library.fullClause.dashboard" clause class="header"}}
@@ -70,7 +70,7 @@
           {{ui-checkbox label="My Favorites" checked=favoriteFilter onChange=(action (mut favoriteFilter))}}
         </div>
         <h4 class="ui dividing header">Create</h4>
-        <div class="ui small button" {{action 'openClauseModal'}}>
+        <div class="ui small yellow button" {{action 'openClauseModal'}}>
           New Clause
         </div>
       {{/if}}
@@ -112,7 +112,7 @@
       <div class="ui deny button">
         Cancel
       </div>
-      <div class="ui teal approve button">
+      <div class="ui yellow approve button">
         Create
       </div>
     </div>

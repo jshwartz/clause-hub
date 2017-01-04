@@ -28,12 +28,16 @@
   </div>
       <div class="eight wide column">
         <div class="ui raised block segment">
-          <div class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</div>
+          {{#if model.blocks}}
+            <div class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</div>
+          {{else}}
+            <em>Nothing to see here</em>
+          {{/if}}
         </div>
       </div>
       <div class="six wide column">
         {{#unless media.isMobile}}
-          <h4 class="ui sub header spaced">Clause Options</h4>
+          <h5 class="ui horizontal divider header"><i class="options icon"></i>Options</h5>
           {{clause-menu rebuildMenu=rebuildMenu rebuildText=rebuildText model=model activeBlock=activeBlock}}
         {{/unless}}
       </div>

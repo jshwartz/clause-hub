@@ -65,19 +65,19 @@ export default Ember.Controller.extend({
     const adminUsersLength = adminUsers.get('length');
     let returnArray = [];
     canWriteUsers.forEach((writeUser) => {
-      const writeUserObject = {fullName: writeUser.get('fullName'), company: 'Immix Law Group', canRead: true, canWrite: true, admin: false, id: writeUser.get('id')};
+      const writeUserObject = {fullName: writeUser.get('fullName'), company: writeUser.get('company'), canRead: true, canWrite: true, admin: false, id: writeUser.get('id')};
       returnArray.pushObject(writeUserObject);
     });
     canReadUsers.forEach((readUser) => {
-      const readUserObject = {fullName: readUser.get('fullName'), company: 'Immix Law Group', canRead: true, canWrite: false, admin: false, id: readUser.get('id')};
+      const readUserObject = {fullName: readUser.get('fullName'), company: readUser.get('company'), canRead: true, canWrite: false, admin: false, id: readUser.get('id')};
       returnArray.pushObject(readUserObject);
     });
     adminUsers.forEach((adminUser) => {
       if (adminUsersLength > 1) {
-        const adminUserObject = {fullName: adminUser.get('fullName'), company: 'Immix Law Group', canRead: true, canWrite: true, admin: true, id: adminUser.get('id')};
+        const adminUserObject = {fullName: adminUser.get('fullName'), company: adminUser.get('company'), canRead: true, canWrite: true, admin: true, id: adminUser.get('id')};
         returnArray.pushObject(adminUserObject);
       } else {
-        const adminUserObject = {fullName: adminUser.get('fullName'), company: 'Immix Law Group', canRead: true, canWrite: true, admin: true, singleAdmin: true, id: adminUser.get('id')};
+        const adminUserObject = {fullName: adminUser.get('fullName'), company: adminUser.get('company'), canRead: true, canWrite: true, admin: true, singleAdmin: true, id: adminUser.get('id')};
         returnArray.pushObject(adminUserObject);
       }
     });
