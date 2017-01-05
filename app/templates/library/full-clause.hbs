@@ -13,20 +13,20 @@
   <div class="ui four item block menu clause-menu">
     {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
     {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
-    <a href="#" class="item" {{action 'gotoCurrentBlock'}}>Builder</a>
+    <a href="#" class="item" {{action 'gotoCurrentBlock'}}>Editor</a>
     {{#link-to 'library.fullClause.sharing' class="item"}}Settings{{/link-to}}
   </div>
 {{else if userCanWrite}}
   <div class={{if media.isMobile "ui two item block menu" "ui three item block menu clause-menu"}}>
     {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
     {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
-    {{#unless media.isMobile}}<a href="#" class="item" {{action 'gotoCurrentBlock'}}>Builder</a>{{/unless}}
+    {{#unless media.isMobile}}<a href="#" class="item" {{action 'gotoCurrentBlock'}}>Editor</a>{{/unless}}
   </div>
 {{else if userAdmin}}
   <div class={{if media.isMobile "ui three item block menu clause-menu" "ui four item block menu clause-menu"}}>
     {{#link-to 'library.fullClause.dashboard' class="item"}}Clause{{/link-to}}
     {{#link-to 'library.fullClause.readme' class="item"}}README{{/link-to}}
-    {{#unless media.isMobile}}<a href="#" class="item" {{action 'gotoCurrentBlock'}}>Builder</a>{{/unless}}
+    {{#unless media.isMobile}}<a href="#" class="item" {{action 'gotoCurrentBlock'}}>Editor</a>{{/unless}}
     {{#link-to 'library.fullClause.sharing' class="item"}}Settings{{/link-to}}
   </div>
 {{else}}

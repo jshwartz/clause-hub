@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
   //filter time
   dateFilter: null,
   favoriteFilter: false,
-  favoriteClauses: Ember.computed('favoriteFilter', 'model.favoriteClauses', function() {
+  favoriteClauses: Ember.computed('favoriteFilter', 'model.favoriteClauses', 'combinedClauses', function() {
     if (this.get('favoriteFilter')) {
       return this.get('model.favoriteClauses');
     } else {
