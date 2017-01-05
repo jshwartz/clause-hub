@@ -41,18 +41,18 @@
           <div class="sub header">This clause is maintained by:</div>
         </div>
       </h2>
-      <div class="ui large labels">
+      <div class="ui small labels">
         {{#each model.adminUsers as |user|}}
-          <a class="ui basic image label">
+          <div class="ui basic image label">
             {{ember-initials name=user.fullName size=50}}
             {{user.fullName}}
-          </a>
+          </div>
         {{/each}}
         {{#each model.canWriteUsers as |user|}}
-          <a class="ui basic image label">
+          <div class="ui basic image label">
             {{ember-initials name=user.fullName size=50}}
             {{user.fullName}}
-          </a>
+          </div>
         {{/each}}
       </div>
       <div class="ui divider"></div>

@@ -93,7 +93,7 @@ export default DS.Model.extend({
   paragraph: Ember.computed.equal('type', 'paragraph'),
   defaultText: Ember.computed('dropdowns', 'defaultTrue', 'checkboxes', function(){
     let returnText = null;
-    if (this.get('type') === 'dropdown') {
+    if (this.get('type') === 'dropdown' && this.get('dropdowns')) {
       this.get('dropdowns').forEach( (dropdown) => {
         const dropdownDefault = dropdown.defaultTrue;
         const dropdownText = dropdown.text;
@@ -131,7 +131,7 @@ export default DS.Model.extend({
   }),
   selectedText: Ember.computed('selected', 'staticText', function(){
     let returnText = null;
-    if (this.get('type') === 'dropdown') {
+    if (this.get('type') === 'dropdown' && this.get('dropdowns')) {
       this.get('dropdowns').forEach( (dropdown) => {
         const dropdownSelected = dropdown.selected;
         const dropdownText = dropdown.text;

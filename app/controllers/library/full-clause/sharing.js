@@ -29,8 +29,10 @@ export default Ember.Controller.extend({
     this.set('errorMessage', null);
   },
   saveClauseData() {
-    const newObject = {title: this.get('titleText'), subTitle: this.get('subtitleText'), header: this.get('headerText')};
-    this.set('model.clause.metadata', newObject);
+    const clause = this.get('model.clause');
+    clause.set('metadata.title', this.get('titleText'));
+    clause.set('metadata.subTitle', this.get('subtitleText'));
+    clause.set('metadata.header', this.get('headerText'));
     this.get('model.clause').save().then(() => {
       this.set('isEditing', false);
     });

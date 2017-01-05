@@ -19,7 +19,7 @@ export default Ember.Component.extend({
       if (index === 0) {
         openMe = false;
       }
-      if (type === "dropdown") {
+      if (type === "dropdown" && block.get('dropdowns')) {
         let choiceArray = [];
         let selectedOption = "";
         block.get('dropdowns').forEach( (dropdown) => {
