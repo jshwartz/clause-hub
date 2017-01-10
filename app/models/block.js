@@ -87,9 +87,9 @@ export default DS.Model.extend({
   defaultTrue: DS.attr('boolean'),
   selected: DS.attr('boolean'),
   helpText: DS.attr('string'),
-  blockDropdowns: DS.hasMany('block-dropdown'),
-  blockCheckboxes: DS.hasMany('block-checkbox'),
-  blockCheckboxChoices: DS.hasMany('block-checkbox-choice'),
+  // blockDropdowns: DS.hasMany('block-dropdown'),
+  // blockCheckboxes: DS.hasMany('block-checkbox'),
+  // blockCheckboxChoices: DS.hasMany('block-checkbox-choice'),
   paragraph: Ember.computed.equal('type', 'paragraph'),
   defaultText: Ember.computed('dropdowns', 'defaultTrue', 'checkboxes', function(){
     let returnText = null;
