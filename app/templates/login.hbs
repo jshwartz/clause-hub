@@ -8,8 +8,8 @@
             <p>{{errors.server}}</p>
           </div>
           <div class={{if errors.email "field error" "field"}}>
-            <label>Email</label>
-            {{one-way-input value=email placeholder="Email" update=(action (mut email))}}
+            <label for="email-label">Email</label>
+            {{one-way-input name="email" for="email-label" value=email placeholder="Email" update=(action (mut email))}}
           </div>
           <div class={{if errors.password "field error" "field"}}>
             <label>Password</label>
