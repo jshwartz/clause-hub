@@ -18,8 +18,11 @@ export default DS.Model.extend({
   adminClauses: DS.hasMany('clause', {
     inverse: 'adminUsers'
   }),
-  ownsClauses: DS.hasMany('clause', {
-    inverse: 'owner'
+  groupsMember: DS.hasMany('group', {
+    inverse: 'members'
+  }),
+  groupsManager: DS.hasMany('group', {
+    inverse: 'managers'
   }),
   admin: DS.attr('boolean', { defaultValue: false }),
   verified: DS.attr('boolean', { defaultValue: false }),

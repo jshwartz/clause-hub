@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default DS.Model.extend({
   session: Ember.inject.service(),
   // lastModified: DS.attr('date'),
+  groups: DS.hasMany('group'),
   metadata: DS.attr(),
   blocks: DS.hasMany('block', {
     inverse: 'clause'
@@ -30,9 +31,7 @@ export default DS.Model.extend({
   adminUsers: DS.hasMany('user', {
     inverse: 'adminClauses'
   }),
-  owner: DS.belongsTo('user', {
-    inverse: 'ownsClauses'
-  }),
+
   // name: DS.attr('string'),
   // title: DS.attr('string'),
   // createdAt: DS.attr('date', {

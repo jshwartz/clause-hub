@@ -8,7 +8,6 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('library', function() {
-    this.route('clause', { path: '/cl/modal/:clause_id' });
     this.route('fullClause', { path: '/cl/:clause_id' }, function() {
       this.route('builder', function() {
         this.route('block', { path: '/bl/:block_id' });
@@ -24,6 +23,8 @@ Router.map(function() {
     this.route('users');
     this.route('clauses');
   });
+  this.route('group', { path: '/group/:group_id'});
+  this.route('groups');
 });
 
 export default Router;
