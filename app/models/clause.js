@@ -31,6 +31,15 @@ export default DS.Model.extend({
   adminUsers: DS.hasMany('user', {
     inverse: 'adminClauses'
   }),
+  canWriteGroups: DS.hasMany('group', {
+    inverse: 'canWriteClauses'
+  }),
+  canReadGroups: DS.hasMany('group', {
+    inverse: 'canReadClauses'
+  }),
+  adminGroups: DS.hasMany('group', {
+    inverse: 'adminClauses'
+  }),
 
   // name: DS.attr('string'),
   // title: DS.attr('string'),

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  user: Ember.inject.service(),
+
   showReadOverTarget: false,
   isEditing: false,
   titleText: null,
@@ -51,11 +53,25 @@ export default Ember.Controller.extend({
       return false;
     }
   }),
-  searchTerm: '',
-  searchTermNotEmpty: Ember.computed.notEmpty('searchTerm'),
-  searchResults: null,
-  matchingUsers: Ember.computed('searchTerm', function() {
-    var searchTerm = this.get('searchTerm').toLowerCase();
+
+  //search stuff
+  searchOptions: ["People", "Groups"],
+  selectedSearchOption: "People",
+  searchPeople: Ember.computed('selectedSearchOption', function(){
+    if (this.get('selectedSearchOption').toLowerCase() === "people") {
+      this.set('searchTermGroup', '');
+      return true;
+    } else {
+      this.set('searchTermPeople', '');
+      return false;
+    }
+  }),
+  searchTermPeople: '',
+  searchTermGroup: '',
+  searchTermPeopleNotEmpty: Ember.computed.notEmpty('searchTermPeople'),
+  searchTermGroupNotEmpty: Ember.computed.notEmpty('searchTermGroup'),
+  matchingUsers: Ember.computed('searchTermPeople', function() {
+    var searchTerm = this.get('searchTermPeople').toLowerCase();
     return this.get('model.users').filter(function(user) {
       return user.get('fullName').toLowerCase().indexOf(searchTerm) !== -1;
     });
@@ -64,36 +80,51 @@ export default Ember.Controller.extend({
   matchingNoCurrentUsers: Ember.computed('matchingUsers', 'mergedCurrentUsers', function() {
     return this.get('matchingUsers').removeObjects(this.get('mergedCurrentUsers'));
   }),
-  matchingUsersSortOptions: ['firstName'],
-  combinedUsersSortOptions: ['fullName'],
-  filteredMatchingUsers: Ember.computed.sort('matchingUsers', 'matchingUsersSortOptions'),
-  filteredCombinedUsers: Ember.computed.sort('combinedUsers', 'combinedUsersSortOptions'),
-  combinedUsers: Ember.computed('model.clause.canReadUsers', 'model.clause.canWriteUsers', 'model.clause.adminUsers', function() {
-    const canReadUsers = this.get('model.clause.canReadUsers');
-    const canWriteUsers = this.get('model.clause.canWriteUsers');
-    const adminUsers = this.get('model.clause.adminUsers');
-    const adminUsersLength = adminUsers.get('length');
-    let returnArray = [];
-    canWriteUsers.forEach((writeUser) => {
-      const writeUserObject = {fullName: writeUser.get('fullName'), company: writeUser.get('company'), canRead: true, canWrite: true, admin: false, id: writeUser.get('id')};
-      returnArray.pushObject(writeUserObject);
+  matchingGroups: Ember.computed('searchTermGroup', function() {
+    const searchTerm = this.get('searchTermGroup').toLowerCase();
+    console.log(searchTerm);
+    const currentUser = this.get('user').get('currentUser');
+    return currentUser.get('groupsMember').filter(function(group) {
+      return group.get('name').toLowerCase().indexOf(searchTerm) !== -1;
     });
-    canReadUsers.forEach((readUser) => {
-      const readUserObject = {fullName: readUser.get('fullName'), company: readUser.get('company'), canRead: true, canWrite: false, admin: false, id: readUser.get('id')};
-      returnArray.pushObject(readUserObject);
-    });
-    adminUsers.forEach((adminUser) => {
-      if (adminUsersLength > 1) {
-        const adminUserObject = {fullName: adminUser.get('fullName'), company: adminUser.get('company'), canRead: true, canWrite: true, admin: true, id: adminUser.get('id')};
-        returnArray.pushObject(adminUserObject);
-      } else {
-        const adminUserObject = {fullName: adminUser.get('fullName'), company: adminUser.get('company'), canRead: true, canWrite: true, admin: true, singleAdmin: true, id: adminUser.get('id')};
-        returnArray.pushObject(adminUserObject);
-      }
-    });
-
-    return returnArray;
   }),
+
+
+  //get everything ready for UI sharing area
+  // matchingUsersSortOptions: ['firstName'],
+  // combinedUsersSortOptions: ['fullName'],
+  // filteredMatchingUsers: Ember.computed.sort('matchingUsers', 'matchingUsersSortOptions'),
+  // filteredCombinedUsers: Ember.computed.sort('combinedUsers', 'combinedUsersSortOptions'),
+  combinedReader: Ember.computed('model.clause.canReadUsers', 'model.clause.canReadGroups', function(){
+    const users = this.get('model.clause.canReadUsers');
+    const groups = this.get('model.clause.canReadGroups');
+    let result = [];
+    users.forEach((user) => {
+      const userObject = {user: true, name: user.get('fullName'), object: user};
+      result.pushObject(userObject);
+    });
+    groups.forEach((group) => {
+      const groupObject = {group: true, name: group.get('name'), object: group};
+      result.pushObject(groupObject);
+    });
+    return result;
+  }),
+  combinedEditors: Ember.computed('model.clause.canWriteUsers', 'model.clause.canWriteGroups', function(){
+    const users = this.get('model.clause.canWriteUsers');
+    const groups = this.get('model.clause.canWriteGroups');
+    let result = [];
+    users.forEach((user) => {
+      const userObject = {user: true, name: user.get('fullName'), object: user};
+      result.pushObject(userObject);
+    });
+    groups.forEach((group) => {
+      const groupObject = {group: true, name: group.get('name'), object: group};
+      result.pushObject(groupObject);
+    });
+    return result;
+  }),
+
+
 
   actions: {
     readOverAction() {
@@ -119,26 +150,45 @@ export default Ember.Controller.extend({
       user.get('canReadClauses').pushObject(clause);
       clause.save().then(() => {
         user.save();
-        this.set('searchTerm', null);
+        this.set('searchTermPeople', null);
       });
     },
-    setCanWriteUser(user) {
+    setCanWrite(editor) {
       let clause = this.get('model.clause');
-      clause.get('canReadUsers').removeObject(user);
-      clause.get('adminUsers').removeObject(user);
-      clause.get('canWriteUsers').pushObject(user);
-      clause.save().then(() => {
-        user.save();
-      });
+      if (editor.user) {
+        clause.get('canReadUsers').removeObject(editor.object);
+        clause.get('adminUsers').removeObject(editor.object);
+        clause.get('canWriteUsers').pushObject(editor.object);
+        clause.save().then(() => {
+          editor.object.save();
+        });
+      } else if (editor.group) {
+        clause.get('canReadGroups').removeObject(editor.object);
+        clause.get('adminGroups').removeObject(editor.object);
+        clause.get('canWriteGroups').pushObject(editor.object);
+        clause.save().then(() => {
+          editor.object.save();
+        });
+      }
+
     },
-    setCanReadUser(user) {
+    setCanRead(reader) {
       let clause = this.get('model.clause');
-      clause.get('canWriteUsers').removeObject(user);
-      clause.get('adminUsers').removeObject(user);
-      clause.get('canReadUsers').pushObject(user);
-      clause.save().then(() => {
-        user.save();
-      });
+      if (reader.user) {
+        clause.get('canWriteUsers').removeObject(reader.object);
+        clause.get('adminUsers').removeObject(reader.object);
+        clause.get('canReadUsers').pushObject(reader.object);
+        clause.save().then(() => {
+          reader.object.save();
+        });
+      } else if (reader.group) {
+        clause.get('canWriteGroups').removeObject(reader.object);
+        clause.get('adminGroups').removeObject(reader.object);
+        clause.get('canReadGroups').pushObject(reader.object);
+        clause.save().then(() => {
+          reader.object.save();
+        });
+      }
     },
     setAdminUser(user) {
       let clause = this.get('model.clause');
@@ -149,12 +199,20 @@ export default Ember.Controller.extend({
         user.save();
       });
     },
-    removeCanReadUser(user) {
+    removeCanRead(reader) {
       let clause = this.get('model.clause');
-      clause.get('canReadUsers').removeObject(user);
-      clause.save().then(() => {
-        user.save();
-      });
+      if (reader.user) {
+        clause.get('canReadUsers').removeObject(reader.object);
+        clause.save().then(() => {
+          reader.object.save();
+        });
+      } else if (reader.group) {
+        clause.get('canReadGroups').removeObject(reader.object);
+        clause.save().then(() => {
+          reader.object.save();
+        });
+      }
+
     },
     removeCanWriteUser(user) {
       let clause = this.get('model.clause');
@@ -168,6 +226,14 @@ export default Ember.Controller.extend({
       clause.get('adminUsers').removeObject(user);
       clause.save().then(() => {
         user.save();
+      });
+    },
+    addGroup(group) {
+      let clause = this.get('model.clause');
+      group.get('canReadClauses').pushObject(clause);
+      clause.save().then(() => {
+        group.save();
+        this.set('searchTermGroup', null);
       });
     },
     openEdit() {
@@ -186,7 +252,8 @@ export default Ember.Controller.extend({
       this.saveClauseData();
     },
     closeSearch() {
-      this.set('searchTerm', null);
+      this.set('searchTermPeople', null);
+      this.set('searchTermGroup', null);
     },
     confirmDelete() {
       this.set('confirmDelete', true);
