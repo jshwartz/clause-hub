@@ -80,7 +80,53 @@
         </div>
       {{/if}}{{/click-outside}}
 
-      <table class={{unless media.isMobile "ui very basic collapsing celled table" "ui striped celled table"}}>
+      <div class="ui segments">
+        <div class={{if readOverTarget "ui secondary segment" "ui segment"}}>
+          {{#draggable-object-target action="setCanReadUser" dragOverAction='readOverAction' dragOutAction='readDragOutAction'}}
+            <p>Read Only</p>
+            {{#each model.clause.canReadUsers as |user|}}
+              {{#draggable-object content=user class="ui image label can-drag"}}
+                {{ember-initials name=user.fullName size=50}}
+                {{user.fullName}}
+                <i class="delete icon" {{action 'removeCanReadUser' user}}></i>
+              {{/draggable-object}}
+            {{/each}}
+          {{/draggable-object-target}}
+        </div>
+        <div class={{if writeOverTarget "ui secondary segment" "ui segment"}}>
+          {{#draggable-object-target action="setCanWriteUser" dragOverAction='writeOverAction' dragOutAction='writeDragOutAction'}}
+          <p>Editors</p>
+          {{#each model.clause.canWriteUsers as |user|}}
+            {{#draggable-object content=user class="ui image label can-drag"}}
+              {{ember-initials name=user.fullName size=50}}
+              {{user.fullName}}
+              <i class="delete icon" {{action 'removeCanWriteUser' user}}></i>
+            {{/draggable-object}}
+          {{/each}}
+          {{/draggable-object-target}}
+        </div>
+        <div class={{if adminOverTarget "ui secondary segment" "ui segment"}}>
+          {{#draggable-object-target action="setAdminUser" dragOverAction='adminOverAction' dragOutAction='adminDragOutAction'}}
+            <p>Owners</p>
+            {{#each model.clause.adminUsers as |user|}}
+              {{#if onlyOneAdmin}}
+                <div class="ui disabled image label" >
+                  {{ember-initials name=user.fullName size=50}}
+                  {{user.fullName}}
+                </div>
+              {{else}}
+                {{#draggable-object content=user class="ui image label can-drag"}}
+                  {{ember-initials name=user.fullName size=50}}
+                  {{user.fullName}}
+                  <i class="delete icon" {{action 'removeAdminUser' user}}></i>
+                {{/draggable-object}}
+              {{/if}}
+            {{/each}}
+          {{/draggable-object-target}}
+        </div>
+      </div>
+
+      {{!-- <table class={{unless media.isMobile "ui very basic collapsing celled table" "ui striped celled table"}}>
         {{#unless media.isMobile }}<thead>
           <tr><th>User</th>
           <th>Can Read</th>
@@ -111,7 +157,7 @@
             </tr>
           {{/each}}
         </tbody>
-      </table>
+      </table> --}}
     </div>
   </div>
 </div>

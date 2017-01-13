@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  showReadOverTarget: false,
   isEditing: false,
   titleText: null,
   titleTextNotEmpty: Ember.computed.notEmpty('titleText'),
@@ -43,6 +44,13 @@ export default Ember.Controller.extend({
   },
 
 
+  onlyOneAdmin: Ember.computed('model.clause.adminUsers', function() {
+    if (this.get('model.clause.adminUsers.length') < 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
   searchTerm: '',
   searchTermNotEmpty: Ember.computed.notEmpty('searchTerm'),
   searchResults: null,
@@ -88,6 +96,24 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
+    readOverAction() {
+      this.set('readOverTarget', true);
+    },
+    readDragOutAction() {
+      this.set('readOverTarget', false);
+    },
+    writeOverAction() {
+      this.set('writeOverTarget', true);
+    },
+    writeDragOutAction() {
+      this.set('writeOverTarget', false);
+    },
+    adminOverAction() {
+      this.set('adminOverTarget', true);
+    },
+    adminDragOutAction() {
+      this.set('adminOverTarget', false);
+    },
     addUser(user) {
       let clause = this.get('model.clause');
       user.get('canReadClauses').pushObject(clause);
@@ -96,48 +122,52 @@ export default Ember.Controller.extend({
         this.set('searchTerm', null);
       });
     },
-    setCanWriteUser(userObject) {
+    setCanWriteUser(user) {
       let clause = this.get('model.clause');
-      this.get('store').findRecord('user', userObject.id).then((user) => {
-        clause.get('canReadUsers').removeObject(user);
-        clause.get('adminUsers').removeObject(user);
-        clause.get('canWriteUsers').pushObject(user);
-        clause.save().then(() => {
-          user.save();
-        });
+      clause.get('canReadUsers').removeObject(user);
+      clause.get('adminUsers').removeObject(user);
+      clause.get('canWriteUsers').pushObject(user);
+      clause.save().then(() => {
+        user.save();
       });
     },
-    setCanReadUser(userObject) {
+    setCanReadUser(user) {
       let clause = this.get('model.clause');
-      this.get('store').findRecord('user', userObject.id).then((user) => {
-        clause.get('canWriteUsers').removeObject(user);
-        clause.get('adminUsers').removeObject(user);
-        clause.get('canReadUsers').pushObject(user);
-        clause.save().then(() => {
-          user.save();
-        });
+      clause.get('canWriteUsers').removeObject(user);
+      clause.get('adminUsers').removeObject(user);
+      clause.get('canReadUsers').pushObject(user);
+      clause.save().then(() => {
+        user.save();
       });
     },
-    setAdminUser(userObject) {
+    setAdminUser(user) {
       let clause = this.get('model.clause');
-      this.get('store').findRecord('user', userObject.id).then((user) => {
-        clause.get('canReadUsers').removeObject(user);
-        clause.get('canWriteUsers').removeObject(user);
-        clause.get('adminUsers').pushObject(user);
-        clause.save().then(() => {
-          user.save();
-        });
+      clause.get('canReadUsers').removeObject(user);
+      clause.get('canWriteUsers').removeObject(user);
+      clause.get('adminUsers').pushObject(user);
+      clause.save().then(() => {
+        user.save();
       });
     },
-    removeCanReadUser(userObject) {
+    removeCanReadUser(user) {
       let clause = this.get('model.clause');
-      this.get('store').findRecord('user', userObject.id).then((user) => {
-        clause.get('canWriteUsers').removeObject(user);
-        clause.get('adminUsers').removeObject(user);
-        clause.get('canReadUsers').removeObject(user);
-        clause.save().then(() => {
-          user.save();
-        });
+      clause.get('canReadUsers').removeObject(user);
+      clause.save().then(() => {
+        user.save();
+      });
+    },
+    removeCanWriteUser(user) {
+      let clause = this.get('model.clause');
+      clause.get('canWriteUsers').removeObject(user);
+      clause.save().then(() => {
+        user.save();
+      });
+    },
+    removeAdminUser(user) {
+      let clause = this.get('model.clause');
+      clause.get('adminUsers').removeObject(user);
+      clause.save().then(() => {
+        user.save();
       });
     },
     openEdit() {
