@@ -1,1 +1,41 @@
+<h1 class="ui header">{{model.name}}<div class="ui sub header">{{model.description}}</div></h1>
+
+<div class="ui raised block segment">
+  {{#click-outside action=(action "closeSearch")}}
+  <div class="ui icon input">
+    <i class="search icon"></i>
+    {{one-way-input value=searchTerm placeholder="Add users.." update=(action (mut searchTerm))}}
+  </div>
+  {{#if searchTermNotEmpty}}
+    <div class="ui vertical menu search-results">
+      {{#if matchingNoCurrentUsers}}
+        {{#each matchingNoCurrentUsers as |user|}}
+        <a class="item" {{action 'addUser' user}}>
+          <h4 class="ui image header">
+            {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
+            <div class="content">
+              {{user.fullName}}
+              <div class="sub header">{{if user.company user.company user.fullName}}</div>
+            </div>
+          </h4>
+        </a>
+        {{/each}}
+      {{else}}
+        <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
+      {{/if}}
+    </div>
+  {{/if}}
+  {{/click-outside}}
+
+  <h3 class="ui header">Members</h3>
+  {{#each model.group.members as |member|}}
+    <p>{{member.fullName}}</p>
+  {{/each}}
+
+  <h3 class="ui header">Managers</h3>
+  {{#each model.group.managers as |manager|}}
+    <p>{{manager.fullName}}</p>
+  {{/each}}
+</div>
+
 {{outlet}}

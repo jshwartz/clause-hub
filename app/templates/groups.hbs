@@ -1,1 +1,40 @@
+<div class="ui small yellow button" {{action 'openUserGroupModal'}}>
+  New Group
+</div>
+{{#ember-wormhole to="destination"}}
+{{#ui-modal name="user-group" duration=200 transition='fade down' autofocus=false class="user-group small" onHidden=(action 'cancelNewGroup') onApprove=(action 'createGroup')}}
+  <i class="close icon"></i>
+  <div class="content">
+    <h3 class="ui dividing header">
+      <div class="ui sub header">New Group</div>
+    </h3>
+    <div class={{if errorMessage "ui error form" "ui form"}}>
+      <div class="ui error message">
+        <p>{{errors.name}}</p>
+        <p>{{errors.description}}</p>
+      </div>
+      <div class={{if errors.name "field error required" "field required"}}>
+        <label>Group Name</label>
+        {{one-way-input value=name placeholder="The name of the group" update=(action (mut name))}}
+      </div>
+      <div class={{if errors.description "field error required" "field required"}}>
+        <label>Group Description</label>
+        {{one-way-input value=description placeholder="Short description of group" update=(action (mut description))}}
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui deny button">
+      Cancel
+    </div>
+    <div class="ui yellow approve button">
+      Create
+    </div>
+  </div>
+{{/ui-modal}}
+{{/ember-wormhole}}
+<br>
+{{#each model.groupsManager as |group|}}
+  <p>{{#link-to 'group' group}}{{group.name}}{{/link-to}}. {{group.description}}</p>
+{{/each}}
 {{outlet}}

@@ -8,8 +8,8 @@ export default DS.Model.extend({
   managers: DS.hasMany('user', {
     inverse: 'groupsManager'
   }),
-  title: DS.attr('string'),
-  subTitle: DS.attr('string'),
+  name: DS.attr('string'),
+  description: DS.attr('string'),
   createdBy: DS.belongsTo('user'),
   createdAt: DS.attr('date'),
   lastModified: DS.attr('date'),
