@@ -46,8 +46,8 @@ export default Ember.Controller.extend({
   },
 
 
-  onlyOneAdmin: Ember.computed('model.clause.adminUsers', function() {
-    if (this.get('model.clause.adminUsers.length') < 2) {
+  onlyOneAdmin: Ember.computed('model.clause.adminUsers', 'model.clause.adminGroups', function() {
+    if (this.get('model.clause.adminUsers.length') + this.get('model.clause.adminGroups.length')  < 2) {
       return true;
     } else {
       return false;
@@ -112,6 +112,20 @@ export default Ember.Controller.extend({
   combinedEditors: Ember.computed('model.clause.canWriteUsers', 'model.clause.canWriteGroups', function(){
     const users = this.get('model.clause.canWriteUsers');
     const groups = this.get('model.clause.canWriteGroups');
+    let result = [];
+    users.forEach((user) => {
+      const userObject = {user: true, name: user.get('fullName'), object: user};
+      result.pushObject(userObject);
+    });
+    groups.forEach((group) => {
+      const groupObject = {group: true, name: group.get('name'), object: group};
+      result.pushObject(groupObject);
+    });
+    return result;
+  }),
+  combinedAdmins: Ember.computed('model.clause.adminUsers', 'model.clause.adminGroups', function(){
+    const users = this.get('model.clause.adminUsers');
+    const groups = this.get('model.clause.adminGroups');
     let result = [];
     users.forEach((user) => {
       const userObject = {user: true, name: user.get('fullName'), object: user};
@@ -190,14 +204,23 @@ export default Ember.Controller.extend({
         });
       }
     },
-    setAdminUser(user) {
+    setAdmin(admin) {
       let clause = this.get('model.clause');
-      clause.get('canReadUsers').removeObject(user);
-      clause.get('canWriteUsers').removeObject(user);
-      clause.get('adminUsers').pushObject(user);
-      clause.save().then(() => {
-        user.save();
-      });
+      if (admin.user) {
+        clause.get('canReadUsers').removeObject(admin.object);
+        clause.get('canWriteUsers').removeObject(admin.object);
+        clause.get('adminUsers').pushObject(admin.object);
+        clause.save().then(() => {
+          admin.object.save();
+        });
+      } else if (admin.group) {
+        clause.get('canReadGroups').removeObject(admin.object);
+        clause.get('canWriteGroups').removeObject(admin.object);
+        clause.get('adminGroups').pushObject(admin.object);
+        clause.save().then(() => {
+          admin.object.save();
+        });
+      }
     },
     removeCanRead(reader) {
       let clause = this.get('model.clause');
@@ -214,19 +237,33 @@ export default Ember.Controller.extend({
       }
 
     },
-    removeCanWriteUser(user) {
+    removeCanWrite(editor) {
       let clause = this.get('model.clause');
-      clause.get('canWriteUsers').removeObject(user);
-      clause.save().then(() => {
-        user.save();
-      });
+      if (editor.user) {
+        clause.get('canWriteUsers').removeObject(editor.object);
+        clause.save().then(() => {
+          editor.object.save();
+        });
+      } else if (editor.group) {
+        clause.get('canWriteGroups').removeObject(editor.object);
+        clause.save().then(() => {
+          editor.object.save();
+        });
+      }
     },
-    removeAdminUser(user) {
+    removeAdmin(admin) {
       let clause = this.get('model.clause');
-      clause.get('adminUsers').removeObject(user);
-      clause.save().then(() => {
-        user.save();
-      });
+      if (admin.user) {
+        clause.get('adminUsers').removeObject(admin.object);
+        clause.save().then(() => {
+          admin.object.save();
+        });
+      } else if (admin.group) {
+        clause.get('adminGroups').removeObject(admin.object);
+        clause.save().then(() => {
+          admin.object.save();
+        });
+      }
     },
     addGroup(group) {
       let clause = this.get('model.clause');

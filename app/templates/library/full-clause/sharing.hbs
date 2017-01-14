@@ -136,19 +136,27 @@
           {{/draggable-object-target}}
         </div>
         <div class={{if adminOverTarget "ui secondary segment" "ui segment"}}>
-          {{#draggable-object-target action="setAdminUser" dragOverAction='adminOverAction' dragOutAction='adminDragOutAction'}}
+          {{#draggable-object-target action="setAdmin" dragOverAction='adminOverAction' dragOutAction='adminDragOutAction'}}
             <p>Owners</p>
-            {{#each model.clause.adminUsers as |user|}}
+            {{#each combinedAdmins as |admin|}}
               {{#if onlyOneAdmin}}
                 <div class="ui disabled image label" >
-                  {{ember-initials name=user.fullName size=50}}
-                  {{user.fullName}}
+                  {{#if admin.user}}
+                    <i class="user icon"></i>
+                  {{else}}
+                    <i class="users icon"></i>
+                  {{/if}}
+                  {{admin.name}}
                 </div>
               {{else}}
-                {{#draggable-object content=user class="ui image label can-drag"}}
-                  {{ember-initials name=user.fullName size=50}}
-                  {{user.fullName}}
-                  <i class="delete icon" {{action 'removeAdminUser' user}}></i>
+                {{#draggable-object content=admin class=(if admin.user "ui label can-drag" "ui teal label can-drag")}}
+                  {{#if admin.user}}
+                    <i class="user icon"></i>
+                  {{else}}
+                    <i class="users icon"></i>
+                  {{/if}}
+                  {{admin.name}}
+                  <i class="delete icon" {{action 'removeAdmin' admin}}></i>
                 {{/draggable-object}}
               {{/if}}
             {{/each}}

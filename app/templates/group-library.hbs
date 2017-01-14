@@ -1,2 +1,164 @@
-{{model.name}}
+{{!-- {{#if sortedClauses.isFulFilled}} --}}
+<h1 class="ui header">{{model.name}}'s Group Library</h1>
+<div class="ui hidden divider"></div>
+<div class="ui mobile reversed stackable grid">
+  <div class="thirteen wide column">
+    <div class="ui stackable cards">
+      {{#each searchedClauses as |clause|}}
+        <div class={{if media.isMobile "ui raised card" "ui raised link card"}}>
+          <div class="content">
+            <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
+            {{#link-to "library.fullClause.dashboard" clause class="header"}}
+              {{clause.metadata.title}}
+            {{/link-to}}
+            {{#link-to "library.fullClause.dashboard" clause class="meta"}}
+              <p><span class="left floated">Last Updated</span><span class="right floated">{{moment-from-now clause.metadata.lastModified}}</span></p>
+            {{/link-to}}
+            {{#link-to "library.fullClause.dashboard" clause class="description"}}
+              <div class="ui hidden clearing divider"></div>
+              <p>{{clause.metadata.subTitle}}</p>
+            {{/link-to}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="three wide column">
+    <form class="ui form">
+      <div class="ui left icon input">
+        <i class="search icon"></i>
+        {{one-way-input type="text" value=search placeholder="Search..." update=(action (mut search))}}
+      </div>
+      {{#if media.isMobile}}
+        <div class="ui right floated compact icon menu">
+          <a class="item" {{action 'openLibraryOptions'}}>
+            <i class="options icon"></i>
+          </a>
+        </div>
+      {{else}}
+        <h4 class="ui dividing header">Sort</h4>
+        <div class="field">
+          {{#ui-dropdown class="ui small floating labeled icon dropdown button" selected=sortBy onChange=(action (mut sortBy))}}
+            <div class="default text">Sort By</div>
+            <i class="sort icon"></i>
+            <div class="menu">
+              {{#each sortOptions as |sortOption|}}
+                <div class="item" data-value="{{sortOption.value}}">
+                  {{sortOption.title}}
+                </div>
+              {{/each}}
+            </div>
+          {{/ui-dropdown}}
+        </div>
+        {{#link-to "library" (query-params direction="asc") class='ui icon button'}}<i class="sort content ascending icon"></i>{{/link-to}}
+        {{#link-to "library" (query-params direction="desc") class='ui icon button'}}<i class="sort content descending icon"></i>{{/link-to}}
+        <h4 class="ui dividing header">Filter</h4>
+        <div class="field">
+          {{#ui-dropdown class="ui small floating labeled icon dropdown button" selected=dateFilter onChange=(action (mut dateFilter))}}
+            <div class="default text">Date Filters</div>
+            <i class="calendar icon"></i>
+            <div class="menu">
+              {{#each dateFilterOptions as |option|}}
+                <div class="item" data-value="{{option.value}}">
+                  {{option.title}}
+                </div>
+              {{/each}}
+            </div>
+          {{/ui-dropdown}}
+        </div>
+        <div class="field">
+          {{ui-checkbox label="My Favorites" checked=favoriteFilter onChange=(action (mut favoriteFilter))}}
+        </div>
+        <h4 class="ui dividing header">Create</h4>
+        <div class="ui small yellow button" {{action 'openClauseModal'}}>
+          New Clause
+        </div>
+      {{/if}}
+
+    </form>
+
+
+  </div>
+</div>
+
+
+{{#ember-wormhole to="destination"}}
+{{#ui-modal name="clause" duration=200 transition='fade down' autofocus=false class="clause small" onHidden=(action 'cancelNewClause') onApprove=(action 'createClause')}}
+  <i class="close icon"></i>
+    <div class="content">
+      <h3 class="ui dividing header">
+        <div class="ui sub header">new clause</div>
+      </h3>
+      <div class={{if errorMessage "ui error form" "ui form"}}>
+        <div class="ui error message">
+          <p>{{errors.title}}</p>
+          <p>{{errors.subTitle}}</p>
+        </div>
+        <div class={{if errors.title "field error required" "field required"}}>
+          <label>Clause title</label>
+          {{one-way-input value=title placeholder="Title for use within ClauseHub" update=(action (mut title))}}
+        </div>
+        <div class={{if errors.subTitle "field error required" "field required"}}>
+          <label>Sub-title</label>
+          {{one-way-input value=subTitle placeholder="Short description of clause" update=(action (mut subTitle))}}
+        </div>
+        <div class="field">
+          <label>Heading</label>
+          {{one-way-input value=heading placeholder="Header for use in clause" update=(action (mut heading))}}
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui deny button">
+        Cancel
+      </div>
+      <div class="ui yellow approve button">
+        Create
+      </div>
+    </div>
+  {{/ui-modal}}
+  {{/ember-wormhole}}
+
+  {{#ember-wormhole to="destination"}}
+    {{#ui-modal name="mobilelibrary" duration=200 autofocus=false class="mobilelibrary basic"}}
+      <i class="close icon"></i>
+      <div class="header">Sort By:</div>
+      <div class="content">
+        {{#ui-dropdown class="ui large labeled icon dropdown button" selected=sortBy onChange=(action (mut sortBy))}}
+          <div class="default text">Sort By</div>
+          <i class="sort icon"></i>
+          <div class="menu">
+            {{#each sortOptions as |sortOption|}}
+              <div class="item" data-value="{{sortOption.value}}">
+                {{sortOption.title}}
+              </div>
+            {{/each}}
+          </div>
+        {{/ui-dropdown}}
+        {{#link-to "library" (query-params direction="asc") class='ui large icon button'}}<i class="sort content ascending icon"></i>{{/link-to}}
+        {{#link-to "library" (query-params direction="desc") class='ui large icon button'}}<i class="sort content descending icon"></i>{{/link-to}}
+      </div>
+      <div class="header">Filters:</div>
+      <div class="content">
+        {{#ui-dropdown class="ui large labeled icon dropdown button" selected=dateFilter onChange=(action (mut dateFilter))}}
+          <div class="default text">Date Filters</div>
+          <i class="calendar icon"></i>
+          <div class="menu">
+            {{#each dateFilterOptions as |option|}}
+              <div class="item" data-value="{{option.value}}">
+                {{option.title}}
+              </div>
+            {{/each}}
+          </div>
+        {{/ui-dropdown}}
+      </div>
+      <div class="header">Favorites:</div>
+      <div class="content">
+        <div class="ui inverted form">
+          {{ui-checkbox label="My Favorites" class="large" checked=favoriteFilter onChange=(action (mut favoriteFilter))}}
+        </div>
+      </div>
+    {{/ui-modal}}
+  {{/ember-wormhole}}
+
 {{outlet}}
