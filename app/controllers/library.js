@@ -2,7 +2,12 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Controller.extend({
+  //services
   user: Ember.inject.service(),
+  //options and tag menu
+  searchMenu: true,
+  tagMenu: false,
+  //get clauses ready
   combinedClauses: Ember.computed.union('model.adminClauses', 'model.canReadClauses', 'model.canWriteClauses'),
   queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
   //search time
@@ -95,6 +100,14 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    openSearchMenu() {
+      this.set('searchMenu', true);
+      this.set('tagMenu', false);
+    },
+    openTagMenu() {
+      this.set('searchMenu', false);
+      this.set('tagMenu', true);
+    },
     cancelNewClause() {
       this.resetModal();
     },

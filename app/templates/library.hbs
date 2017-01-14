@@ -1,8 +1,14 @@
 {{!-- {{#if sortedClauses.isFulFilled}} --}}
-<h1 class="ui header">{{model.firstName}}'s Library</h1>
-<div class="ui hidden divider"></div>
+<h2 class="ui header">
+
+  <div class="content">
+    {{model.firstName}}'s Clause Library
+    <div class="sub header">All the clauses you personally own or have permission to view or edit.</div>
+  </div>
+</h2>
+<div class="ui divider"></div>
 <div class="ui mobile reversed stackable grid">
-  <div class="thirteen wide column">
+  <div class="thirteen wide column" id="context">
     <div class="ui stackable cards">
       {{#each searchedClauses as |clause|}}
         <div class={{if media.isMobile "ui raised card" "ui raised link card"}}>
@@ -23,11 +29,19 @@
       {{/each}}
     </div>
   </div>
+
+
   <div class="three wide column">
-    <form class="ui form">
+    <div class="ui secondary pointing menu">
+      <a class={{if searchMenu "item active" "item"}} {{action 'openSearchMenu'}}>Search</a>
+      <a class={{if tagMenu "item active" "item"}} {{action 'openTagMenu'}}>Tags (Personal)</a>
+    </div>
+
+    {{#if searchMenu}}
+    <form class="ui secondary segment form">
       <div class="ui left icon input">
         <i class="search icon"></i>
-        {{one-way-input type="text" value=search placeholder="Search..." update=(action (mut search))}}
+        {{one-way-input type="text" value=search placeholder="Search Library..." update=(action (mut search))}}
       </div>
       {{#if media.isMobile}}
         <div class="ui right floated compact icon menu">
@@ -76,9 +90,15 @@
       {{/if}}
 
     </form>
-
-
+    {{else}}
+      <div class="ui vertical menu">
+        <a class="item active">Boilerplate<div class="ui teal label">23</div></a>
+        <a class="item">IP</a>
+        <a class="item">Stuff</a>
+      </div>
+    {{/if}}
   </div>
+
 </div>
 
 

@@ -5,32 +5,20 @@
     <div class="header item">
       {{#link-to 'library'}}ClauseHub{{/link-to}}
     </div>
+    {{#link-to 'library' class='item'}}My Library{{/link-to}}
     {{#ui-dropdown class="browse item" tagName="a"}}
-      Clauses
+      Shared Libraries
       <i class="dropdown icon"></i>
       <div class="menu">
-        {{#link-to 'library' class='item'}}My Library{{/link-to}}
-        {{#ui-dropdown class="item" tagName="a"}}
-          <i class="dropdown icon"></i>
-          Groups
-          <div class="menu">
-            {{#each currentUser.groupsMember as |group|}}
-              {{#link-to 'group-library' group class='item fluid'}}{{group.name}}{{/link-to}}
-            {{/each}}
-          </div>
-        {{/ui-dropdown}}
+        {{#each currentUser.groupsMember as |group|}}
+          {{#link-to 'group-library' group class='item fluid'}}<i class="share alternate icon"></i>{{group.name}}{{/link-to}}
+        {{/each}}
+        <div class="divider"></div>
+        {{#link-to 'groups' class='item'}}<i class="settings icon"></i>Manage{{/link-to}}
       </div>
+
     {{/ui-dropdown}}
-    {{#if currentUser.admin}}
-      {{#ui-dropdown class="browse item" tagName="a"}}
-        Admin
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          {{#link-to 'admin.users' class='item'}}Users{{/link-to}}
-          {{#link-to 'admin.clauses' class='item'}}Clauses{{/link-to}}
-        </div>
-      {{/ui-dropdown}}
-    {{/if}}
+
     <div class="right menu">
       {{#if session.isAuthenticated}}
         {{#if media.isMobile}}
@@ -53,7 +41,6 @@
             <i class="dropdown icon"></i>
             <div class="menu">
               {{#link-to 'profile' class='item'}}<i class="settings icon"></i>Account{{/link-to}}
-              {{#link-to 'groups' class='item'}}<i class="settings icon"></i>Groups{{/link-to}}
               <div class="item" {{action 'signOut'}}><i class="hand peace icon"></i>Logout</div>
             </div>
           {{/ui-dropdown}}
@@ -61,11 +48,16 @@
 
       {{else if session.isWorking}}
         <div class="ui item"><i>Signing In</i></div>
-      {{else}}
-
-        {{!-- <a class="ui item" {{action 'openSignIn'}}>Log-In</a> --}}
-        {{!-- <div class="ui item"><div class="ui mini compact yellow button" {{action 'openSignUp'}}>Sign-Up!</div></div> --}}
-
+      {{/if}}
+      {{#if currentUser.admin}}
+        {{#ui-dropdown class="browse item" tagName="a"}}
+          Admin
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            {{#link-to 'admin.users' class='item'}}Users{{/link-to}}
+            {{#link-to 'admin.clauses' class='item'}}Clauses{{/link-to}}
+          </div>
+        {{/ui-dropdown}}
       {{/if}}
     </div>
 
