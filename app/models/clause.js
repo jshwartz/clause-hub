@@ -31,6 +31,7 @@ export default DS.Model.extend({
   adminUsers: DS.hasMany('user', {
     inverse: 'adminClauses'
   }),
+  ownerUser: DS.belongsTo('user', {inverse: 'ownerClauses'}),
   canWriteGroups: DS.hasMany('group', {
     inverse: 'canWriteClauses'
   }),
@@ -40,6 +41,7 @@ export default DS.Model.extend({
   adminGroups: DS.hasMany('group', {
     inverse: 'adminClauses'
   }),
+  ownerGroup: DS.belongsTo('group', {inverse: 'ownerClauses'}),
 
   // name: DS.attr('string'),
   // title: DS.attr('string'),

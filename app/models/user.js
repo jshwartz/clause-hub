@@ -10,6 +10,7 @@ export default DS.Model.extend({
   canWriteClauses: DS.hasMany('clause', {inverse: 'canWriteUsers'}),
   canReadClauses: DS.hasMany('clause', {inverse: 'canReadUsers'}),
   adminClauses: DS.hasMany('clause', {inverse: 'adminUsers'}),
+  ownerClauses: DS.hasMany('clause', {inverse: 'ownerUser'}),
   groupsMember: DS.hasMany('group', {inverse: 'members'}),
   groupsManager: DS.hasMany('group', {inverse: 'managers'}),
   subFolders: DS.hasMany('folder', {inverse: 'user'}),

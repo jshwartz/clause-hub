@@ -17,6 +17,7 @@ export default DS.Model.extend({
   adminClauses: DS.hasMany('clause', {
     inverse: 'adminGroups'
   }),
+  ownerClauses: DS.hasMany('clause', {inverse: 'ownerGroup'}),
   name: DS.attr('string'),
   description: DS.attr('string'),
   createdBy: DS.belongsTo('user'),

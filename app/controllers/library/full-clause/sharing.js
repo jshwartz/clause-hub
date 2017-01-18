@@ -23,7 +23,7 @@ export default Ember.Controller.extend({
     this.set('errors', Ember.Object.create());
   }),
   resetClauseData() {
-    const metadata = this.get('model.clause.metadata');
+    const metadata = this.get('model.metadata');
     this.set('titleText', metadata.title);
     this.set('subtitleText', metadata.subTitle);
     this.set('headerText', metadata.header);
@@ -32,11 +32,11 @@ export default Ember.Controller.extend({
     this.set('errorMessage', null);
   },
   saveClauseData() {
-    const clause = this.get('model.clause');
+    const clause = this.get('model');
     clause.set('metadata.title', this.get('titleText'));
     clause.set('metadata.subTitle', this.get('subtitleText'));
     clause.set('metadata.header', this.get('headerText'));
-    this.get('model.clause').save().then(() => {
+    this.get('model').save().then(() => {
       this.set('isEditing', false);
     });
   },
@@ -46,8 +46,8 @@ export default Ember.Controller.extend({
   },
 
 
-  onlyOneAdmin: Ember.computed('model.clause.adminUsers', 'model.clause.adminGroups', function() {
-    if (this.get('model.clause.adminUsers.length') + this.get('model.clause.adminGroups.length')  < 2) {
+  onlyOneAdmin: Ember.computed('model.adminUsers', 'model.adminGroups', function() {
+    if (this.get('model.adminUsers.length') + this.get('model.adminGroups.length')  < 2) {
       return true;
     } else {
       return false;
@@ -55,6 +55,12 @@ export default Ember.Controller.extend({
   }),
 
   //search stuff
+  init() {
+    this.get('store').findAll('user').then((users) =>{
+      this.set('users', users);
+    });
+  },
+  users: null,
   searchOptions: ["People", "Groups"],
   selectedSearchOption: "People",
   searchPeople: Ember.computed('selectedSearchOption', function(){
@@ -72,20 +78,27 @@ export default Ember.Controller.extend({
   searchTermGroupNotEmpty: Ember.computed.notEmpty('searchTermGroup'),
   matchingUsers: Ember.computed('searchTermPeople', function() {
     var searchTerm = this.get('searchTermPeople').toLowerCase();
-    return this.get('model.users').filter(function(user) {
+    return this.get('users').filter(function(user) {
       return user.get('fullName').toLowerCase().indexOf(searchTerm) !== -1;
     });
   }),
-  mergedCurrentUsers: Ember.computed.union('model.clause.canReadUsers', 'model.clause.canWriteUsers', 'model.clause.adminUsers'),
+  mergedCurrentUsers: Ember.computed.union('model.canReadUsers', 'model.canWriteUsers', 'model.adminUsers'),
   matchingNoCurrentUsers: Ember.computed('matchingUsers', 'mergedCurrentUsers', function() {
     return this.get('matchingUsers').removeObjects(this.get('mergedCurrentUsers'));
   }),
   matchingGroups: Ember.computed('searchTermGroup', function() {
     const searchTerm = this.get('searchTermGroup').toLowerCase();
-    console.log(searchTerm);
     const currentUser = this.get('user').get('currentUser');
     return currentUser.get('groupsMember').filter(function(group) {
       return group.get('name').toLowerCase().indexOf(searchTerm) !== -1;
+    });
+  }),
+
+  //search stuff for owners
+  matchingOwnerUsers: Ember.computed('searchTermPeople', function() {
+    var searchTerm = this.get('searchTermPeople').toLowerCase();
+    return this.get('users').filter(function(user) {
+      return user.get('fullName').toLowerCase().indexOf(searchTerm) !== -1;
     });
   }),
 
@@ -95,9 +108,9 @@ export default Ember.Controller.extend({
   // combinedUsersSortOptions: ['fullName'],
   // filteredMatchingUsers: Ember.computed.sort('matchingUsers', 'matchingUsersSortOptions'),
   // filteredCombinedUsers: Ember.computed.sort('combinedUsers', 'combinedUsersSortOptions'),
-  combinedReader: Ember.computed('model.clause.canReadUsers', 'model.clause.canReadGroups', function(){
-    const users = this.get('model.clause.canReadUsers');
-    const groups = this.get('model.clause.canReadGroups');
+  combinedReader: Ember.computed('model.canReadUsers', 'model.canReadGroups', function(){
+    const users = this.get('model.canReadUsers');
+    const groups = this.get('model.canReadGroups');
     let result = [];
     users.forEach((user) => {
       const userObject = {user: true, name: user.get('fullName'), object: user};
@@ -109,9 +122,9 @@ export default Ember.Controller.extend({
     });
     return result;
   }),
-  combinedEditors: Ember.computed('model.clause.canWriteUsers', 'model.clause.canWriteGroups', function(){
-    const users = this.get('model.clause.canWriteUsers');
-    const groups = this.get('model.clause.canWriteGroups');
+  combinedEditors: Ember.computed('model.canWriteUsers', 'model.canWriteGroups', function(){
+    const users = this.get('model.canWriteUsers');
+    const groups = this.get('model.canWriteGroups');
     let result = [];
     users.forEach((user) => {
       const userObject = {user: true, name: user.get('fullName'), object: user};
@@ -123,9 +136,9 @@ export default Ember.Controller.extend({
     });
     return result;
   }),
-  combinedAdmins: Ember.computed('model.clause.adminUsers', 'model.clause.adminGroups', function(){
-    const users = this.get('model.clause.adminUsers');
-    const groups = this.get('model.clause.adminGroups');
+  combinedAdmins: Ember.computed('model.adminUsers', 'model.adminGroups', function(){
+    const users = this.get('model.adminUsers');
+    const groups = this.get('model.adminGroups');
     let result = [];
     users.forEach((user) => {
       const userObject = {user: true, name: user.get('fullName'), object: user};
@@ -160,7 +173,7 @@ export default Ember.Controller.extend({
       this.set('adminOverTarget', false);
     },
     addUser(user) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       user.get('canReadClauses').pushObject(clause);
       clause.save().then(() => {
         user.save();
@@ -168,7 +181,7 @@ export default Ember.Controller.extend({
       });
     },
     setCanWrite(editor) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       if (editor.user) {
         clause.get('canReadUsers').removeObject(editor.object);
         clause.get('adminUsers').removeObject(editor.object);
@@ -187,7 +200,7 @@ export default Ember.Controller.extend({
 
     },
     setCanRead(reader) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       if (reader.user) {
         clause.get('canWriteUsers').removeObject(reader.object);
         clause.get('adminUsers').removeObject(reader.object);
@@ -205,7 +218,7 @@ export default Ember.Controller.extend({
       }
     },
     setAdmin(admin) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       if (admin.user) {
         clause.get('canReadUsers').removeObject(admin.object);
         clause.get('canWriteUsers').removeObject(admin.object);
@@ -223,7 +236,7 @@ export default Ember.Controller.extend({
       }
     },
     removeCanRead(reader) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       if (reader.user) {
         clause.get('canReadUsers').removeObject(reader.object);
         clause.save().then(() => {
@@ -238,7 +251,7 @@ export default Ember.Controller.extend({
 
     },
     removeCanWrite(editor) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       if (editor.user) {
         clause.get('canWriteUsers').removeObject(editor.object);
         clause.save().then(() => {
@@ -252,7 +265,7 @@ export default Ember.Controller.extend({
       }
     },
     removeAdmin(admin) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       if (admin.user) {
         clause.get('adminUsers').removeObject(admin.object);
         clause.save().then(() => {
@@ -266,7 +279,7 @@ export default Ember.Controller.extend({
       }
     },
     addGroup(group) {
-      let clause = this.get('model.clause');
+      let clause = this.get('model');
       group.get('canReadClauses').pushObject(clause);
       clause.save().then(() => {
         group.save();
@@ -300,9 +313,9 @@ export default Ember.Controller.extend({
     },
     destroyClause() {
       let users = this.get('mergedCurrentUsers');
-      let clause = this.get('model.clause');
-      let tags = this.get('model.clause.tags');
-      this.get('model.clause.blocks').then((blocks) => {
+      let clause = this.get('model');
+      let tags = this.get('model.tags');
+      this.get('model.blocks').then((blocks) => {
         blocks.forEach((block) => {
           block.destroyRecord();
         });
@@ -319,6 +332,76 @@ export default Ember.Controller.extend({
           this.transitionToRoute('library');
         });
       });
+    },
+    openTransferOwnership() {
+      $('.ui.transfer-owner.modal').modal('show');
+    },
+    selectTransferUser(user) {
+      this.set('selectedUser', user);
+      this.set('activateTransferButton', true);
+      this.set('selectedGroup', null);
+      this.set('searchTermGroup', null);
+    },
+    selectTransferGroup(group) {
+      this.set('selectedUser', null);
+      this.set('activateTransferButton', true);
+      this.set('selectedGroup', group);
+      this.set('searchTermGroup', null);
+    },
+    cancelTransfer() {
+      this.set('selectedUser', null);
+      this.set('selectedGroup', null);
+      this.set('activateTransferButton', false);
+    },
+    transferOwnershipUser() {
+      let newUserOwner = this.get('selectedUser');
+      let newGroupOwner = this.get('selectedGroup');
+      if (newUserOwner) {
+        this.get('model.ownerUser').then((currentUserOwner) => {
+          this.set('model.ownerUser', newUserOwner);
+          this.set('model.ownerGroup', null);
+          this.get('model').save().then(() => {
+            newUserOwner.save();
+            currentUserOwner.save();
+            $('.ui.transfer-owner.modal').modal('hide');
+          });
+        });
+      } else if (newGroupOwner) {
+        this.get('model.ownerUser').then((currentUserOwner) => {
+          this.set('model.ownerUser', null);
+          this.set('model.ownerGroup', newGroupOwner);
+          this.get('model').save().then(() => {
+            newGroupOwner.save();
+            currentUserOwner.save();
+            $('.ui.transfer-owner.modal').modal('hide');
+          });
+        });
+      }
+    },
+    transferOwnershipGroup() {
+      let newUserOwner = this.get('selectedUser');
+      let newGroupOwner = this.get('selectedGroup');
+      if (newUserOwner) {
+        this.get('model.ownerGroup').then((currentUserGroup) => {
+          this.set('model.ownerUser', newUserOwner);
+          this.set('model.ownerGroup', null);
+          this.get('model').save().then(() => {
+            newUserOwner.save();
+            currentUserGroup.save();
+            $('.ui.transfer-owner.modal').modal('hide');
+          });
+        });
+      } else if (newGroupOwner) {
+        this.get('model.ownerGroup').then((currentUserGroup) => {
+          this.set('model.ownerUser', null);
+          this.set('model.ownerGroup', newGroupOwner);
+          this.get('model').save().then(() => {
+            newGroupOwner.save();
+            currentUserGroup.save();
+            $('.ui.transfer-owner.modal').modal('hide');
+          });
+        });
+      }
     },
 
   }
