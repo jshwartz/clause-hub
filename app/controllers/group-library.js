@@ -2,6 +2,13 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Controller.extend({
+  singleManager: Ember.computed('model.managers', function() {
+    if (this.get('model.managers.length') < 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
   user: Ember.inject.service(),
   combinedClauses: Ember.computed.union('model.adminClauses', 'model.canReadClauses', 'model.canWriteClauses'),
   queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
@@ -95,6 +102,10 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    openMembers(){
+      $('.ui.members.modal').modal('show');
+    },
+
     cancelNewClause() {
       this.resetModal();
     },
@@ -153,6 +164,18 @@ export default Ember.Controller.extend({
     },
     openLibraryOptions() {
       $('.ui.mobilelibrary.modal').modal('show');
+    },
+    removeMember() {
+      this.get('user.currentUser').then((person) =>{
+        const library = this.get('model');
+        library.get('managers').removeObject(person);
+        library.get('members').removeObject(person);
+        library.save().then(() => {
+          person.save();
+          $('.ui.members.modal').modal('hide');
+          this.transitionToRoute('library');
+        });
+      });
     }
   }
 });

@@ -1,0 +1,112 @@
+<div class="ui stackable vertically divided grid">
+  <div class="ui row">
+    <div class="ui twelve wide column">
+      <h2 class="ui header">
+        <i class="share alternate icon"></i>
+        <div class="content">
+          {{model.name}}'s Library
+          <div class="sub header">Settings</div>
+        </div>
+      </h2>
+    </div>
+    <div class="ui right aligned four wide column">
+      {{#link-to 'group-library' model}}<i class="angle double left icon"></i>Back to Library{{/link-to}}
+    </div>
+  </div>
+  <div class="ui row">
+    <div class="ui eight wide column">
+      <div class="ui raised block segment">
+        <h3 class="ui dividing header">Metadata</h3>
+        {{#if isEditing}}
+          <div class={{if errorMessage "ui error form" "ui form"}}>
+            <div class="ui error message">
+              <p>{{errors.name}}</p>
+              <p>{{errors.description}}</p>
+            </div>
+            <div class={{if errors.name "field error required" "field required"}}>
+              <label>Library Name</label>
+              {{one-way-input value=libraryName update=(action (mut libraryName))}}
+            </div>
+            <div class={{if errors.description "field error required" "field required"}}>
+              <label>Library Description</label>
+              {{one-way-input value=libraryDescription update=(action (mut libraryDescription))}}
+            </div>
+            <button class="ui mini teal button"{{action 'saveMetadata'}}>Save</button>
+            <button class="ui mini button" {{action 'closeEdit'}}>Cancel</button>
+          </div>
+        {{else}}
+          <strong>Library Name</strong>
+          <p>{{model.name}}</p>
+          <strong>Library Description</strong>
+          <p>{{model.description}}</p>
+          <p class="">
+            <a href='#' {{action 'openEdit'}}>Edit</a>
+          </p>
+        {{/if}}
+      </div>
+    </div>
+    <div class="ui eight wide column">
+      <div class="ui raised block segment">
+        <h3 class="ui dividing header">Members and Managers*</h3>
+        {{#click-outside action=(action "closeSearch")}}
+        <div class="ui icon input">
+          <i class="search icon"></i>
+          {{one-way-input value=searchTerm placeholder="Add members.." update=(action (mut searchTerm))}}
+        </div>
+        {{#if searchTermNotEmpty}}
+          <div class="ui vertical menu search-results">
+            {{#if matchingNoCurrentUsers}}
+              {{#each matchingNoCurrentUsers as |user|}}
+              <a class="item" {{action 'addUser' user}}>
+                <h4 class="ui header">
+                  <div class="content">
+                    {{user.fullName}}
+                    <div class="sub header">{{if user.company user.company user.fullName}}</div>
+                  </div>
+                </h4>
+              </a>
+              {{/each}}
+            {{else}}
+              <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
+            {{/if}}
+          </div>
+        {{/if}}
+        {{/click-outside}}
+        <table class="ui very basic celled table">
+          <tbody>
+            {{#each sortedMembersManagers as |member|}}
+            <tr>
+              <td>
+                <h4 class="ui header">{{member.object.fullName}}<div class="ui sub header">{{if member.object.company member.object.company member.object.fullName}}</div></h4>
+              </td>
+              <td>
+                {{ui-checkbox label="Library Manager" checked=member.manager onChange=(action 'updateManager' member)}}
+              </td>
+              {{#if member.singleManager}}
+              <td class="disabled">
+                <em>Library needs at least one manager</em>
+              </td>
+              {{else}}
+              <td>
+                <div class="ui red basic mini button" {{action 'removeMember' member.object}}>Remove Member</div>
+              </td>
+              {{/if}}
+            </tr>
+            {{/each}}
+          </tbody>
+          <tfoot class="full-width">
+            <tr>
+              <th colspan="3">
+                <em>* Library managers have permission access to library settings, change metadata and manage membership.</em>
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{{outlet}}

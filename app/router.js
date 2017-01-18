@@ -23,9 +23,12 @@ Router.map(function() {
     this.route('users');
     this.route('clauses');
   });
-  this.route('group', { path: '/group/:group_id'}, function() {});
-  this.route('groups');
-  this.route('group-library', { path: '/group/:group_id/library'});
+  this.route('groups', function() {
+    this.route('group', {path: '/group/:group_id'});
+  });
+  this.route('group-library', { path: '/shared-library/:group_id'}, function() {
+    this.route('settings');
+  });
 });
 
 export default Router;

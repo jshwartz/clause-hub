@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('controller:group', 'Unit | Controller | group', {
+moduleFor('controller:group-library/settings', 'Unit | Controller | group library/settings', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });

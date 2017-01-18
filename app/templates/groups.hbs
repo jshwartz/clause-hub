@@ -1,6 +1,9 @@
-<div class="ui small yellow button" {{action 'openUserGroupModal'}}>
-  New Group
-</div>
+
+    {{outlet}}
+
+
+
+
 {{#ember-wormhole to="destination"}}
 {{#ui-modal name="user-group" duration=200 transition='fade down' autofocus=false class="user-group small" onHidden=(action 'cancelNewGroup') onApprove=(action 'createGroup')}}
   <i class="close icon"></i>
@@ -34,7 +37,3 @@
 {{/ui-modal}}
 {{/ember-wormhole}}
 <br>
-{{#each model.groupsManager as |group|}}
-  <p>{{#link-to 'group' group}}{{group.name}}{{/link-to}}. {{group.description}}</p>
-{{/each}}
-{{outlet}}

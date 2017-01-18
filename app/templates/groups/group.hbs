@@ -28,12 +28,12 @@
   {{/click-outside}}
 
   <h3 class="ui header">Members</h3>
-  {{#each model.group.members as |member|}}
+  {{#each model.members as |member|}}
     <p>{{member.fullName}}</p>
   {{/each}}
 
   <h3 class="ui header">Managers</h3>
-  {{#each model.group.managers as |manager|}}
+  {{#each model.managers as |manager|}}
     <p>{{manager.fullName}}</p>
   {{/each}}
 </div>
