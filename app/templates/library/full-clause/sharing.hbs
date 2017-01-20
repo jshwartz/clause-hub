@@ -52,165 +52,18 @@
   </div>
 
   <div class="eight wide column">
-    <div class={{if media.isMobile "ui raised block segment"}}>
-      {{#if media.isMobile}}<h1 class="ui dividing header">Sharing</h1>{{else}}
-      <h5 class="ui horizontal divider header"><i class="share alternate icon"></i>Sharing</h5>{{/if}}
-      {{#click-outside action=(action "closeSearch")}}
-      <div class="ui right labeled input">
-        {{#if searchPeople}}
-        {{one-way-input value=searchTermPeople placeholder="Search.." update=(action (mut searchTermPeople))}}
-        {{else}}
-        {{one-way-input value=searchTermGroup placeholder="Search.." update=(action (mut searchTermGroup))}}
-        {{/if}}
-        {{#ui-dropdown class="label" tagName="div" selected=selectedSearchOption onChange=(action (mut selectedSearchOption))}}
-           <div class="text">People</div>
-           <i class="dropdown icon"></i>
-           <div class="menu">
-             {{#each searchOptions as |option|}}
-             <div class="item">{{option}}</div>
-             {{/each}}
-           </div>
-         {{/ui-dropdown}}
-      </div>
-      {{#if searchTermPeopleNotEmpty}}
-        <div class="ui vertical menu search-results">
-          {{#if matchingNoCurrentUsers}}
-            <div class="header item">PEOPLE</div>
-            {{#each matchingNoCurrentUsers as |user|}}
-            <a class="item" {{action 'addUser' user}}>
-              {{user.fullName}}
-            </a>
-            {{/each}}
-          {{else}}
-            <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
-          {{/if}}
+    <div class="ui segment">
+      <h3 class="ui dividing header">Ownership</h3>
+      {{#ui-popup tagName="div" class="ui right corner label" content="Each clause can have either a user owner or a group owner. The clause is stored in the owner's library, and the owner has full permissions, including the rights to change ownership and delete the clause."}}<i class="info icon"></i>{{/ui-popup}}
+      <p>This clause belongs to <strong>{{model.library.name}}</strong>.</p>
+      <div class="ui horizontal divided list">
+        <div class="item">
+          <a href="#" {{action 'openTransferOwnership'}}>Transfer Ownership</a>
         </div>
-      {{/if}}
-      {{#if searchTermGroupNotEmpty}}
-        <div class="ui vertical menu search-results">
-          {{#if matchingGroups}}
-            <div class="header item">GROUPS</div>
-            {{#each matchingGroups as |group|}}
-            <a class="item" {{action 'addGroup' group}}>
-              {{group.name}}
-            </a>
-            {{/each}}
-          {{else}}
-            <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
-          {{/if}}
-        </div>
-      {{/if}}
-      {{/click-outside}}
-
-      <div class="ui segments">
-        <div class={{if readOverTarget "ui secondary segment" "ui segment"}}>
-          {{#draggable-object-target action="setCanRead" dragOverAction='readOverAction' dragOutAction='readDragOutAction'}}
-            <p>Read Only</p>
-            {{#each combinedReader as |reader|}}
-              {{#draggable-object content=reader class=(if reader.user "ui label can-drag" "ui teal label can-drag")}}
-                {{#if reader.user}}
-                  <i class="user icon"></i>
-                {{else}}
-                  <i class="users icon"></i>
-                {{/if}}
-                {{reader.name}}
-                <i class="delete icon" {{action 'removeCanRead' reader}}></i>
-              {{/draggable-object}}
-            {{/each}}
-          {{/draggable-object-target}}
-        </div>
-        <div class={{if writeOverTarget "ui secondary segment" "ui segment"}}>
-          {{#draggable-object-target action="setCanWrite" dragOverAction='writeOverAction' dragOutAction='writeDragOutAction'}}
-          <p>Editors</p>
-          {{#each combinedEditors as |editor|}}
-            {{#draggable-object content=editor class=(if editor.user "ui label can-drag" "ui teal label can-drag")}}
-              {{#if editor.user}}
-                <i class="user icon"></i>
-              {{else}}
-                <i class="users icon"></i>
-              {{/if}}
-              {{editor.name}}
-              <i class="delete icon" {{action 'removeCanWriteUser' user}}></i>
-            {{/draggable-object}}
-          {{/each}}
-          {{/draggable-object-target}}
-        </div>
-        <div class={{if adminOverTarget "ui secondary segment" "ui segment"}}>
-          {{#draggable-object-target action="setAdmin" dragOverAction='adminOverAction' dragOutAction='adminDragOutAction'}}
-            <p>Owners</p>
-            {{#each combinedAdmins as |admin|}}
-              {{#if onlyOneAdmin}}
-                <div class="ui disabled image label" >
-                  {{#if admin.user}}
-                    <i class="user icon"></i>
-                  {{else}}
-                    <i class="users icon"></i>
-                  {{/if}}
-                  {{admin.name}}
-                </div>
-              {{else}}
-                {{#draggable-object content=admin class=(if admin.user "ui label can-drag" "ui teal label can-drag")}}
-                  {{#if admin.user}}
-                    <i class="user icon"></i>
-                  {{else}}
-                    <i class="users icon"></i>
-                  {{/if}}
-                  {{admin.name}}
-                  <i class="delete icon" {{action 'removeAdmin' admin}}></i>
-                {{/draggable-object}}
-              {{/if}}
-            {{/each}}
-          {{/draggable-object-target}}
+        <div class="item">
+          <a href="#">Delete Clause</a>
         </div>
       </div>
-      <div class="ui segment">
-        <h3 class="ui dividing header">Ownership</h3>
-        {{#ui-popup tagName="div" class="ui right corner label" content="Each clause can have either a user owner or a group owner. The clause is stored in the owner's library, and the owner has full permissions, including the rights to change ownership and delete the clause."}}<i class="info icon"></i>{{/ui-popup}}
-        <p>This clause belongs to <strong>{{model.ownerUser.fullName}}{{model.ownerGroup.name}}</strong>.</p>
-        <div class="ui horizontal divided list">
-          <div class="item">
-            <a href="#" {{action 'openTransferOwnership'}}>Transfer Ownership</a>
-          </div>
-          <div class="item">
-            <a href="#">Delete Clause</a>
-          </div>
-        </div>
-      </div>
-
-
-
-      {{!-- <table class={{unless media.isMobile "ui very basic collapsing celled table" "ui striped celled table"}}>
-        {{#unless media.isMobile }}<thead>
-          <tr><th>User</th>
-          <th>Can Read</th>
-          <th>Can Edit</th>
-          <th>Admin</th>
-        </tr></thead>{{/unless}}
-        <tbody>
-          {{#each filteredCombinedUsers as |user|}}
-            <tr>
-              <td>
-                <h4 class="ui image header">
-                  {{ember-initials name=user.fullName class="ui mini rounded image" size=50}}
-                  <div class="content">
-                    {{user.fullName}}
-                    <div class="sub header">{{if user.company user.company user.fullName}}</div>
-                  </div>
-                </h4>
-              </td>
-              <td>
-                {{ui-checkbox class=(if user.singleAdmin "disabled") label=(if media.isMobile "Can Read") checked=user.canRead onUnchecked=(action 'removeCanReadUser' user)}}
-              </td>
-              <td>
-                {{ui-checkbox class=(if user.singleAdmin "disabled") label=(if media.isMobile "Can Write") checked=user.canWrite onChecked=(action 'setCanWriteUser' user) onUnchecked=(action 'setCanReadUser' user)}}
-              </td>
-              <td>
-                {{ui-checkbox class=(if user.singleAdmin "disabled") label=(if media.isMobile "Admin") checked=user.admin onChecked=(action 'setAdminUser' user) onUnchecked=(action 'setCanWriteUser' user)}}
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table> --}}
     </div>
   </div>
 </div>
@@ -225,42 +78,14 @@
         <label>Select New Owner</label>
         {{#click-outside action=(action "closeSearch")}}
         <div class="ui right labeled input">
-          {{#if searchPeople}}
-          {{one-way-input value=searchTermPeople placeholder="Search.." update=(action (mut searchTermPeople))}}
-          {{else}}
-          {{one-way-input value=searchTermGroup placeholder="Search.." update=(action (mut searchTermGroup))}}
-          {{/if}}
-          {{#ui-dropdown class="label" tagName="div" selected=selectedSearchOption onChange=(action (mut selectedSearchOption))}}
-             <div class="text">People</div>
-             <i class="dropdown icon"></i>
-             <div class="menu">
-               {{#each searchOptions as |option|}}
-               <div class="item">{{option}}</div>
-               {{/each}}
-             </div>
-           {{/ui-dropdown}}
+          {{one-way-input value=searchTerm placeholder="Search.." update=(action (mut searchTerm))}}
         </div>
-        {{#if searchTermPeopleNotEmpty}}
+        {{#if searchTermNotEmpty}}
           <div class="ui vertical menu search-results">
-            {{#if matchingOwnerUsers}}
-              <div class="header item">PEOPLE</div>
-              {{#each matchingOwnerUsers as |user|}}
-              <a class="item" {{action 'selectTransferUser' user}}>
-                {{user.fullName}}
-              </a>
-              {{/each}}
-            {{else}}
-              <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
-            {{/if}}
-          </div>
-        {{/if}}
-        {{#if searchTermGroupNotEmpty}}
-          <div class="ui vertical menu search-results">
-            {{#if matchingGroups}}
-              <div class="header item">GROUPS</div>
-              {{#each matchingGroups as |group|}}
-              <a class="item" {{action 'selectTransferGroup' group}}>
-                {{group.name}}
+            {{#if matchingLibraries}}
+              {{#each matchingLibraries as |library|}}
+              <a class="item" {{action 'selectTransferLibrary' library}}>
+                {{library.name}}
               </a>
               {{/each}}
             {{else}}
@@ -270,11 +95,11 @@
         {{/if}}
         {{/click-outside}}
       </div>
-      <p>Transfer ownership to: <strong>{{selectedUser.fullName}}{{selectedGroup.name}}</strong></p>
+      <p>Transfer ownership to: <strong>{{newlib.name}}</strong></p>
     </form>
   </div>
   <div class="actions">
-    {{#if model.ownerUser}}<div class={{if activateTransferButton "ui teal button" "ui disabled teal approve button"}} {{action 'transferOwnershipUser'}}>Transfer</div>{{/if}}
+    {{#if model.ownerUser}}<div class={{if activateTransferButton "ui teal button" "ui disabled teal approve button"}} {{action 'transferLibrary'}}>Transfer</div>{{/if}}
     {{#if model.ownerGroup}}<div class={{if activateTransferButton "ui teal button" "ui disabled teal approve button"}} {{action 'transferOwnershipGroup'}}>Transfer</div>{{/if}}
   </div>
 {{/ui-modal}}

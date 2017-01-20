@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default DS.Model.extend({
   session: Ember.inject.service(),
   // lastModified: DS.attr('date'),
+  library: DS.belongsTo('library'),
   groups: DS.hasMany('group'),
   metadata: DS.attr(),
   blocks: DS.hasMany('block', {

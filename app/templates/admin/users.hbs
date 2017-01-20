@@ -92,7 +92,7 @@
           <td>
             {{ui-checkbox label="System Admin" disabled=(if updatingAdmin true false) checked=user.admin onChange=(action 'toggleAdmin' user)}}
           </td>
-          <td><button class="ui mini basic button" {{action 'countAdminClausesNoDelete' user}}>Count</button><button class="ui mini negative basic button" {{action 'countAdminClauses' user}}>Delete</button></td>
+          <td><button class="ui mini basic button" {{action 'createUserLibrary' user}}>Create Lib</button><button class="ui mini basic button" {{action 'countAdminClausesNoDelete' user}}>Count</button><button class="ui mini negative basic button" {{action 'countAdminClauses' user}}>Delete</button></td>
         </tr>
       {{/each}}
     </tbody>

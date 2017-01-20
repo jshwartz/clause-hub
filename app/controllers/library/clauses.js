@@ -8,8 +8,8 @@ export default Ember.Controller.extend({
   searchMenu: true,
   tagMenu: false,
   //get clauses ready
-  combinedClauses: Ember.computed.union('model.clauses'),
-  // queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
+  combinedClauses: Ember.computed.union('model.adminClauses', 'model.canReadClauses', 'model.canWriteClauses'),
+  queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
   //search time
   search: null,
   searchedClauses: Ember.computed('search', 'sortedClauses', function() {
@@ -38,30 +38,30 @@ export default Ember.Controller.extend({
   ],
   //filter time
   dateFilter: null,
-  // favoriteFilter: false,
-  // favoriteClauses: Ember.computed('favoriteFilter', 'model.favoriteClauses', 'model.clauses', function() {
-  //   if (this.get('favoriteFilter')) {
-  //     return this.get('model.favoriteClauses');
-  //   } else {
-  //     return this.get('combinedClauses');
-  //   }
-  // }),
+  favoriteFilter: false,
+  favoriteClauses: Ember.computed('favoriteFilter', 'model.favoriteClauses', 'combinedClauses', function() {
+    if (this.get('favoriteFilter')) {
+      return this.get('model.favoriteClauses');
+    } else {
+      return this.get('combinedClauses');
+    }
+  }),
   dateFilterOptions: [
     {title: 'No Date Filter', value: null},
     {title: 'Updated Last 30 Days', value: "u30d"},
     {title: 'Updated Last 6 Months', value: "u6m"},
     {title: 'Updated Last Year', value: "u1y"},
   ],
-  filteredClauses: Ember.computed('dateFilter', 'model', function() {
-    // if (this.get('dateFilter') === "u30d") {
-    //   return this.get('updatedLastMonth');
-    // } else if (this.get('dateFilter') === "u6m") {
-    //   return this.get('updatedLast6Months');
-    // } else if (this.get('dateFilter') === "u1y") {
-    //   return this.get('updatedLastYear');
-    // } else {
-      return this.get('model');
-    // }
+  filteredClauses: Ember.computed('dateFilter', 'model.clauses', function() {
+    if (this.get('dateFilter') === "u30d") {
+      return this.get('updatedLastMonth');
+    } else if (this.get('dateFilter') === "u6m") {
+      return this.get('updatedLast6Months');
+    } else if (this.get('dateFilter') === "u1y") {
+      return this.get('updatedLastYear');
+    } else {
+      return this.get('model.clauses');
+    }
   }),
   updatedLastMonth: Ember.computed.filter('model.clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'months') < 1;

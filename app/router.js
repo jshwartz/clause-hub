@@ -7,7 +7,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('library', function() {
+  this.route('library', { path: '/lib/:library_id'}, function() {
     this.route('fullClause', { path: '/cl/:clause_id' }, function() {
       this.route('builder', function() {
         this.route('block', { path: '/bl/:block_id' });
@@ -16,6 +16,8 @@ Router.map(function() {
       this.route('dashboard');
       this.route('sharing');
     });
+    this.route('clauses');
+    this.route('settings');
   });
   this.route('login');
   this.route('profile');

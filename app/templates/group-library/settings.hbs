@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="ui row">
-    <div class="ui eight wide column">
+    <div class="ui five wide column">
       <div class="ui raised block segment">
         <h3 class="ui dividing header">Metadata</h3>
         {{#if isEditing}}
@@ -45,9 +45,10 @@
         {{/if}}
       </div>
     </div>
-    <div class="ui eight wide column">
+    <div class="ui eleven wide column">
       <div class="ui raised block segment">
-        <h3 class="ui dividing header">Members and Managers*</h3>
+        <h3 class="ui dividing header">Library Members and Permissions</h3>
+        {{#ui-popup tagName="div" class="ui right corner label" content="Each clause can have either a user owner or a group owner. The clause is stored in the owner's library, and the owner has full permissions, including the rights to change ownership and delete the clause."}}<i class="info icon"></i>{{/ui-popup}}
         {{#click-outside action=(action "closeSearch")}}
         <div class="ui icon input">
           <i class="search icon"></i>
@@ -80,7 +81,13 @@
                 <h4 class="ui header">{{member.object.fullName}}<div class="ui sub header">{{if member.object.company member.object.company member.object.fullName}}</div></h4>
               </td>
               <td>
-                {{ui-checkbox label="Library Manager" checked=member.manager onChange=(action 'updateManager' member)}}
+                {{ui-checkbox label="Editor" checked=member.manager onChange=(action 'updateManager' member)}}
+              </td>
+              <td>
+                {{ui-checkbox label="Approver" checked=member.manager onChange=(action 'updateManager' member)}}
+              </td>
+              <td>
+                {{ui-checkbox label="Manager" checked=member.manager onChange=(action 'updateManager' member)}}
               </td>
               {{#if member.singleManager}}
               <td class="disabled">
@@ -88,19 +95,12 @@
               </td>
               {{else}}
               <td>
-                <div class="ui red basic mini button" {{action 'removeMember' member.object}}>Remove Member</div>
+                <div class="ui red basic mini button" {{action 'removeMember' member.object}}>Remove</div>
               </td>
               {{/if}}
             </tr>
             {{/each}}
           </tbody>
-          <tfoot class="full-width">
-            <tr>
-              <th colspan="3">
-                <em>* Library managers have permission access to library settings, change metadata and manage membership.</em>
-              </th>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>

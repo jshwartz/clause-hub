@@ -5,13 +5,13 @@
     <div class="header item">
       {{#link-to 'library'}}Clausium{{/link-to}}
     </div>
-    {{#link-to 'library' class='item'}}Totum{{/link-to}}
+    {{#link-to 'library.clauses' class='item'}}Totum{{/link-to}}
     {{#ui-dropdown class="browse item" tagName="a"}}
       Libraries
       <i class="dropdown icon"></i>
       <div class="menu">
 
-        {{#link-to 'library' class='item'}}<i class="user icon"></i>Personal{{/link-to}}
+        {{#link-to 'library.clauses' currentUser.personalLibrary class='item'}}<i class="user icon"></i>Personal{{/link-to}}
         <div class="divider"></div>
         <div class="header">Shared</div>
         {{#each currentUser.groupsMember as |group|}}

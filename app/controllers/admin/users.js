@@ -126,6 +126,15 @@ export default Ember.Controller.extend({
 
 
   actions: {
+    createUserLibrary(user) {
+      const newlib = this.store.createRecord('library', {
+        owner: user,
+        type: "personal",
+      });
+      newlib.save().then(() => {
+        user.save();
+      })
+    },
     openCreateUser() {
       this.set('newUserForm', true);
     },

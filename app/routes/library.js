@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   beforeModel(transition) {
@@ -8,7 +9,14 @@ export default Ember.Route.extend({
       this.transitionTo('login');
     }
   },
-  model() {
-    return this.get('store').findRecord('user', this.get('session.currentUser.uid'));
+  model(params) {
+    return RSVP.hash({
+      library: this.get('store').findRecord('library', params.library_id),
+      clauses: this.get('store').query('clause', { orderBy: 'library', equalTo: params.library_id })
+    });
+  },
+  setupController(controller, models) {
+    controller.setProperties(models);
   }
+
 });
