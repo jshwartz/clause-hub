@@ -5,6 +5,7 @@ export default Ember.Controller.extend({
   //services
   user: Ember.inject.service(),
   //options and tag menu
+  optionsOpen: true,
   searchMenu: true,
   tagMenu: false,
   //get clauses ready
@@ -100,6 +101,13 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    toggle() {
+      console.log('hi');
+      $('#sub-sidebar')
+        .sidebar('setting', 'transition', 'push')
+        .sidebar('toggle')
+      ;
+    },
     openSearchMenu() {
       this.set('searchMenu', true);
       this.set('tagMenu', false);

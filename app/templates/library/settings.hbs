@@ -1,1 +1,93 @@
+<div class='subnavbar'>
+  <div class="ui stackable vertically divided grid">
+    <div class="ui row">
+      <div class="ui ten wide column">
+        <h3 class="subdued">{{#link-to 'library.clauses'}}{{library.name}}'s Library{{/link-to}} / Settings</h3>
+      </div>
+      <div class="ui right aligned six wide column">
+        {{#link-to 'library.clauses'}}Back to Library{{/link-to}}
+      </div>
+    </div>
+    <div class="ui row">
+      <div class="ui five wide column">
+        <div class="ui raised block segment">
+          <h3 class="ui dividing header">Personalization</h3>
+          <button class="circular ui red icon button"></button>
+          <button class="circular ui orange icon button"></button>
+          <button class="circular ui yellow icon button"></button>
+          <button class="circular ui olive icon button"></button>
+          <button class="circular ui green icon button"></button>
+          <button class="circular ui teal icon button"></button>
+          <button class="circular ui blue icon button"></button>
+          <button class="circular ui violet icon button"></button>
+          <button class="circular ui purple icon button"></button>
+          <button class="circular ui pink icon button"></button>
+          <button class="circular ui brown icon button"></button>
+          <button class="circular ui grey icon button"></button>
+          <button class="circular ui black icon button"></button>
+
+        </div>
+      </div>
+      <div class="ui eleven wide column">
+        <div class="ui raised block segment">
+          <h3 class="ui dividing header">Library Members and Permissions</h3>
+          {{#ui-popup tagName="div" class="ui right corner label" content="Each clause can have either a user owner or a group owner. The clause is stored in the owner's library, and the owner has full permissions, including the rights to change ownership and delete the clause."}}<i class="info icon"></i>{{/ui-popup}}
+          {{#click-outside action=(action "closeSearch")}}
+          <div class="ui icon input">
+            <i class="search icon"></i>
+            {{one-way-input value=searchTerm placeholder="Add members.." update=(action (mut searchTerm))}}
+          </div>
+          {{#if searchTermNotEmpty}}
+            <div class="ui vertical menu search-results">
+              {{#if matchingNoCurrentUsers}}
+                {{#each matchingNoCurrentUsers as |user|}}
+                <a class="item" {{action 'addUser' user}}>
+                  <h4 class="ui header">
+                    <div class="content">
+                      {{user.fullName}}
+                      <div class="sub header">{{if user.company user.company user.fullName}}</div>
+                    </div>
+                  </h4>
+                </a>
+                {{/each}}
+              {{else}}
+                <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
+              {{/if}}
+            </div>
+          {{/if}}
+          {{/click-outside}}
+          <table class="ui very basic celled table">
+            <tbody>
+              {{#each sortedMembersManagers as |member|}}
+              <tr>
+                <td>
+                  <h4 class="ui header">{{member.object.fullName}}<div class="ui sub header">{{if member.object.company member.object.company member.object.fullName}}</div></h4>
+                </td>
+                <td>
+                  {{ui-checkbox label="Editor" checked=member.manager onChange=(action 'updateManager' member)}}
+                </td>
+                <td>
+                  {{ui-checkbox label="Approver" checked=member.manager onChange=(action 'updateManager' member)}}
+                </td>
+                <td>
+                  {{ui-checkbox label="Manager" checked=member.manager onChange=(action 'updateManager' member)}}
+                </td>
+                {{#if member.singleManager}}
+                <td class="disabled">
+                  <em>Library needs at least one manager</em>
+                </td>
+                {{else}}
+                <td>
+                  <div class="ui red basic mini button" {{action 'removeMember' member.object}}>Remove</div>
+                </td>
+                {{/if}}
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {{outlet}}

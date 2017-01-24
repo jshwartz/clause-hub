@@ -5,10 +5,10 @@ export default Ember.Controller.extend({
   //services
   user: Ember.inject.service(),
   //options and tag menu
+  optionsOpen: true,
   searchMenu: true,
   tagMenu: false,
   //get clauses ready
-  combinedClauses: Ember.computed.union('model.adminClauses', 'model.canReadClauses', 'model.canWriteClauses'),
   queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
   //search time
   search: null,
@@ -33,26 +33,22 @@ export default Ember.Controller.extend({
   sortedClauses: Ember.computed.sort('filteredClauses', 'sortProperties'),
   sortOptions: [
     {title: "Title", value: "metadata.title"},
-    {title: "Updated", value: "metadata.lastModified"},
+    {title: "Last Updated", value: "metadata.lastModified"},
     {title: "Created", value: "metadata.createdAt"},
   ],
+  directionOptions: [
+    {title: "Ascending", value: "asc"},
+    {title: "Decending", value: "desc"},
+  ],
   //filter time
-  dateFilter: null,
-  favoriteFilter: false,
-  favoriteClauses: Ember.computed('favoriteFilter', 'model.favoriteClauses', 'combinedClauses', function() {
-    if (this.get('favoriteFilter')) {
-      return this.get('model.favoriteClauses');
-    } else {
-      return this.get('combinedClauses');
-    }
-  }),
+  dateFilter: 'none',
   dateFilterOptions: [
-    {title: 'No Date Filter', value: null},
+    {title: 'None', value: "none"},
     {title: 'Updated Last 30 Days', value: "u30d"},
     {title: 'Updated Last 6 Months', value: "u6m"},
     {title: 'Updated Last Year', value: "u1y"},
   ],
-  filteredClauses: Ember.computed('dateFilter', 'model.clauses', function() {
+  filteredClauses: Ember.computed('dateFilter', 'clauses', function() {
     if (this.get('dateFilter') === "u30d") {
       return this.get('updatedLastMonth');
     } else if (this.get('dateFilter') === "u6m") {
@@ -60,16 +56,16 @@ export default Ember.Controller.extend({
     } else if (this.get('dateFilter') === "u1y") {
       return this.get('updatedLastYear');
     } else {
-      return this.get('model.clauses');
+      return this.get('clauses');
     }
   }),
-  updatedLastMonth: Ember.computed.filter('model.clauses', function(clause) {
+  updatedLastMonth: Ember.computed.filter('clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'months') < 1;
   }),
-  updatedLast6Months: Ember.computed.filter('model.clauses', function(clause) {
+  updatedLast6Months: Ember.computed.filter('clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'months') < 6;
   }),
-  updatedLastYear: Ember.computed.filter('model.clauses', function(clause) {
+  updatedLastYear: Ember.computed.filter('clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'years') < 1;
   }),
   title: null,
@@ -100,6 +96,9 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    toggleOptions() {
+      this.toggleProperty('optionsOpen');
+    },
     openSearchMenu() {
       this.set('searchMenu', true);
       this.set('tagMenu', false);

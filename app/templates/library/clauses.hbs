@@ -1,38 +1,127 @@
-<div class="ui tabular menu">
-  <a class="item active">
-    Clauses
-  </a>
-  <a class="item">
-    Settings
-  </a>
-  <div class="right menu">
+<div class='subnavbar'>
+  <div class="ui grid">
+    <div class="ui ten wide column">
+      <h3 class="subdued">{{library.name}}'s Library</h3>
+    </div>
+    <div class="ui right aligned six wide column">
+      <div class="ui compact secondary icon menu subdued">
+        <a class="item subdued">
+          <i class="grid layout icon"></i>
+        </a>
+        <a class="item subdued">
+          <i class="list layout icon"></i>
+        </a>
+        {{#link-to 'library.settings' class="item subdued"}}
+          <i class="settings icon"></i>
+        {{/link-to}}
+        <a class="item subdued" {{action 'toggleOptions'}}>
+          <i class="options icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui tabular menu" id="library-tabs">
+    <a class="item active">
+      Clauses
+    </a>
+    <a class="item">
+      Templates
+    </a>
+    <a class="item">
+      Checklists
+    </a>
+    <div class="right menu">
     <div class="ui transparent icon input">
       <i class="search icon"></i>
       {{one-way-input type="text" value=search placeholder="Search Library..." update=(action (mut search))}}
     </div>
   </div>
 </div>
+{{#if optionsOpen}}
+<div class="ui secondary menu" id="library-options">
+  <div class="item">
+    Sort By:&nbsp;&nbsp;
+    {{#ui-dropdown class="inline" selected=sortBy onChange=(action (mut sortBy))}}
+      <div class="text">Sort By</div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        {{#each sortOptions as |sortOption|}}
+          <div class="item" data-value="{{sortOption.value}}">
+            {{sortOption.title}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+  <div class="item">
+    Sort Direction:&nbsp;&nbsp;
+    {{#ui-dropdown class="inline" selected=direction onChange=(action (mut direction))}}
+      <div class="text">Sort Direction:</div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        {{#each directionOptions as |option|}}
+          <div class="item" data-value="{{option.value}}">
+            {{option.title}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+  <div class="item">
+    Date Filter:&nbsp;&nbsp;
+    {{#ui-dropdown class="inline" selected=dateFilter onChange=(action (mut dateFilter))}}
+      <div class="text">Date Filter:</div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        {{#each dateFilterOptions as |option|}}
+          <div class="item" data-value="{{option.value}}">
+            {{option.title}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+  <div class="right item">
+    Tags:&nbsp;&nbsp;
+    {{#ui-dropdown class="fluid multiple selection" selected=country onChange=(action (mut country))}}
+      <i class="dropdown icon"></i>
+      <div class="default text">Select Country</div>
+      <div class="menu">
+        {{#each countries as |item|}}
+          <div class="item" data-value="{{item.iso2}}">
+            <i class="{{item.iso2}} flag"></i>
+            {{item.name}}
+          </div>
+        {{/each}}
+      </div>
+    {{/ui-dropdown}}
+  </div>
+</div>
+{{/if}}
+
+<div class="ui four stackable cards" id={{if optionsOpen "" "library-items"}}>
+  {{#each searchedClauses as |clause|}}
+    <div class={{if media.isMobile "ui raised block card" "ui raised link block card"}}>
+      <div class="content">
+        <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
+        {{#link-to "library.fullClause.dashboard" clause class="header"}}
+          {{clause.metadata.title}}
+        {{/link-to}}
+        {{#link-to "library.fullClause.dashboard" clause class="meta"}}
+          <p><span class="left floated">Last Updated</span><span class="right floated">{{moment-from-now clause.metadata.lastModified}}</span></p>
+        {{/link-to}}
+        {{#link-to "library.fullClause.dashboard" clause class="description"}}
+          <div class="ui hidden clearing divider"></div>
+          <p>{{clause.metadata.subTitle}}</p>
+        {{/link-to}}
+      </div>
+    </div>
+  {{/each}}
+</div>
 <div class="ui mobile reversed stackable grid">
   <div class="thirteen wide column" id="context">
-    <div class="ui stackable cards">
-      {{#each searchedClauses as |clause|}}
-        <div class={{if media.isMobile "ui raised card" "ui raised link card"}}>
-          <div class="content">
-            <i class={{if clause.favoriteTrue "right floated active star icon" "right floated star icon"}} {{action 'updateClauseFavorite' clause}}></i>
-            {{#link-to "library.fullClause.dashboard" clause class="header"}}
-              {{clause.metadata.title}}
-            {{/link-to}}
-            {{#link-to "library.fullClause.dashboard" clause class="meta"}}
-              <p><span class="left floated">Last Updated</span><span class="right floated">{{moment-from-now clause.metadata.lastModified}}</span></p>
-            {{/link-to}}
-            {{#link-to "library.fullClause.dashboard" clause class="description"}}
-              <div class="ui hidden clearing divider"></div>
-              <p>{{clause.metadata.subTitle}}</p>
-            {{/link-to}}
-          </div>
-        </div>
-      {{/each}}
-    </div>
+
   </div>
 
 
@@ -43,7 +132,7 @@
     </div>
 
     {{#if searchMenu}}
-    <form class="ui secondary segment form">
+    <form class="ui form">
       {{#if media.isMobile}}
         <div class="ui right floated compact icon menu">
           <a class="item" {{action 'openLibraryOptions'}}>

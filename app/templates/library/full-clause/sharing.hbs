@@ -10,11 +10,11 @@
           </div>
           <div class={{if errors.title "field error required" "field required"}}>
             <label>Clause Title</label>
-            {{one-way-input value=titleText update=(action (mut titleText))}}
+            {{one-way-input value=titleText maxlength=45 update=(action (mut titleText))}}
           </div>
           <div class={{if errors.subtitle "field error required" "field required"}}>
             <label>Clause Subtitle</label>
-            {{one-way-input value=subtitleText update=(action (mut subtitleText))}}
+            {{one-way-input value=subtitleText maxlength=100 update=(action (mut subtitleText))}}
           </div>
           <div class="field">
             <label>Clause Header</label>

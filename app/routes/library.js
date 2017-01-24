@@ -17,6 +17,15 @@ export default Ember.Route.extend({
   },
   setupController(controller, models) {
     controller.setProperties(models);
-  }
+  },
+  // afterModel(models, transition) {
+  //   const color = models.library.get('color');
+  //   if (color === "teal") {
+  //     this.controllerFor('application').set('navColor', "ui p-teal inverted large borderless fixed top menu");
+  //   } else if (color === "black") {
+  //     this.controllerFor('application').set('navColor', "ui p-black inverted large borderless fixed top menu");
+  //   }
+  //   console.log(color);
+  // }
 
 });

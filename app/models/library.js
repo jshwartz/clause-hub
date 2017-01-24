@@ -13,4 +13,5 @@ export default DS.Model.extend({
   createdAt: DS.attr('date', {defaultValue() { return new Date(); } }),
   lastModified: DS.attr('date', {defaultValue() { return new Date(); } }),
   lastModifiedBy:DS.belongsTo('user'),
+  color: DS.attr('string'),
 });

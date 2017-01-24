@@ -1,8 +1,67 @@
+$primary-red: #DB2828;
+$primary-orange: #F2711C;
+$primary-yellow: #FBBD08;
+$primary-green: #21BA45;
+$primary-teal: #00B5AD;
+$primary-blue: #2185D0;
+$primary-violet: #6435C9;
+$primary-purple: #A333C8;
+$primary-pink: #E03997;
+$primary-brown: #A5673F;
+$primary-grey: #767676;
+$primary-black: #767676;
+
+$nav-color: #00B5AD;
 
 body {
-    background-color: #fcfcfc;
+    background-color: #fbfbfb;
     overflow-y: scroll;
 
+}
+
+#topmenu {
+  border-radius: 0;
+  border: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  -webkit-box-shadow: 0px 2px 12px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 2px 12px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 2px 12px 0px rgba(0,0,0,0.3);
+}
+
+.p-teal {
+  background-color: $primary-teal !important;
+}
+
+.p-black {
+  background-color: $primary-black;
+}
+
+#navbarspace {
+  margin-top: 65px;
+}
+
+#subnavbar {
+  padding: 2px;
+  padding-left: 3em;
+}
+
+.subdued {
+  color: #464646 !important;
+}
+
+#submenu {
+  margin-top: 0;
+  margin-bottom: 35px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-radius: 0;
+  border-bottom: 1px;
+  border-color: black;
+}
+
+.p-green {
+  color: $primary-green;
 }
 
 .can-drag {
@@ -120,8 +179,23 @@ a {
   margin-bottom: 0;
 }
 
-.ui.inverted.top.menu {
-  margin-top: 0;
+
+
+#library-tabs {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+#library-options {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#library-items {
+  margin-top: 15px;
+}
+
+.ui.card.block {
   border-radius: 0;
 }
 
