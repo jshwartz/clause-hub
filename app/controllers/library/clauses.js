@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
     {title: 'Updated Last 6 Months', value: "u6m"},
     {title: 'Updated Last Year', value: "u1y"},
   ],
-  filteredClauses: Ember.computed('dateFilter', 'clauses', function() {
+  filteredClauses: Ember.computed('dateFilter', 'model.clauses', function() {
     if (this.get('dateFilter') === "u30d") {
       return this.get('updatedLastMonth');
     } else if (this.get('dateFilter') === "u6m") {
@@ -56,16 +56,16 @@ export default Ember.Controller.extend({
     } else if (this.get('dateFilter') === "u1y") {
       return this.get('updatedLastYear');
     } else {
-      return this.get('clauses');
+      return this.get('model.clauses');
     }
   }),
-  updatedLastMonth: Ember.computed.filter('clauses', function(clause) {
+  updatedLastMonth: Ember.computed.filter('model.clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'months') < 1;
   }),
-  updatedLast6Months: Ember.computed.filter('clauses', function(clause) {
+  updatedLast6Months: Ember.computed.filter('model.clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'months') < 6;
   }),
-  updatedLastYear: Ember.computed.filter('clauses', function(clause) {
+  updatedLastYear: Ember.computed.filter('model.clauses', function(clause) {
     return moment().diff(clause.get('metadata.lastModified'), 'years') < 1;
   }),
   title: null,

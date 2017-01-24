@@ -10,14 +10,9 @@ export default Ember.Route.extend({
     }
   },
   model(params) {
-    return RSVP.hash({
-      library: this.get('store').findRecord('library', params.library_id),
-      clauses: this.get('store').query('clause', { orderBy: 'library', equalTo: params.library_id })
-    });
+    return this.get('store').findRecord('library', params.library_id);
   },
-  setupController(controller, models) {
-    controller.setProperties(models);
-  },
+
   // afterModel(models, transition) {
   //   const color = models.library.get('color');
   //   if (color === "teal") {

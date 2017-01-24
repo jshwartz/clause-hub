@@ -3,9 +3,8 @@
   <div class={{navColor}} id="topmenu">
     <div class="ui container">
     <div class="header item">
-      {{#link-to 'library'}}Clausium{{/link-to}}
+      {{#link-to 'library.clauses' currentUser.personalLibrary}}Clausium{{/link-to}}
     </div>
-    {{#link-to 'library.clauses' class='item'}}Totum{{/link-to}}
     {{#ui-dropdown class="browse item" tagName="a"}}
       Libraries
       <i class="dropdown icon"></i>
@@ -33,7 +32,7 @@
             <i class="dark close icon"></i>
             <div class="ui basic center aligned segment">
               <div class="ui relaxed massive list">
-                {{#link-to 'library' class='item'}}Library{{/link-to}}
+                {{!-- {{#link-to 'library' class='item'}}Library{{/link-to}} --}}
                 {{#link-to 'profile' class='item'}}Account Settings{{/link-to}}
                 <a class="item" href="#" {{action 'signOut'}}>Logout</a>
               </div>
