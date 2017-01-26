@@ -102,6 +102,12 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    openLibSidebar() {
+      this.set('librarySidenavActive', true);
+    },
+    closeLibSidebar() {
+      this.set('librarySidenavActive', false);
+    },
     toggle() {
       console.log('hi');
       $('#sub-sidebar')

@@ -11,13 +11,44 @@ $primary-brown: #A5673F;
 $primary-grey: #767676;
 $primary-black: #767676;
 
+$app-primary: #656473;
 $nav-color: #00B5AD;
+
+.app-primaryText {
+  color: $app-primary !important;
+}
 
 body {
     background-color: #EBEBEB;
     overflow-y: scroll;
 
 }
+
+#openSidebarIcon {
+  position: fixed;
+  padding-left: 1.5em;
+  padding-top: 1em;
+  font-size: 1.8em;
+  color: rgba(0, 0, 0, 0.8);
+  transition: all .1s ease-in-out;
+}
+
+#openSidebarIcon:hover {
+  color: rgba(0, 0, 0, 1);
+}
+
+#closeSidebarIcon {
+  float: right;
+  font-size: 1.8em;
+  color: #E0E0E0;
+  padding-left: .7em;
+  transition: all .1s ease-in-out;
+}
+
+#closeSidebarIcon:hover {
+  color: white;
+}
+
 
 
 .librarynav {
@@ -64,6 +95,9 @@ body {
 #librarySidenavHeader {
   margin-top: -15px;
   padding: 20px;
+  :hover {
+    color: white;
+  }
 }
 
 .blue-header {
