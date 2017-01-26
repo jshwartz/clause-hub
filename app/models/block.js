@@ -129,7 +129,7 @@ export default DS.Model.extend({
   selectedText: Ember.computed('selected', 'staticText', function(){
     let returnText = null;
     if (this.get('type') === 'dropdown' && this.get('dropdowns')) {
-      this.get('dropdowns').forEach( (dropdown) => {
+      this.get('dropdowns').find( (dropdown) => {
         const dropdownSelected = dropdown.selected;
         const dropdownText = dropdown.text;
         if (dropdownSelected) {
@@ -147,7 +147,7 @@ export default DS.Model.extend({
     } else if (this.get('type') === 'checkbox') {
       let selected = null;
       let selectedArray = [];
-      this.get('checkboxes').forEach( (checkbox) => {
+      this.get('checkboxes').find( (checkbox) => {
         if (checkbox.selected) {
           selectedArray.push(checkbox.orderNumber);
         }
@@ -156,7 +156,7 @@ export default DS.Model.extend({
       if (isNaN(selected)) {
         selected = 0;
       }
-      this.get('checkboxChoices').forEach( (choice) => {
+      this.get('checkboxChoices').find( (choice) => {
         if (selected === choice.checkboxes) {
           returnText = choice.text;
         }

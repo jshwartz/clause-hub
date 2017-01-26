@@ -13,6 +13,28 @@ export default Ember.Controller.extend({
   userCanWrite: Ember.computed.reads('fullClauseController.userCanWrite'),
   userAdmin: Ember.computed.reads('fullClauseController.userAdmin'),
   userCanEditReadme: Ember.computed.or('userCanWrite', 'userAdmin'),
+  options: {
+    height: 500,
+    visual: true,
+    toolbar: 'undo redo | currentdate',
+    plugins: "autolink",
+    content_css : '/assets/vendor.css',
+    setup: function(editor) {
+      function toTimeHtml(date) {
+        return '<time datetime="' + date.toString() + '">' + date.toDateString() + '</time>';
+      }
+      function insertDate() {
+        var html = toTimeHtml(new Date());
+        editor.insertContent(html);
+      }
+      editor.addButton('currentdate', {
+        icon: 'insertdatetime',
+        //image: 'http://p.yusukekamiyamane.com/icons/search/fugue/icons/calendar-blue.png',
+        tooltip: "Insert Current Date",
+        onclick: insertDate
+      });
+    }
+  },
 
   init() {
     let tags = this.store.findAll('tag');

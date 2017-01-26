@@ -1,6 +1,6 @@
 <div class="ui relaxed stackable grid">
-  <div class="two wide column">
-    <div class={{if media.isMobile "ui left floated compact icon menu" "ui right floated compact vertical icon menu"}}>
+  {{!-- <div class="two wide column"> --}}
+    {{!-- <div class={{if media.isMobile "ui left floated compact icon menu" "ui right floated compact vertical icon menu"}}>
       <a class="item" {{action 'dashboardClauseSmall'}}>
         <i class="font icon small"></i>
       </a>
@@ -16,20 +16,20 @@
         }}
         <i class="copy icon"></i>{{/copy-button}}
       </a>
-    </div>
+    </div> --}}
 
-    {{#if media.isMobile}}
-      <div class="ui right floated compact icon menu">
+    {{!-- {{#if media.isMobile}} --}}
+      {{!-- <div class="ui right floated compact icon menu">
         <a class="item" {{action 'openMobileOptions'}}>
           <i class="options icon"></i>
         </a>
       </div>
-    {{/if}}
-  </div>
-      <div class="eight wide column">
+    {{!-- {{/if}} --}}
+  {{!-- </div> --}}
+      <div class="ten wide column">
         <div class="ui raised block segment">
           {{#if model.blocks}}
-            <div class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</div>
+            <div class={{dashboardClause}}>{{clause-text id='copyText' model=model rebuilding=rebuilding rebuildText=rebuildText activeBlock=activeBlock copyText=copyText}}</div>
           {{else}}
             <em>Nothing to see here</em>
           {{/if}}

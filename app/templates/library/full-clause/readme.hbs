@@ -1,14 +1,14 @@
 <div class="ui stackable grid">
-  <div class="ten wide column">
+  <div class="sixteen wide column">
     {{#if isEditing}}
       <div class="ui raised block segment">
-        {{#if editMessage}}
+        {{!-- {{#if editMessage}}
           <div class="ui info message">
             <i class="close icon" {{action 'closeEditMessage'}}></i>
             The README doc accepts HTML formatting. We don't yet have a built-in HTML editor, but in the meantime, we recommend copying and pasting the HTML below into a free online editor, like <a href="https://html-online.com/" target="_blank"> HTML Online.</a> Or just write plain text. That's cool too.
           </div>
           <div class="ui hidden divider"></div>
-        {{/if}}
+        {{/if}} --}}
         <div class="ui right-aligned">
           <button class="ui mini teal button" {{action 'saveReadme'}}>Save</button>
           <button class="ui mini button" {{action 'cancelEdit'}}>Cancel</button>
@@ -16,7 +16,8 @@
         <div class="ui form">
           <div class="field">
             <label>Edit README (HTML):</label>
-            {{one-way-textarea rows=30 value=readmeTemp update=(action (mut readmeTemp))}}
+            {{tinymce-editor options=options value=readmeTemp}}
+            {{!-- {{one-way-textarea rows=30 value=readmeTemp update=(action (mut readmeTemp))}} --}}
           </div>
         </div>
       </div>
@@ -32,7 +33,7 @@
       </div>
     {{/if}}
   </div>
-  <div class="six wide column">
+  {{!-- <div class="six wide column">
     <div class="ui center aligned basic segment">
       <h2 class="ui icon header">
         <i class="users icon"></i>
@@ -57,7 +58,7 @@
       </div>
       <div class="ui divider"></div>
       <p>{{model.metadata.createdBy}} brought this clause into the world on <strong>{{moment-format model.metadata.createdAt "MMMM Do YYYY"}}</strong>. It was lasted updated <strong>{{moment-from-now model.metadata.lastModified}}</strong> by {{model.metadata.lastModifiedBy}}.</p>
-    </div>
+    </div> --}}
 
     {{!-- <div class="ui card">
       <div class="ui top attached label">Info</div>
@@ -111,7 +112,7 @@
         </form>
       </div>
     </div> --}}
-
-  </div>
+{{!--
+  </div> --}}
 
 </div>
