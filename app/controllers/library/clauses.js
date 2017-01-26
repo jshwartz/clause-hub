@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
   searchMenu: true,
   tagMenu: false,
   //get clauses ready
-  queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
+  // queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
   //search time
   search: null,
   searchedClauses: Ember.computed('search', 'sortedClauses', function() {

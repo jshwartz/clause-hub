@@ -1,1 +1,24 @@
-{{outlet}}
+<div id="librarySidenav" class="librarynav">
+  <div id="librarySidenavHeader" class={{model.color}}>
+    {{#link-to "library" model tag="h3" class="ui header" }}{{model.name}}'s Library{{/link-to}}
+    <div class="ui hidden divider"></div>
+    <div class="ui icon input">
+      {{one-way-input type="text" value=search placeholder="Search Library..." update=(action (mut search))}}
+    </div>
+  </div>
+  <div class="ui container-library">
+    <h3>Clauses</h3>
+    <div class="ui relaxed list">
+      {{#each searchedClauses as |clause|}}
+        {{#link-to "library.fullClause" clause class="item"}}
+          {{clause.metadata.title}}
+        {{/link-to}}
+      {{/each}}
+    </div>
+  </div>
+  <div class="ui divider"></div>
+</div>
+
+<div id="library-content">
+  {{outlet}}
+</div>

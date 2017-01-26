@@ -5,12 +5,13 @@ export default Ember.Controller.extend({
   //services
   user: Ember.inject.service(),
   //options and tag menu
+  headerColor: "blue-header",
   optionsOpen: true,
   searchMenu: true,
   tagMenu: false,
   //get clauses ready
   combinedClauses: Ember.computed.union('model.clauses'),
-  // queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
+  queryParams: {sortBy: 'sortBy', direction: 'direction', dateFilter: 'date', favoriteFilter: 'favorites', search: 's'},
   //search time
   search: null,
   searchedClauses: Ember.computed('search', 'sortedClauses', function() {
@@ -53,7 +54,7 @@ export default Ember.Controller.extend({
     {title: 'Updated Last 6 Months', value: "u6m"},
     {title: 'Updated Last Year', value: "u1y"},
   ],
-  filteredClauses: Ember.computed('dateFilter', 'model', function() {
+  filteredClauses: Ember.computed('dateFilter', 'model.clauses', function() {
     // if (this.get('dateFilter') === "u30d") {
     //   return this.get('updatedLastMonth');
     // } else if (this.get('dateFilter') === "u6m") {
@@ -61,7 +62,7 @@ export default Ember.Controller.extend({
     // } else if (this.get('dateFilter') === "u1y") {
     //   return this.get('updatedLastYear');
     // } else {
-      return this.get('model');
+      return this.get('model.clauses');
     // }
   }),
   updatedLastMonth: Ember.computed.filter('model.clauses', function(clause) {

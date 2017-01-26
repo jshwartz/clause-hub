@@ -1,0 +1,81 @@
+<h2 class="ui center aligned icon dividing header">
+  <i class="circular user icon"></i>
+  {{model.name}}'s Library
+</h2>
+<div class="ui grid">
+  <div class="ui five wide column">
+    <div class="ui raised block segment">
+      <h3 class="ui dividing header">Library Color</h3>
+      <div class="large fluid ui buttons">
+        <button class="circular ui red-header icon button libcolorselect" {{action 'changeColor' 'red-header'}}></button>
+        <button class="circular ui orange-header icon button libcolorselect" {{action 'changeColor' 'orange-header'}}></button>
+        <button class="circular ui navyblue-header icon button libcolorselect" {{action 'changeColor' 'navyblue-header'}}></button>
+        <button class="circular ui blue-header icon button libcolorselect" {{action 'changeColor' 'blue-header'}}></button>
+        <button class="circular ui purple-header icon button libcolorselect" {{action 'changeColor' 'purple-header'}}></button>
+        <button class="circular ui green-header icon button libcolorselect" {{action 'changeColor' 'green-header'}}></button>
+        <button class="circular ui darkgrey-header icon button libcolorselect" {{action 'changeColor' 'darkgrey-header'}}></button>
+      </div>
+    </div>
+  </div>
+  <div class="ui eleven wide column">
+    <div class="ui raised block segment">
+      <h3 class="ui dividing header">Library Guests and Permissions</h3>
+      {{#ui-popup tagName="div" class="ui right corner label" content="Each clause can have either a user owner or a group owner. The clause is stored in the owner's library, and the owner has full permissions, including the rights to change ownership and delete the clause."}}<i class="info icon"></i>{{/ui-popup}}
+      {{!-- {{#click-outside action=(action "closeSearch")}}
+      <div class="ui icon input">
+        <i class="search icon"></i>
+        {{one-way-input value=searchTerm placeholder="Add members.." update=(action (mut searchTerm))}}
+      </div>
+      {{#if searchTermNotEmpty}}
+        <div class="ui vertical menu search-results">
+          {{#if matchingNoCurrentUsers}}
+            {{#each matchingNoCurrentUsers as |user|}}
+            <a class="item" {{action 'addUser' user}}>
+              <h4 class="ui header">
+                <div class="content">
+                  {{user.fullName}}
+                  <div class="sub header">{{if user.company user.company user.fullName}}</div>
+                </div>
+              </h4>
+            </a>
+            {{/each}}
+          {{else}}
+            <div class="item"><i class="frown icon"></i> <i>No results</i> </div>
+          {{/if}}
+        </div>
+      {{/if}}
+      {{/click-outside}}
+      <table class="ui very basic celled table">
+        <tbody>
+          {{#each sortedMembersManagers as |member|}}
+          <tr>
+            <td>
+              <h4 class="ui header">{{member.object.fullName}}<div class="ui sub header">{{if member.object.company member.object.company member.object.fullName}}</div></h4>
+            </td>
+            <td>
+              {{ui-checkbox label="Editor" checked=member.manager onChange=(action 'updateManager' member)}}
+            </td>
+            <td>
+              {{ui-checkbox label="Approver" checked=member.manager onChange=(action 'updateManager' member)}}
+            </td>
+            <td>
+              {{ui-checkbox label="Manager" checked=member.manager onChange=(action 'updateManager' member)}}
+            </td>
+            {{#if member.singleManager}}
+            <td class="disabled">
+              <em>Library needs at least one manager</em>
+            </td>
+            {{else}}
+            <td>
+              <div class="ui red basic mini button" {{action 'removeMember' member.object}}>Remove</div>
+            </td>
+            {{/if}}
+          </tr>
+          {{/each}}
+        </tbody>
+      </table> --}}
+    </div>
+  </div>
+
+
+</div>

@@ -1,28 +1,30 @@
 <div id="destination"></div>
 
   <div class={{navColor}} id="topmenu">
-    <div class="ui container">
     <div class="header item">
-      {{#link-to 'library.clauses' currentUser.personalLibrary}}Clausium{{/link-to}}
+      {{#link-to 'library.clauses' currentUser.personalLibrary}}Clausio{{/link-to}}
     </div>
-    {{#ui-dropdown class="browse item" tagName="a"}}
-      Libraries
-      <i class="dropdown icon"></i>
-      <div class="menu">
+    <div class="ui container">
 
-        {{#link-to 'library.clauses' currentUser.personalLibrary class='item'}}<i class="user icon"></i>Personal{{/link-to}}
-        <div class="divider"></div>
-        <div class="header">Shared</div>
-        {{#each currentUser.groupsMember as |group|}}
-          {{#link-to 'group-library' group class='item fluid'}}<i class="share alternate icon"></i>{{group.name}}{{/link-to}}
-        {{/each}}
-        <div class="divider"></div>
-        {{#link-to 'groups' class='item'}}<i class="settings icon"></i>New Library{{/link-to}}
-      </div>
-
-    {{/ui-dropdown}}
 
     <div class="right menu">
+      {{#ui-dropdown class="browse item" tagName="a"}}
+        Libraries
+        <i class="dropdown icon"></i>
+        <div class="menu">
+
+          {{#link-to 'library.clauses' currentUser.personalLibrary class='item'}}<i class="user icon"></i>Personal{{/link-to}}
+          <div class="divider"></div>
+          <div class="header">Shared</div>
+          {{#each currentUser.groupsMember as |group|}}
+            {{#link-to 'group-library' group class='item fluid'}}<i class="share alternate icon"></i>{{group.name}}{{/link-to}}
+          {{/each}}
+          <div class="divider"></div>
+          {{#link-to 'groups' class='item'}}<i class="settings icon"></i>New Library{{/link-to}}
+        </div>
+
+      {{/ui-dropdown}}
+
       {{#if session.isAuthenticated}}
         {{#if media.isMobile}}
           <a class="item" {{action 'openMobileMenu'}}>
@@ -68,7 +70,7 @@
   </div>
 
   </div>
-  <div class="ui container" id="navbarspace">
+  <div id="navbarspace">
   {{outlet}}
 </div>
 

@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   dashboardClause: "dashboard-clause-big",
   copyText: "hi",
+  rebuildText: true,
 
   actions: {
     dashboardClauseBig() {
