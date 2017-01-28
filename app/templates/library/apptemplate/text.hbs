@@ -1,0 +1,116 @@
+<div class="templateContent">
+  <div class={{if mergeActive "ui raised block segment highlight-merge" "ui raised block segment"}}>
+    <a class="ui right corner label">
+      <i class="copy icon"></i>
+    </a>
+    <p style="text-align:center">
+      <strong>Sample Contract</strong>
+    </p>
+      {{#each model.csections as |section|}}
+        <p>{{{section.mergeTest}}}</p>
+          <ol>
+            {{#each section.subSections as |subSection|}}
+              {{#if subSection.toggledOn}}
+              <li>{{{subSection.mergeTest}}}
+                <ol>
+                  {{#each subSection.subSections as |subSection|}}
+                    {{#if subSection.toggledOn}}
+                    <li>{{{subSection.mergeTest}}}
+                    </li>
+                    {{/if}}
+                  {{/each}}
+                </ol>
+              </li>
+              {{/if}}
+            {{/each}}
+          </ol>
+      {{/each}}
+      <button {{action 'newSection'}}>New</button>
+    {{!-- <p>
+      Thank you, {{{if party1focused party1focusedText party1}}}, (&ldquo;{{{if party1Genericfocused party1GenericfocusedText party1Generic}}}&rdquo;) for becoming a member of Southeast Portland Tool Library, an Oregon Nonprofit Corporation (&ldquo;SEPTL&rdquo;). This MEMBER AGREEMENT (the &ldquo;Agreement&rdquo;) is a legal agreement between.
+    </p>
+    <p style="text-align:center">
+      <strong>Background&nbsp;</strong>
+    </p>
+    <ul>
+      <li>
+        Here is some background.&nbsp;
+      </li>
+    </ul>
+    <p>
+      Now, therefore, {{{if party1Genericfocused party1GenericfocusedText party1Generic}}} and SEPTL agree as follows:
+    </p>
+    <p style="text-align:center">
+      <strong>Agreement</strong>
+    </p>
+    <ol>
+      <li>
+        <strong>
+          {{{if party1Genericfocused party1GenericfocusedText party1Generic}}}'s Representations.
+        </strong>
+         {{{if party1Genericfocused party1GenericfocusedText party1Generic}}} represent and warrant that you have carefully read this Agreement, {{{if party1Genericfocused party1GenericfocusedText party1Generic}}} are at least 18 years old, you are capable of using the tools you borrow, and you will use them in a safe and proper manner. Under no circumstances will you allow others to use the tools you borrow.
+        <ol>
+          <li>
+            <strong>
+              Waiver and Indemnification.
+            </strong>
+             To the maximum extent permitted by law, for {{{if party1Genericfocused party1GenericfocusedText party1Generic}}}, Your heirs, personal representatives and assigns, You hereby waive, release and discharge and hold harmless from and indemnify SEPTL, SE Upflit, and the City of Portland, including their respective members, volunteers, officers, directors, donors, and employees (the &ldquo;Released Parties&rdquo;), against any and all claims, present and future, damages, demands, liability, rights of action and causes of action arising out of or in any way connected with (a) Your presence at SEPTL or use of SEPTL&rsquo;s facilities, tools or equipment, (b) the transportation of SEPTL&rsquo;s tools, (c) the presence of a guest of Yours at SEPTL, (d) the use of SEPTL&rsquo;s tools borrowed by you, but used by a third party, or (e) negligent acts or omissions of the Released Parties, including, without limitation, liability for any loss of property, death or injury suffered by You or for which You may be liable to any other person resulting from any cause. YOU AGREE AND UNDERSTAND THAT THIS RELEASE OF LIABILITY AND THE ASSUMPTION OF RISK WILL EXTEND TO ALL CLAIMED WRONGFUL ACTS OF THE RELEASED PARTIES TO THE GREATEST EXTENT ALLOWED UNDER THE LAWS OF THE STATE OF OREGON, INCLUDING THE NEGLIGENCE OF ANY OF THE RELEASED PARTIES.
+          </li>
+          <li>
+            <strong>
+              Assumption of Risk.
+            </strong>
+             {{{if party1Genericfocused party1GenericfocusedText party1Generic}}} acknowledge that SEPTL tools are not maintained by professionals and that using the tools bears certain known and unknown risks that could result in your injury, death, illness, disease, or damage to Your property. Knowing the risks of using tools borrowed from SEPTL and in consideration of being permitted to borrow such tools, You hereby freely and voluntarily assume any and all risks arising from or in any way connected with Your presence at SEPTL or the use of SEPTL&rsquo;s tools or equipment, including, without limitation, any risk related to hazardous conditions at SEPTL, injuries that may occur as a result of tools equipment that malfunctions or breaks, any slip, fall, dropping of tools or equipment, or any improper maintenance of tools or equipment.
+          </li>
+        </ol>
+      </li>
+      {{#if disclaimerTrue}}<li class={{if disclaimerActive "focusedTerm" ""}} id="disclaimer">
+        <strong>DISCLAIMER.</strong> SEPTL&rsquo;S FACILITIES, TOOLS, MATERIALS, EQUIPMENT, ADVICE, AND ALL SERVICES ASSOCIATED WITH YOUR MEMBERSHIP AND ANY WORKSHOPS ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. SEPTL DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+      </li>{{/if}}
+      <li>
+        <strong>
+          Rules and Regulations.
+        </strong>
+         {{{if party1Genericfocused party1GenericfocusedText party1Generic}}} agree to the attached SEPTL Rules and Regulations.
+      </li>
+      <li>
+        <strong>
+          Miscellaneous.
+        </strong>
+         This Agreement contains the entire understanding of the parties regarding the subject matter hereof and supersedes all prior and contemporaneous negotiations and agreements, whether written or oral, between the parties with respect to the subject matter of this Agreement. If a provision of this Agreement is determined to be unenforceable in any respect, the enforceability of the provision in any other respect and of the remaining provisions of this Agreement will not be impaired. This Agreement shall be governed by and construed in accordance with the laws of the state of Oregon, without regard to the conflicts of laws rules. If either party brings against the other party any proceeding arising out of this Agreement or in relation to SEPTL&rsquo;s tools, that party may bring that proceeding only in a court sitting in Multnomah County, Oregon, and each party hereby submits to the exclusive jurisdiction of such court for the purposes of any such proceeding.
+      </li>
+    </ol>
+    <p>
+      Now sign here:
+    </p>
+    <p>
+      The
+      <a href="https://html-cleaner.com/css/">
+        free online CSS minimizer tool
+      </a>
+       will compress the style files for your websites in seconds.
+    </p> --}}
+  </div>
+</div>
+
+<div class="templateSidebar">
+<div class="templateSidebarContent">
+  <form class="ui form">
+    <div {{action "sendActiveMerge" on="mouseEnter"}} {{action "closeActiveMerge" on="mouseLeave"}}>
+      <h4 class="ui dividing header">Merge Fields</h4>
+      {{#each model.mergeFields as |field|}}
+        <div class="field">
+          <label>{{field.name}}</label>
+          {{one-way-input onblur=(action 'blue1') onfocus=(action 'focused1') value=field.mergeValue update=(action (mut field.mergeValue))}}
+        </div>
+      {{/each}}
+    </div>
+    <h4 class="ui dividing header">Options</h4>
+    <div class="field" {{action "sendActiveSection" on="mouseEnter"}} {{action "closeActiveSection" on="mouseLeave"}}>
+      <label>Optional disclaimer language <a href="#disclaimer"><i class="anchor icon"></i></a></label>{{ui-checkbox class="toggle" checked=disclaimerTrue onChange=(action (mut disclaimerTrue))}}
+    </div>
+  </form>
+</div>
+
+</div>
+{{outlet}}

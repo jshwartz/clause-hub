@@ -5,6 +5,7 @@ export default Ember.Controller.extend({
   //services
   user: Ember.inject.service(),
   //options and tag menu
+  librarySidenavActive: true,
   headerColor: "blue-header",
   optionsOpen: true,
   searchMenu: true,

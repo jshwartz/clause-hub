@@ -57,6 +57,7 @@
     "ember-welcome-page": "^2.0.2",
     "ember-wormhole": "0.5.1",
     "emberfire": "2.0.5",
+    "liquid-fire": "0.27.0",
     "loader.js": "^4.0.10",
     "semantic-ui-ember": "2.0.1",
     "torii": "0.8.1"

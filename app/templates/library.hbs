@@ -2,7 +2,7 @@
   <div id="librarySidenav" class="librarynav">
     <div id="librarySidenavHeader" class={{model.color}}>
       {{#link-to "library" model tag="h3" class="ui header" }}{{model.name}}'s Library{{/link-to}}
-      <a href="#" {{action 'closeLibSidebar'}}><i class="sidebar icon" id="closeSidebarIcon"></i></a>
+      <a href="#" {{action 'closeLibSidebar'}}><div id="closeSidebarIcon">x</div></a>
       <div class="ui hidden divider"></div>
       <div class="ui icon input">
         {{one-way-input type="text" value=search placeholder="Search Library..." update=(action (mut search))}}
@@ -25,7 +25,7 @@
   </div>
 {{else}}
   <a href="#" {{action 'openLibSidebar'}}><i class="sidebar icon" id="openSidebarIcon"></i></a>
-  <div class="ui container">
+  <div class="">
     {{outlet}}
   </div>
 {{/if}}

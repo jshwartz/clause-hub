@@ -14,6 +14,8 @@ $primary-black: #767676;
 $app-primary: #656473;
 $nav-color: #00B5AD;
 
+$green-text: #5ed657;
+
 .app-primaryText {
   color: $app-primary !important;
 }
@@ -24,10 +26,80 @@ body {
 
 }
 
+//tempalte CSS
+.templateSidebar{
+  height: 100%; /* 100% Full-height */
+  width: 20%; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0;
+  right: 0;
+  background-color: #e6e5e5; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.templateSidebarContent {
+  padding: 15px;
+}
+
+.templateContent{
+  margin-right: 24%;
+  padding-right: 30px;
+  margin-left: 4%;
+}
+
+.green-text {
+  color: $green-text;
+}
+
+.highlight-merge {
+  .focusedTerm {
+    transition: 0.5s;
+    font-weight: bold;
+    background-color: rgba(255, 228, 26, 0.4);
+  }
+}
+
+a {
+  i {
+    cursor: pointer !important;
+  }
+}
+
+ol {
+  list-style-type: none;
+  counter-reset: item;
+  margin: 0;
+  padding: 0;
+}
+
+ol > li {
+  display: table;
+  counter-increment: item;
+  margin-bottom: 0.6em;
+}
+
+ol > li:before {
+  content: counters(item, ".") ". ";
+  display: table-cell;
+  padding-right: 0.6em;
+}
+
+li ol > li {
+  margin: 0;
+}
+
+li ol > li:before {
+  content: counters(item, ".") " ";
+}
+
+// Library CSS
 #openSidebarIcon {
   position: fixed;
   padding-left: 1.5em;
-  padding-top: 1em;
+  padding-top: .3em;
   font-size: 1.8em;
   color: rgba(0, 0, 0, 0.8);
   transition: all .1s ease-in-out;
@@ -86,6 +158,7 @@ body {
   margin-left: 300px;
   padding-left: 50px;
   padding-right: 50px;
+  transition: margin-left .5s;
 }
 
 .container-library {
