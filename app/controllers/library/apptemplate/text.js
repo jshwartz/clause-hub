@@ -33,11 +33,11 @@ export default Ember.Controller.extend({
     blue2() {
       this.set('party1Genericfocused', false);
     },
-    closeActiveSection() {
-      this.set('disclaimerActive', false);
+    closeActiveSection(section) {
+      section.set('hoverHighlight', false);
     },
-    sendActiveSection() {
-      this.set('disclaimerActive', true);
+    sendActiveSection(section) {
+      section.set('hoverHighlight', true);
     },
     closeActiveMerge() {
       this.set('mergeActive', false);

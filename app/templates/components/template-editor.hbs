@@ -1,0 +1,153 @@
+<i class="close icon"></i>
+<div class="content">
+  <div class={{if errorMessage "ui error form" "ui form"}}>
+    <div class="ui error message">
+      <p>{{errors.staticText}}</p>
+    </div>
+    <div class="ui divided grid">
+      <div class="four wide column" id="section-editor">
+        <div class="field">
+          <label>Header</label>
+          {{one-way-input value=model.headerTemp update=(action (mut model.headerTemp))}}
+        </div>
+        <div class="grouped fields">
+          <label for="type">Type</label>
+          <div class="field">
+            {{ui-radio name="type" label="Static" value="static" current=model.type onChange=(action (mut model.type))}}
+          </div>
+          <div class="field">
+            {{ui-radio name="type" label="Toggle" value="toggle" current=model.type onChange=(action (mut model.type))}}
+          </div>
+          <div class="field">
+            {{ui-radio name="type" label="Dropdown" value="dropdown" current=model.type onChange=(action (mut model.type))}}
+          </div>
+        </div>
+
+
+      </div>
+      <div class="twelve wide column">
+        {{#unless model.isStatic}}
+        <div class="two fields">
+          <div class="field">
+            <label>Menu Title</label>
+            {{one-way-input value=model.menuTextTemp update=(action (mut model.menuTextTemp))}}
+          </div>
+          <div class="field">
+            <label>Help Text</label>
+            {{one-way-input value=model.menuTextTemp update=(action (mut model.menuTextTemp))}}
+          </div>
+        </div>
+        {{/unless}}
+        {{#if model.isDropdown}}
+          <div class="ui divider"></div>
+          <div class="two fields">
+            <div class="field">
+              <label>Selected Dropdown</label>
+              <div class="ui selection dropdown">
+                <input type="hidden" name="gender">
+                <i class="dropdown icon"></i>
+                <div class="default text">Gender</div>
+                <div class="menu">
+                  <div class="item" data-value="1">Male</div>
+                  <div class="item" data-value="0">Female</div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Dropdown Title</label>
+              {{one-way-input value=model.menuTextTemp update=(action (mut model.menuTextTemp))}}
+            </div>
+          </div>
+        {{/if}}
+        <div class="field">
+          {{tinymce-editor options=options value=model.textTemp}}
+        </div>
+      </div>
+    </div>
+
+    {{!-- {{#if model.isDropdown}}
+    <h4 class="ui dividing header">Dropdowns</h4>
+    <div class="ui grid">
+      <div class="five wide column">
+        <div class="ui vertical fluid pointing menu">
+          <a class="active item">
+            Spam
+            <div class="ui label">x</div>
+          </a>
+          <a class="item">
+            Updates
+            <div class="ui label">x</div>
+          </a>
+        </div>
+        <div class="ui fluid action input">
+          <input type="text" placeholder="New Dropdown...">
+          <button class="ui mini button">Create</button>
+        </div>
+
+      </div>
+      <div class="eleven wide column">
+        <div class="field">
+          {{tinymce-editor options=options value=model.textTemp}}
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <div class={{if errors.staticText "field error required" "field required"}}>
+      <h4 class="ui dividing header">Text</h4>
+      {{tinymce-editor options=options value=model.textTemp}}
+    </div>
+    {{/if}} --}}
+    {{!-- <h4 class="ui dividing header">Type</h4> --}}
+    {{!-- {{#if model.isToggle}}
+      <div class="two fields">
+        <div class="inline fields">
+          <div class="field">
+            {{ui-radio name="type" label="Static" value="static" current=model.type onChange=(action (mut model.type))}}
+          </div>
+          <div class="field">
+            {{ui-radio name="type" label="Toggle" value="toggle" current=model.type onChange=(action (mut model.type))}}
+          </div>
+          <div class="field">
+            {{ui-radio name="type" label="Dropdown" value="dropdown" current=model.type onChange=(action (mut model.type))}}
+          </div>
+        </div>
+        <div class="inline field">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>Default On</label>
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <div class="inline fields">
+        <div class="field">
+          {{ui-radio name="type" label="Static" value="static" current=model.type onChange=(action (mut model.type))}}
+        </div>
+        <div class="field">
+          {{ui-radio name="type" label="Toggle" value="toggle" current=model.type onChange=(action (mut model.type))}}
+        </div>
+        <div class="field">
+          {{ui-radio name="type" label="Dropdown" value="dropdown" current=model.type onChange=(action (mut model.type))}}
+        </div>
+      </div>
+    {{/if}} --}}
+
+  </div>
+</div>
+<div class="actions">
+
+  <div class="ui left floated small basic buttons">
+    <div class="ui button" {{action 'closeSection'}}>
+      <i class="remove icon"></i>
+      Reset Section
+    </div>
+    <div class="ui basic green button" {{action 'saveSection'}}>
+      <i class="checkmark icon"></i>
+      Save Section
+    </div>
+  </div>
+  <div class="ui small basic buttons">
+    {{#link-to 'library.apptemplate.text.section' model.priorSection tag="button" class=(if model.priorSection "ui button" "ui disabled button")}}Prior Section{{/link-to}}
+    {{#link-to 'library.apptemplate.text.section' model.nextSection tag="button" class=(if model.nextSection "ui button" "ui disabled button")}}Next Section{{/link-to}}
+  </div>
+</div>

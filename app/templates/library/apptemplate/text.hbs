@@ -7,15 +7,54 @@
       <strong>Sample Contract</strong>
     </p>
       {{#each model.csections as |section|}}
-        <p>{{{section.mergeTest}}}</p>
-          <ol>
+        {{#if section.toggledOn}}
+        <p class="templateSection">
+          <div id={{section.id}}>{{{section.mergeTest}}}</div>
+          <div class="templateSectionOptions">
+            <div class="ui horizontal celled link list">
+              <a class="item"><i class="caret left icon"></i></a>
+              <a class="item"><i class="caret right icon"></i></a>
+              <a class="item">New</a>
+              <a class="item">Delete</a>
+              {{link-to "Edit" 'library.apptemplate.text.section' section class="item"}}
+            </div>
+          </div>
+        </p>
+        {{/if}}
+          <ol class="ui list">
             {{#each section.subSections as |subSection|}}
               {{#if subSection.toggledOn}}
-              <li>{{{subSection.mergeTest}}}
+              <li class={{if subSection.hoverHighlight "hoverHighlight"}}>
+                <div id={{subSection.id}} class="templateListSection">
+                  <strong>{{subSection.header}}</strong> {{{subSection.mergeTest}}}
+                  <div class="templateSectionOptions">
+                    <div class="ui horizontal celled link list">
+                      <a class="item"><i class="caret left icon"></i></a>
+                      <a class="item"><i class="caret right icon"></i></a>
+                      <a class="item">New</a>
+                      <a class="item">Delete</a>
+                      {{link-to "Edit" 'library.apptemplate.text.section' subSection class="item"}}
+                    </div>
+                  </div>
+                  {{!-- <span class="templateSectionOptions">{{link-to "Edit" 'library.apptemplate.text.section' subSection}}</span> --}}
+                </div>
                 <ol>
                   {{#each subSection.subSections as |subSection|}}
                     {{#if subSection.toggledOn}}
-                    <li>{{{subSection.mergeTest}}}
+                    <li class={{if subSection.hoverHighlight "hoverHighlight"}}>
+                      <div class="templateListSection">
+                        <strong>{{subSection.header}}</strong> {{{subSection.mergeTest}}}
+                        <div class="templateSectionOptions">
+                          <div class="ui horizontal celled link list">
+                            <a class="item"><i class="caret left icon"></i></a>
+                            <a class="item"><i class="caret right icon"></i></a>
+                            <a class="item">New</a>
+                            <a class="item">Delete</a>
+                            {{link-to "Edit" 'library.apptemplate.text.section' subSection class="item"}}
+                          </div>
+                        </div>
+                        {{!-- <span class="templateSectionOptions">{{link-to "Edit" 'library.apptemplate.text.section' subSection}}</span> --}}
+                      </div>
                     </li>
                     {{/if}}
                   {{/each}}
@@ -106,9 +145,14 @@
       {{/each}}
     </div>
     <h4 class="ui dividing header">Options</h4>
-    <div class="field" {{action "sendActiveSection" on="mouseEnter"}} {{action "closeActiveSection" on="mouseLeave"}}>
-      <label>Optional disclaimer language <a href="#disclaimer"><i class="anchor icon"></i></a></label>{{ui-checkbox class="toggle" checked=disclaimerTrue onChange=(action (mut disclaimerTrue))}}
-    </div>
+    {{#each model.csectionsRef as |section|}}
+      {{#if section.isToggle}}
+        <div class="field" {{action "sendActiveSection" section on="mouseEnter"}} {{action "closeActiveSection" section on="mouseLeave"}}>
+          <label>{{section.menuText}} <a href={{section.idAnchor}}><i class="anchor icon"></i></a></label>{{ui-checkbox class="toggle" checked=section.toggledOn onChange=(action (mut section.toggledOn))}}
+        </div>
+      {{/if}}
+    {{/each}}
+
   </form>
 </div>
 

@@ -19,7 +19,9 @@ Router.map(function() {
     this.route('clauses');
     this.route('settings');
     this.route('apptemplate', { path: '/tm/:apptemplate_id' }, function() {
-      this.route('text');
+      this.route('text', function() {
+        this.route('section', { path: '/sec/:section_id' });
+      });
       this.route('notepad');
       this.route('editor');
     });

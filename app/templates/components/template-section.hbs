@@ -1,0 +1,50 @@
+{{#if isEditing}}
+  <div class="ui secondary clearing segment">
+    <div class={{if errorMessage "ui error form" "ui form"}}>
+      <div class="ui error message">
+        <p>{{errors.staticText}}</p>
+      </div>
+      <div class={{if errors.staticText "field error required" "field required"}}>
+        {{tinymce-editor options=options value=staticText}}
+      </div>
+      <div class="inline fields">
+        <label>Section type:</label>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="frequency" checked="checked">
+            <label>Static</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="frequency">
+            <label>Toggle</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="frequency">
+            <label>Dropdown</label>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="field">
+        <label>Menu Text</label>
+        <input type="text" placeholder="Toggle section.">
+      </div>
+      <div class="inline field">
+      <div class="ui toggle checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <label>Default On</label>
+        </div>
+      </div>
+      <button class="ui right floated mini button" {{action 'saveStatic'}}>Save</button>
+      <button class="ui right floated mini button" {{action 'editorOff'}}>Cancel</button>
+    </div>
+  </div>
+{{else}}
+<div class="templateSection">{{{model.mergeTest}}}
+  <span class="templateSectionOptions" {{action 'editorOn'}}>Edit</span>
+</div>
+{{/if}}

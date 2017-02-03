@@ -5,27 +5,24 @@
 
 <div class="templateSidebar">
 <div class="templateSidebarContent">
-  <h4 class="ui dividing header">Sections</h4>
-  <div class="ui list">
-    <div class="item"><a class="ui grey label">Header</a></div>
-    <div class="item"><a class="ui grey label">Recitals</a></div>
-    <div class="item">
-      <div class="ui ordered list">
-        <div class="item"><a class="ui grey label">Something</a></div>
-        <div class="item"><a class="ui grey label">Something</a></div>
-        <div class="item">
-          <div class="list">
-            <div class="item"><a class="ui grey label">Something</a></div>
-            <div class="item"><a class="ui grey label">Something</a></div>
-            <div class="item"><a class="ui grey label">Something</a></div>
-          </div>
+  <h4 class="ui header">Sections</h4>
+  <div class="large ui relaxed divided link list">
+    {{#each model.csections as |section|}}
+      <a class="ui item">
+        <div class="right floated content">
+          <i class="caret left icon"></i><i class="caret right icon"></i><i class="sort icon"></i>
         </div>
-        <div class="item"><a class="ui grey label">Something</a></div>
-      </div>
-    </div>
-    <div class="item"><a class="ui basic grey label">Something</a></div>
-
+        <div class="content">Section</div>
+      </a>
+      {{#each section.subSections as |subSection|}}
+        <a class="ui item"><span class="subsectionL1">Sub Section L1</span></a>
+        {{#each subSection.subSections as |subSection|}}
+          <a class="ui item"><span class="subsectionL2">Sub Section L2</span></a>
+        {{/each}}
+      {{/each}}
+    {{/each}}
   </div>
+
 </div>
 
 </div>
