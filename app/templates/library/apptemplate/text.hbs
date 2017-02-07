@@ -6,14 +6,13 @@
     <p style="text-align:center">
       <strong>Sample Contract</strong>
     </p>
-      {{#each model.csections as |section|}}
+      {{#each model.sortedSections as |section|}}
         {{#if section.toggledOn}}
         <p class="templateSection">
           <div id={{section.id}}>{{{section.mergeTest}}}</div>
           <div class="templateSectionOptions">
             <div class="ui horizontal celled link list">
-              <a class="item"><i class="caret left icon"></i></a>
-              <a class="item"><i class="caret right icon"></i></a>
+              <a class={{if section.noUpLevel "item not-allowed" "item"}} {{action 'level0Up' section}}><i class="caret right icon"></i></a>
               <a class="item">New</a>
               <a class="item">Delete</a>
               {{link-to "Edit" 'library.apptemplate.text.section' section class="item"}}
@@ -29,8 +28,8 @@
                   <strong>{{subSection.header}}</strong> {{{subSection.mergeTest}}}
                   <div class="templateSectionOptions">
                     <div class="ui horizontal celled link list">
-                      <a class="item"><i class="caret left icon"></i></a>
-                      <a class="item"><i class="caret right icon"></i></a>
+                      <a class="item" {{action 'level1Down' subSection}}><i class="caret left icon"></i></a>
+                      <a class={{if subSection.noUpLevel "item not-allowed" "item"}} {{action 'level1Up' subSection}}><i class="caret right icon"></i></a>
                       <a class="item">New</a>
                       <a class="item">Delete</a>
                       {{link-to "Edit" 'library.apptemplate.text.section' subSection class="item"}}
@@ -39,15 +38,14 @@
                   {{!-- <span class="templateSectionOptions">{{link-to "Edit" 'library.apptemplate.text.section' subSection}}</span> --}}
                 </div>
                 <ol>
-                  {{#each subSection.subSections as |subSection|}}
+                  {{#each subSection.sortedSections as |subSection|}}
                     {{#if subSection.toggledOn}}
                     <li class={{if subSection.hoverHighlight "hoverHighlight"}}>
                       <div class="templateListSection">
                         <strong>{{subSection.header}}</strong> {{{subSection.mergeTest}}}
                         <div class="templateSectionOptions">
                           <div class="ui horizontal celled link list">
-                            <a class="item"><i class="caret left icon"></i></a>
-                            <a class="item"><i class="caret right icon"></i></a>
+                            <a class="item" {{action 'level2Down' subSection}}><i class="caret left icon"></i></a>
                             <a class="item">New</a>
                             <a class="item">Delete</a>
                             {{link-to "Edit" 'library.apptemplate.text.section' subSection class="item"}}

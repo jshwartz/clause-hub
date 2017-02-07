@@ -18,10 +18,23 @@ export default DS.Model.extend({
   menuText: DS.attr('string'),
   menuTextTemp: DS.attr('string'),
   orderNumber: DS.attr('number'),
+  level: DS.attr('number', { defaultValue: 0 }),
   subSections: DS.hasMany('section', { inverse: 'section' }),
+  sortBy: DS.attr('', { defaultValue: ['orderNumber'] }),
+  sortedSections: Ember.computed.sort('subSections', 'sortBy'),
   section: DS.belongsTo('section', { inverse: 'subSections' }),
   nextSection:DS.belongsTo('section', { inverse: 'priorSection' }),
   priorSection:DS.belongsTo('section', { inverse: 'nextSection' }),
+  noUpLevel: Ember.computed('priorSection.level', 'level', 'orderNumber', function(){
+    const thisLevel = this.get('level');
+    const priorLevel = this.get('priorSection.level');
+    const difference = thisLevel - priorLevel;
+    if (difference > 0 || this.get('orderNumber') === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
   ctemplate: DS.belongsTo('ctemplate', { inverse: 'csections' }),
   ctemplateRef: DS.belongsTo('ctemplate', { inverse: 'csectionsRef' }),
   toggledOn: DS.attr('boolean'),

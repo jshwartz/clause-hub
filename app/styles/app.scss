@@ -141,6 +141,10 @@ p.templateSection {
   background-color: rgba(255, 228, 26, 0.2);
 }
 
+.not-allowed {
+  cursor: not-allowed !important;
+}
+
 .highlight-merge {
   .focusedTerm {
     transition: 0.5s;
