@@ -5,39 +5,7 @@
     <span>toggle menu</span>
   </button>
 </a>
-<div class={{if librarySidenavActive "librarynav-active" "librarynav-hide"}}>
-  <div id="librarySidenavHeader">
-    <h3 class="ui center aligned header">
-      {{#link-to "library" model }}{{model.name}}'s Library{{/link-to}}
-    </h3>
-    <div class="ui hidden divider"></div>
-
-      <div class="ui icon fluid input">
-        {{one-way-input type="text" value=search placeholder="Search Library..." update=(action (mut search))}}
-      </div>
-    </div>
-
-    <div class="ui divider"></div>
-    <div class="librarnav-content">
-    <div class="ui container-library">
-      <h3>Templates</h3>
-    </div>
-    <div class="ui container-library">
-      <h3>Workflows</h3>
-    </div>
-    <div class="ui container-library">
-      <h3>Clauses</h3>
-      <div class="ui relaxed list">
-        {{#each searchedClauses as |clause|}}
-          {{#link-to "library.fullClause" clause class="item"}}
-            {{clause.metadata.title}}
-          {{/link-to}}
-        {{/each}}
-      </div>
-    </div>
-    <div class="ui divider"></div>
-  </div>
-</div>
+{{library-navbar model=model librarySidenavActive=librarySidenavActive class="ps-container ps-theme-default ps-active-y"}}
 {{!-- {{/liquid-if}} --}}
 
   <div id={{if librarySidenavActive "library-content-menu" "library-content-nomenu"}}>

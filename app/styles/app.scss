@@ -337,25 +337,7 @@ p.templateSection {
 }
 // Library CSS
 
-.librarynav-active {
-  ::-webkit-scrollbar{
-	width: 10px;
-}
-
-::-webkit-scrollbar-track-piece{
-	background-color: #FFF;
-}
-
-::-webkit-scrollbar-thumb{
-	background-color: #CBCBCB;
-	outline: 2px solid #FFF;
-	outline-offset: -2px;
-	border: .1px solid #B7B7B7;
-}
-
-::-webkit-scrollbar-thumb:hover{
-	background-color: #909090;
-}
+.librarynavactive {
     position: fixed;
     height: 100%;
     margin-left: 0px;
@@ -389,7 +371,7 @@ p.templateSection {
       color: #A6A6A6;
     }
   }
-.librarynav-hide {
+.librarynavhide {
     position: fixed;
     height: 100%;
     margin-left: -280px;
