@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  optionsTrue: true,
   party1: "Company, LLC",
   party1focusedText: Ember.computed('party1', function(){
     const party1 = this.get('party1');
@@ -119,6 +120,15 @@ export default Ember.Controller.extend({
     level2Down(section) {
       section.set('level', 1);
       this.organizeLevels();
+    },
+    templateMenuSelect(select) {
+      if (select === "options") {
+        this.set('optionsTrue', true);
+        this.set('tocTrue', false);
+      } else if (select === "contents") {
+        this.set('optionsTrue', false);
+        this.set('tocTrue', true);
+      }
     }
   }
 });

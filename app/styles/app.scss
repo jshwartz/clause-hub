@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Open+Sans');
+
 $primary-red: #DB2828;
 $primary-orange: #F2711C;
 $primary-yellow: #FBBD08;
 $primary-green: #21BA45;
-$primary-teal: #656473;
+$primary-teal: #607D8B;
 $primary-blue: #2185D0;
 $primary-violet: #6435C9;
 $primary-purple: #A333C8;
@@ -18,12 +20,167 @@ $green-text: #5ed657;
 
 .app-primaryText {
   color: $app-primary !important;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
-    background-color: #EBEBEB;
+    background-color: #f5f5f5;
     overflow-y: scroll;
 
+}
+
+//burger animation
+
+#sidebarIcon-close {
+  position: fixed;
+  font-size: 1.8em;
+  color: #272727;
+  transition: all .1s ease-in-out;
+  z-index: 2000;
+  margin-left: 230px;
+  top: 60px;
+  transition: 0.5s;
+}
+
+#sidebarIcon-open {
+  position: fixed;
+  font-size: 1.8em;
+  color: #272727;
+  transition: all .1s ease-in-out;
+  z-index: 2000;
+  margin-left: 20px;
+  top: 60px;
+  transition: 0.5s;
+}
+
+$button-width: 35px;                    // The width of the button area
+$button-height: 35px;                   // The height of the button area
+$bar-thickness: 2px;                    // The thickness of the button bars
+$button-pad: 9.5px;                      // The left/right padding between button area and bars.
+$button-bar-space: 3.5px;                // The spacing between button bars
+$button-transistion-duration: 0.3s;
+$button-background: #474747;    // The transition duration
+
+/**
+ * Toggle Switch Globals
+ *
+ * All switches should take on the class `c-hamburger` as well as their
+ * variant that will give them unique properties. This class is an overview
+ * class that acts as a reset for all versions of the icon.
+ */
+
+.c-hamburger {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: $button-width;
+  height: $button-height;
+  font-size: 0;
+  text-indent: -9999px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  border: none;
+  cursor: pointer;
+  transition: background $button-transistion-duration;
+}
+
+.c-hamburger:focus {
+  outline: none;
+}
+
+.c-hamburger span {
+  display: block;
+  position: absolute;
+  top: ($button-height / 2) - ($bar-thickness / 2);
+  left: $button-pad;
+  right: $button-pad;
+  height: $bar-thickness;
+  background: $button-background;
+}
+
+.c-hamburger span::before,
+.c-hamburger span::after {
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: $bar-thickness;
+  background-color: $button-background;
+  content: "";
+
+
+}
+
+.c-hamburger span::before {
+  top: -$bar-thickness - $button-bar-space;
+}
+
+.c-hamburger span::after {
+  bottom: -$bar-thickness - $button-bar-space;
+}
+
+/**
+ * Style 3
+ *
+ * Hamburger to left-arrow (htla). Hamburger menu transforms to a left-pointing
+ * arrow. Usually indicates an off canvas menu sliding in from left that
+ * will be close on re-click of the icon.
+ */
+
+.c-hamburger--htla {
+  background-color: #f5f5f5;
+
+}
+
+.c-hamburger--htla span {
+  transition: transform $button-transistion-duration;
+
+}
+
+.c-hamburger--htla span::before,
+.c-hamburger--htla span::after {
+
+}
+
+.c-hamburger--htla span::before {
+  transform-origin: top right;
+  transition: transform $button-transistion-duration, width $button-transistion-duration, top $button-transistion-duration;
+}
+
+.c-hamburger--htla span::after {
+  transform-origin: bottom right;
+  transition: transform $button-transistion-duration, width $button-transistion-duration, bottom $button-transistion-duration;
+}
+
+/* active state, i.e. menu open */
+
+.c-hamburger--htla.is-active {
+  background-color: #f5f5f5;
+}
+
+.c-hamburger--htla.is-active span {
+  transform: rotate(180deg);
+
+}
+
+.c-hamburger--htla.is-active span::before,
+.c-hamburger--htla.is-active span::after {
+  width: 50%;
+}
+
+.c-hamburger--htla.is-active span::before {
+  top: 0;
+  transform: translateX($button-width/2 - $button-pad + $bar-thickness) translateY($bar-thickness/2) rotate(45deg);
+}
+
+.c-hamburger--htla.is-active span::after {
+  bottom: 0;
+  transform: translateX($button-width/2 - $button-pad + $bar-thickness) translateY(-$bar-thickness/2) rotate(-45deg);
 }
 // template section css
 
@@ -62,9 +219,27 @@ div.mce-edit-area {
 
 //tempalte CSS
 
+ol.ui.list li:before, .ui.ordered.list .list > .item:before, .ui.ordered.list > .item:before {
+  margin-left: 0px;
+  content: counters(ordered, ".") ".";
+}
+
+ol.ui.list ol li:before, .ui.ordered.list .list > .item:before {
+  margin-left: 0px;
+}
+
+ul.ui.list li, ol.ui.list li, .ui.list > .item, .ui.list .list > .item {
+  line-height: 1.4285em !important;
+}
+
 ul.ui.list ul, ol.ui.list ol, .ui.list .list {
   padding-top: 0px;
   margin-top: 0px !important;
+}
+
+.serif-text {
+  font-family: 'Lato', sans-serif;
+  line-height: 1.4285em !important;
 }
 
 .ui.list {
@@ -73,7 +248,7 @@ ul.ui.list ul, ol.ui.list ol, .ui.list .list {
 }
 
 .templateListSection {
-  padding: 0em 2em 0em 1em;
+  padding: 0em 2em 0em 2.5em;
 }
 
 .templateSection {
@@ -117,7 +292,7 @@ p.templateSection {
   z-index: 1; /* Stay on top */
   top: 0;
   right: 0;
-  background-color: #e6e5e5; /* Black*/
+  background-color: rgba(239, 239, 239, 0.54);
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -161,50 +336,47 @@ p.templateSection {
   margin-left: 1.6em;
 }
 // Library CSS
-#openSidebarIcon {
-  position: fixed;
-  padding-left: 1.5em;
-  padding-top: .3em;
-  font-size: 1.8em;
-  color: rgba(0, 0, 0, 0.8);
-  transition: all .1s ease-in-out;
+
+.librarynav-active {
+  ::-webkit-scrollbar{
+	width: 10px;
 }
 
-#openSidebarIcon:hover {
-  color: rgba(0, 0, 0, 1);
+::-webkit-scrollbar-track-piece{
+	background-color: #FFF;
 }
 
-#closeSidebarIcon {
-  float: right;
-  font-size: 1.8em;
-  color: #E0E0E0;
-  padding-left: .7em;
-  transition: all .1s ease-in-out;
+::-webkit-scrollbar-thumb{
+	background-color: #CBCBCB;
+	outline: 2px solid #FFF;
+	outline-offset: -2px;
+	border: .1px solid #B7B7B7;
 }
 
-#closeSidebarIcon:hover {
-  color: white;
+::-webkit-scrollbar-thumb:hover{
+	background-color: #909090;
 }
-
-
-
-.librarynav {
-    height: 100%; /* 100% Full-height */
-    width: 310px; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
+    position: fixed;
+    height: 100%;
+    margin-left: 0px;
+    // overflow-y: hidden;
+    -webkit-box-shadow: 6px 2px 18px -6px rgba(0,0,0,0.1);
+    -moz-box-shadow: 6px 2px 18px -6px rgba(0,0,0,0.1);
+    box-shadow: 6px 2px 18px -6px rgba(0,0,0,0.1);
+    width: 280px; /* 0 width - change this with JavaScript */
     z-index: 1; /* Stay on top */
     top: 0;
     left: 0;
-    background-color: #585858; /* Black*/
+    // background-color: #ffffff; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-    color: #E0E0E0;
+    // color: #E0E0E0;
     .header {
-      color: #f3f3f3;
+      color: #272727 !important;
     }
     .ui.list > a.item {
-      color: #E0E0E0;
+      color: #272727;
       transition: 0.2s;
     }
     .ui.list > a.item:hover {
@@ -216,14 +388,59 @@ p.templateSection {
       border-style: solid;
       color: #A6A6A6;
     }
-
+  }
+.librarynav-hide {
+    position: fixed;
+    height: 100%;
+    margin-left: -280px;
+    overflow-y: hidden;
+    -webkit-box-shadow: 6px 2px 18px -6px rgba(0,0,0,0.1);
+    -moz-box-shadow: 6px 2px 18px -6px rgba(0,0,0,0.1);
+    box-shadow: 6px 2px 18px -6px rgba(0,0,0,0.1);
+    width: 280px; /* 0 width - change this with JavaScript */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    // background-color: #ffffff; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    // color: #E0E0E0;
+    .header {
+      color: #272727 !important;
+    }
+    .ui.list > a.item {
+      color: #272727;
+      transition: 0.2s;
+    }
+    .ui.list > a.item:hover {
+      color: #A6A6A6;
+    }
+    .ui.list > a.item.active {
+      padding-left: .5em;
+      border-width: 0px 0px 0px 2px;
+      border-style: solid;
+      color: #A6A6A6;
+    }
 }
+//
+// .librarnav-content {
+//   overflow: auto;
+//   height: 100%;
+// }
 
-#library-content {
+#library-content-menu {
   margin-left: 300px;
   padding-left: 50px;
   padding-right: 50px;
-  transition: margin-left .5s;
+  transition: margin-left .2s;
+}
+
+#library-content-nomenu {
+  margin-left: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  transition: margin-left .2s;
 }
 
 .container-library {
@@ -231,10 +448,15 @@ p.templateSection {
 }
 
 #librarySidenavHeader {
-  margin-top: -15px;
+  margin-top: 25px;
   padding: 20px;
-  :hover {
-    color: white;
+
+  a {
+    color: #272727 !important;
+    transition: 0.2s;
+  }
+  a:hover {
+    color: #A6A6A6 !important;
   }
 }
 
@@ -297,7 +519,7 @@ p.templateSection {
 }
 
 #navbarspace {
-  margin-top: 65px;
+  margin-top: 85px;
 }
 
 #subnavbar {

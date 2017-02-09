@@ -1,12 +1,29 @@
-{{#if librarySidenavActive}}
-  <div id="librarySidenav" class="librarynav">
-    <div id="librarySidenavHeader" class={{model.color}}>
-      {{#link-to "library" model tag="h3" class="ui header" }}{{model.name}}'s Library{{/link-to}}
-      <a href="#" {{action 'closeLibSidebar'}}><div id="closeSidebarIcon">x</div></a>
-      <div class="ui hidden divider"></div>
-      <div class="ui icon input">
+
+{{!-- {{#liquid-if librarySidenavActive class="librarynav-liquid" }} --}}
+<a href="#" {{action 'toggleLibSidebar'}} id={{if librarySidenavActive "sidebarIcon-close" "sidebarIcon-open"}}>
+  <button class={{if librarySidenavActive "c-hamburger c-hamburger--htla is-active sidebarIcon-close" "c-hamburger c-hamburger--htla sidebarIcon-open"}}>
+    <span>toggle menu</span>
+  </button>
+</a>
+<div class={{if librarySidenavActive "librarynav-active" "librarynav-hide"}}>
+  <div id="librarySidenavHeader">
+    <h3 class="ui center aligned header">
+      {{#link-to "library" model }}{{model.name}}'s Library{{/link-to}}
+    </h3>
+    <div class="ui hidden divider"></div>
+
+      <div class="ui icon fluid input">
         {{one-way-input type="text" value=search placeholder="Search Library..." update=(action (mut search))}}
       </div>
+    </div>
+
+    <div class="ui divider"></div>
+    <div class="librarnav-content">
+    <div class="ui container-library">
+      <h3>Templates</h3>
+    </div>
+    <div class="ui container-library">
+      <h3>Workflows</h3>
     </div>
     <div class="ui container-library">
       <h3>Clauses</h3>
@@ -20,12 +37,9 @@
     </div>
     <div class="ui divider"></div>
   </div>
-  <div id="library-content">
+</div>
+{{!-- {{/liquid-if}} --}}
+
+  <div id={{if librarySidenavActive "library-content-menu" "library-content-nomenu"}}>
     {{outlet}}
   </div>
-{{else}}
-  <a href="#" {{action 'openLibSidebar'}}><i class="sidebar icon" id="openSidebarIcon"></i></a>
-  <div class="">
-    {{outlet}}
-  </div>
-{{/if}}

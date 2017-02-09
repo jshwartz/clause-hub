@@ -1,5 +1,5 @@
 <div class="templateContent">
-  <div class={{if mergeActive "ui raised block segment highlight-merge" "ui raised block segment"}}>
+  <div class={{if mergeActive "ui raised block segment highlight-merge serif-text" "ui raised block segment serif-text"}}>
     <a class="ui right corner label">
       <i class="copy icon"></i>
     </a>
@@ -132,26 +132,69 @@
 
 <div class="templateSidebar">
 <div class="templateSidebarContent">
-  <form class="ui form">
-    <div {{action "sendActiveMerge" on="mouseEnter"}} {{action "closeActiveMerge" on="mouseLeave"}}>
-      <h4 class="ui dividing header">Merge Fields</h4>
-      {{#each model.mergeFields as |field|}}
-        <div class="field">
-          <label>{{field.name}}</label>
-          {{one-way-input onblur=(action 'blue1') onfocus=(action 'focused1') value=field.mergeValue update=(action (mut field.mergeValue))}}
-        </div>
+  <div class="ui secondary pointing menu">
+    <a class={{if optionsTrue "active item" "item"}} {{action 'templateMenuSelect' 'options'}}>
+      Options
+    </a>
+    <a class={{if tocTrue "active item" "item"}} {{action 'templateMenuSelect' 'contents'}}>
+      Contents
+    </a>
+    <a class="item">
+      Notes
+    </a>
+    <a class="item">
+      Settings
+    </a>
+  </div>
+
+  {{#liquid-if optionsTrue class="template-menu"}}
+    <form class="ui form">
+      <div {{action "sendActiveMerge" on="mouseEnter"}} {{action "closeActiveMerge" on="mouseLeave"}}>
+        {{#each model.mergeFields as |field|}}
+          <div class="field">
+            <label>{{field.name}}</label>
+            {{one-way-input onblur=(action 'blue1') onfocus=(action 'focused1') value=field.mergeValue update=(action (mut field.mergeValue))}}
+          </div>
+        {{/each}}
+      </div>
+      <h4 class="ui dividing header">Options</h4>
+      {{#each model.csectionsRef as |section|}}
+        {{#if section.isToggle}}
+          <div class="field" {{action "sendActiveSection" section on="mouseEnter"}} {{action "closeActiveSection" section on="mouseLeave"}}>
+            <label>{{section.menuText}} <a href={{section.idAnchor}}><i class="anchor icon"></i></a></label>{{ui-checkbox class="toggle" checked=section.toggledOn onChange=(action (mut section.toggledOn))}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </form>
+  {{else if tocTrue}}
+    <div class="large ui relaxed divided link list">
+      {{#each model.csections as |section|}}
+        <a class="ui item">
+          <div class="right floated content">
+            <i class="caret left icon"></i><i class="caret right icon"></i><i class="sort icon"></i>
+          </div>
+          <div class="content">{{section.header}}</div>
+        </a>
+        {{#each section.subSections as |subSection|}}
+          <a class="ui item">
+            <div class="right floated content">
+              <i class="caret left icon"></i><i class="caret right icon"></i><i class="sort icon"></i>
+            </div>
+            <div class="content"><span class="subsectionL1">{{subSection.header}}</span></div>
+          </a>
+          {{#each subSection.subSections as |subSection|}}
+          <a class="ui item">
+            <div class="right floated content">
+              <i class="caret left icon"></i><i class="caret right icon"></i><i class="sort icon"></i>
+            </div>
+            <div class="content"><span class="subsectionL2">{{subSection.header}}</span></div>
+          </a>
+          {{/each}}
+        {{/each}}
       {{/each}}
     </div>
-    <h4 class="ui dividing header">Options</h4>
-    {{#each model.csectionsRef as |section|}}
-      {{#if section.isToggle}}
-        <div class="field" {{action "sendActiveSection" section on="mouseEnter"}} {{action "closeActiveSection" section on="mouseLeave"}}>
-          <label>{{section.menuText}} <a href={{section.idAnchor}}><i class="anchor icon"></i></a></label>{{ui-checkbox class="toggle" checked=section.toggledOn onChange=(action (mut section.toggledOn))}}
-        </div>
-      {{/if}}
-    {{/each}}
+  {{/liquid-if}}
 
-  </form>
 </div>
 
 </div>

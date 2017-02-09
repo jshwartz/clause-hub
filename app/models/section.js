@@ -44,7 +44,7 @@ export default DS.Model.extend({
     if (mergeFields && this.get('text')) {
       let text = this.get('text');
       mergeFields.forEach((field) => {
-        text = text.replace(field.name, "<span class='focusedTerm'>" + field.mergeValue + "</span>");
+        text = text.replace(new RegExp(field.name, 'g'), "<span class='focusedTerm'>" + field.mergeValue + "</span>");
       });
       return text;
     }

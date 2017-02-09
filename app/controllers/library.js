@@ -103,8 +103,8 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    openLibSidebar() {
-      this.set('librarySidenavActive', true);
+    toggleLibSidebar() {
+      this.toggleProperty('librarySidenavActive');
     },
     closeLibSidebar() {
       this.set('librarySidenavActive', false);
