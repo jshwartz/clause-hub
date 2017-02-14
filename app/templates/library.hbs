@@ -8,6 +8,6 @@
 {{library-navbar model=model librarySidenavActive=librarySidenavActive class="ps-container ps-theme-default ps-active-y"}}
 {{!-- {{/liquid-if}} --}}
 
-  <div id={{if librarySidenavActive "library-content-menu" "library-content-nomenu"}}>
-    {{outlet}}
-  </div>
+<div id={{if librarySidenavActive "library-content-menu" "library-content-nomenu"}}>
+  {{outlet}}
+</div>

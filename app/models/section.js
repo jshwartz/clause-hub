@@ -19,6 +19,10 @@ export default DS.Model.extend({
   menuTextTemp: DS.attr('string'),
   orderNumber: DS.attr('number'),
   level: DS.attr('number', { defaultValue: 0 }),
+  isLevelZero: Ember.computed.equal('level', 0),
+  isLevelOne: Ember.computed.equal('level', 1),
+  isLevelTwo: Ember.computed.equal('level', 2),
+  expanded: DS.attr('boolean', {defaultValue: false}),
   subSections: DS.hasMany('section', { inverse: 'section' }),
   sortBy: DS.attr('', { defaultValue: ['orderNumber'] }),
   sortedSections: Ember.computed.sort('subSections', 'sortBy'),
@@ -29,7 +33,7 @@ export default DS.Model.extend({
     const thisLevel = this.get('level');
     const priorLevel = this.get('priorSection.level');
     const difference = thisLevel - priorLevel;
-    if (difference > 0 || this.get('orderNumber') === 1) {
+    if (difference > 0 || this.get('orderNumber') === 0) {
       return true;
     } else {
       return false;

@@ -167,8 +167,22 @@
       {{/each}}
     </form>
   {{else if tocTrue}}
-    <div class="large ui relaxed divided link list">
-      {{#each model.csections as |section|}}
+    {{!-- <div class="large ui relaxed divided link list"> --}}
+      {{#sortable-group tagName="div" class="large ui divided link list" onChange="reorderItems" as |group|}}
+        {{#each model.sortedSectionsRef as |item|}}
+          {{#sortable-item tagName="a" class="ui item" model=item group=group handle=".handle"}}
+            <div class="right floated content">
+              <i class="caret left icon"></i><i class="caret right icon"></i><i class="handle sort icon"></i>
+            </div>
+            <div class="content">
+              {{#if item.isLevelOne}}<span class="subsectionL1">{{item.header}}</span>
+              {{else if item.isLevelTwo}}<span class="subsectionL2">{{item.header}}</span>
+              {{else}}{{item.header}}{{/if}}
+            </div>
+          {{/sortable-item}}
+        {{/each}}
+      {{/sortable-group}}
+      {{!-- {{#each model.csections as |section|}}
         <a class="ui item">
           <div class="right floated content">
             <i class="caret left icon"></i><i class="caret right icon"></i><i class="sort icon"></i>
@@ -191,8 +205,8 @@
           </a>
           {{/each}}
         {{/each}}
-      {{/each}}
-    </div>
+      {{/each}} --}}
+    {{!-- </div> --}}
   {{/liquid-if}}
 
 </div>

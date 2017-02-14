@@ -129,6 +129,65 @@ export default Ember.Controller.extend({
         this.set('optionsTrue', false);
         this.set('tocTrue', true);
       }
-    }
+    },
+    reorderItems(sections) {
+      let currentOrderNumber = 0;
+      let levelZeroParent = null;
+      let levelOneParent = null;
+      let levelTwoParent = null;
+      sections.forEach((section, index) => {
+        const nextSection = sections.objectAt(index + 1);
+        const priorSection = sections.objectAt(index - 1);
+        section.set('nextSection', nextSection);
+        section.set('priorSection', priorSection);
+        section.set('orderNumber', currentOrderNumber);
+        currentOrderNumber += 1;
+        if (section.get('isLevelZero')) {
+          levelZeroParent = section;
+        } else if (section.get('isLevelOne') && levelZeroParent === null) {
+          section.set('level', 0);
+          levelZeroParent = section;
+        } else if (section.get('isLevelOne')) {
+          levelOneParent = section;
+        } else if (section.get('isLevelTwo') && levelZeroParent === null) {
+          section.set('level', 0);
+          levelZeroParent = section;
+        } else if (section.get('isLevelTwo') && levelOneParent === null) {
+          section.set('level', 1);
+          levelOneParent = section;
+        } else if (section.get('isLevelTwo')) {
+          levelTwoParent = section;
+        }
+      });
+      this.organizeLevels();
+    },
+    reorderLevelZeroFolder(sections) {
+      let currentOrderNumber = 0;
+      const levelZeroSections = sections.filter((section) => {
+        return section.get('isLevelZero');
+      });
+      levelZeroSections.forEach((section) => {
+        // if (section.get('subSections.length') > 0) {
+          section.get('subSections').then((subSections) => {
+            section.set('orderNumber', currentOrderNumber);
+            currentOrderNumber += 1;
+            console.log(section.get('header') + " Order Number " + section.get('orderNumber'));
+
+            subSections.forEach((subSection) => {
+              subSection.set('orderNumber', currentOrderNumber);
+              currentOrderNumber += 1;
+              console.log(subSection.get('header') + " SUB Order Number " + subSection.get('orderNumber'));
+            });
+          });
+
+        // } else {
+          // console.log("Section " + section.get('header'));
+          section.set('orderNumber', currentOrderNumber);
+          currentOrderNumber += 1;
+          console.log(section.get('header') + "NO CHILD Order Number " + section.get('orderNumber'));
+        // }
+      });
+      // this.organizeLevels();
+    },
   }
 });
