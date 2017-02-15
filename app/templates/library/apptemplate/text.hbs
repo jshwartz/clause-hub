@@ -21,7 +21,7 @@
         </p>
         {{/if}}
           <ol class="ui list">
-            {{#each section.subSections as |subSection|}}
+            {{#each section.sortedSections as |subSection|}}
               {{#if subSection.toggledOn}}
               <li class={{if subSection.hoverHighlight "hoverHighlight"}}>
                 <div id={{subSection.id}} class="templateListSection">
@@ -172,7 +172,10 @@
         {{#each model.sortedSectionsRef as |item|}}
           {{#sortable-item tagName="a" class="ui item" model=item group=group handle=".handle"}}
             <div class="right floated content">
-              <i class="caret left icon"></i><i class="caret right icon"></i><i class="handle sort icon"></i>
+              <i class="caret left icon"></i>
+              <i class="caret right icon"></i>
+              <i class="handle sort icon"></i>
+
             </div>
             <div class="content">
               {{#if item.isLevelOne}}<span class="subsectionL1">{{item.header}}</span>

@@ -58,7 +58,7 @@ export default Ember.Controller.extend({
         lastObject.get('subSections').addObject(tsection);
         tsection.set('section', lastObject);
       }
-      // tsection.save();
+      tsection.save();
     });
   },
 
